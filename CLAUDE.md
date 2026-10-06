@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-"Airframe": a static, single-page React site (an interactive digital exhibition of modern combat aircraft). Built with Vite 6, React 18, Tailwind CSS 3, framer-motion and lucide-react icons. Plain JavaScript/JSX, no TypeScript, no backend. The project is not a git repository, so there is no history to restore from. Make a copy before any large rewrite.
+"Airframe": a static, single-page React site (an interactive digital exhibition of modern combat aircraft). Built with Vite 6, React 18, Tailwind CSS 3, framer-motion and lucide-react icons. Plain JavaScript/JSX, no TypeScript, no backend.
 
 ## Commands
 
@@ -16,6 +16,12 @@ npm run preview   # serve the built dist/
 ```
 
 There is no test suite, linter or formatter configured. Check a change with `npm run build`, which must finish without errors, and by viewing the affected route in `npm run dev`. `dist/` is build output: never edit it by hand.
+
+## Git and deployment
+
+- The project is a git repository on branch `main`, with `origin` at `https://github.com/SergioRA1/Digital-Airframe-Archive` (public). `node_modules/` and `dist/` are ignored.
+- Every push to `main` runs `.github/workflows/deploy.yml`, which builds the site and publishes `dist/` to GitHub Pages at `https://sergiora1.github.io/Digital-Airframe-Archive/`. A push is a deploy, so run `npm run build` before pushing.
+- The site is served from a subfolder. `base: "./"` in `vite.config.js` keeps asset paths relative, and hash routing means no server rewrites are needed. Reference files in `public/` with relative paths (e.g. `./favicon.svg`, `photos/<file>`), not root-absolute ones.
 
 ## Architecture
 
