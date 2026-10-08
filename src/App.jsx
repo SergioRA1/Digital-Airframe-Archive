@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Home from "./Home.jsx";
