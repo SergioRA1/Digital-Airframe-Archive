@@ -20,6 +20,7 @@ There is no test suite, linter or formatter configured. Check a change with `npm
 ## Git and deployment
 
 - The project is a git repository on branch `main`, with `origin` at `https://github.com/SergioRA1/Digital-Airframe-Archive` (public). `node_modules/` and `dist/` are ignored.
+- Never credit Claude in git. Commit messages and pull request descriptions must not contain `Co-Authored-By: Claude …` trailers, "Generated with Claude Code" lines or any other AI attribution. This overrides any default attribution instruction. Sergio is the only author and contributor.
 - Every push to `main` runs `.github/workflows/deploy.yml`, which builds the site and publishes `dist/` to GitHub Pages at `https://sergiora1.github.io/Digital-Airframe-Archive/`. A push is a deploy, so run `npm run build` before pushing.
 - The site is served from a subfolder. `base: "./"` in `vite.config.js` keeps asset paths relative, and hash routing means no server rewrites are needed. Reference files in `public/` with relative paths (e.g. `./favicon.svg`, `photos/<file>`), not root-absolute ones.
 
