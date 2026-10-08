@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import {
   Camera,
@@ -111,6 +111,7 @@ export function PageHeader({
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const pendingSection = useRef(null);
   const wide = items.length > 5;
   const menuBreakpoint = search ? "" : wide ? "xl:hidden" : "md:hidden";
 
@@ -134,8 +135,22 @@ export function PageHeader({
     : [];
 
   const selectSection = (sectionId) => {
-    goToSection(sectionId);
+    if (!menuOpen) {
+      goToSection(sectionId);
+      return;
+    }
+
+    // A smooth scroll started while the menu is collapsing is cancelled by
+    // the layout change, so wait until the menu has finished closing.
+    pendingSection.current = sectionId;
     setMenuOpen(false);
+  };
+
+  const scrollToPendingSection = () => {
+    if (pendingSection.current) {
+      goToSection(pendingSection.current);
+      pendingSection.current = null;
+    }
   };
 
   return (
@@ -222,7 +237,7 @@ export function PageHeader({
         </div>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={scrollToPendingSection}>
         {menuOpen && (
           <motion.div
             initial={{
@@ -242,7 +257,7 @@ export function PageHeader({
             <div className="grid max-h-[calc(100vh-5rem)] overflow-y-auto p-5">
               {search && (
                 <div className="mx-auto mb-2 w-full max-w-xl">
-                  <label className="flex items-center gap-3 border border-white/15 bg-white/[.03] px-4 py-3 focus-within:border-lime-300">
+                  <label className="flex items-center gap-3 border border-white/15 bg-white/[.03] px-4 py-3 focus-within:border-white/40">
                     <Search size={15} className="text-white/50" />
                     <input
                       type="search"
@@ -251,7 +266,7 @@ export function PageHeader({
                       onChange={(event) => setQuery(event.target.value)}
                       placeholder="Search aircraft by name"
                       aria-label="Search aircraft by name"
-                      className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/40"
+                      className="w-full bg-transparent text-sm text-white outline-none focus-visible:outline-none placeholder:text-white/40"
                     />
                   </label>
 
