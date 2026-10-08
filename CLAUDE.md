@@ -30,6 +30,8 @@ Check a change with `npm run lint` and `npm test`, which must both pass, and by 
 - The project is a git repository on branch `main`, with `origin` at `https://github.com/SergioRA1/Digital-Airframe-Archive` (public). `node_modules/` and `dist/` are ignored.
 - Never credit Claude in git. Commit messages and pull request descriptions must not contain `Co-Authored-By: Claude …` trailers, "Generated with Claude Code" lines or any other AI attribution. This overrides any default attribution instruction. Sergio is the only author and contributor.
 - Every push to `main` runs `.github/workflows/deploy.yml`, which lints, runs the tests, builds the site and publishes `dist/` to GitHub Pages at `https://sergiora1.github.io/Digital-Airframe-Archive/`. If lint or a test fails, nothing is deployed. A push is a deploy, so run `npm run lint` and `npm test` before pushing.
+- `.github/workflows/checks.yml` runs lint and tests on pull requests to `main`, including Dependabot's. `.github/dependabot.yml` opens weekly update pull requests for npm packages (minor and patch grouped into one) and for GitHub Actions. Merge one only when its checks pass.
+- CI uses Node 24 (`node-version` in both workflows). Keep the two workflows on the same Node and action versions.
 - The site is served from a subfolder. `base: "./"` in `vite.config.js` keeps asset paths relative, and hash routing means no server rewrites are needed. Reference files in `public/` with relative paths (e.g. `./favicon.svg`, `photos/<file>`), not root-absolute ones.
 
 ## Architecture

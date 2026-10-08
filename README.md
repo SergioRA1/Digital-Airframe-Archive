@@ -1,5 +1,7 @@
 # Airframe — Digital Aircraft Archive
 
+[![Deploy](https://github.com/SergioRA1/Digital-Airframe-Archive/actions/workflows/deploy.yml/badge.svg)](https://github.com/SergioRA1/Digital-Airframe-Archive/actions/workflows/deploy.yml)
+
 An interactive digital exhibition of twelve modern combat aircraft, built as a static single-page React site.
 
 **Live site:** https://sergiora1.github.io/Digital-Airframe-Archive/
@@ -32,7 +34,7 @@ Plain JavaScript and JSX, with no backend. Routing is hash-based, and every page
 
 ## Running locally
 
-Requires [Node.js](https://nodejs.org/) 20 or later.
+Requires [Node.js](https://nodejs.org/) 22 or later. The deploy pipeline uses Node 24.
 
 ```bash
 npm install       # install dependencies
