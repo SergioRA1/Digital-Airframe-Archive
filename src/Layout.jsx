@@ -202,6 +202,7 @@ export function PageHeader({
           {showHangarLink && (
             <a
               href="#/"
+              aria-label="All aircraft"
               className="flex h-10 items-center gap-2 border border-white/10 bg-white/[.03] px-3 text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
             >
               <LayoutGrid size={14} />

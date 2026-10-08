@@ -22,6 +22,8 @@ const dataPage = (loadData) =>
 
 const pages = {
   archive: { title: "Visual archive", gallery: true },
+  compare: { title: "Compare", component: lazy(() => import("./Compare.jsx")) },
+  timeline: { title: "Timeline", component: lazy(() => import("./Chronology.jsx")) },
   "j-20": { title: "J-20", component: lazy(() => import("./J20.jsx")) },
   "f-22": { title: "F-22", component: lazy(() => import("./F22.jsx")) },
   "f-35": { title: "F-35", component: dataPage(() => import("./pages/f35.js")) },

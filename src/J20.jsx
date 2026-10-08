@@ -798,7 +798,7 @@ function J20({ introDelay = 0.1 }) {
                     <div className="flex items-center justify-between">
                       <span
                         className={`font-mono text-[11px] ${
-                          selected ? "text-black/55" : "text-lime-300"
+                          selected ? "text-black/70" : "text-lime-300"
                         }`}
                       >
                         {chapter.number}
@@ -834,9 +834,12 @@ function J20({ introDelay = 0.1 }) {
           id="airframe"
           className="relative scroll-mt-20 overflow-hidden bg-[#0b0f10] px-5 py-28 md:px-10 md:py-40"
         >
-          <div className="absolute right-0 top-0 text-[28vw] font-black leading-none tracking-[-.08em] text-white/[.018]">
-            20
-          </div>
+          {/* Drawn with ::before so audits don't read the watermark as text. */}
+          <div
+            aria-hidden="true"
+            data-watermark="20"
+            className="absolute right-0 top-0 text-[28vw] font-black leading-none tracking-[-.08em] text-white/[.018] before:content-[attr(data-watermark)]"
+          />
 
           <div className="relative mx-auto max-w-[1500px]">
             <div className="grid items-center gap-16 lg:grid-cols-[.8fr_1.2fr]">

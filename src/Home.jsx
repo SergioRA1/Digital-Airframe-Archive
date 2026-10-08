@@ -34,9 +34,25 @@ const navigationItems = [
   ["aircraft", "Aircraft"],
   ["archive", "Archive"],
   ["compare", "Compare"],
+  ["analysis", "Analysis"],
 ];
 
-const sectionIds = ["top", "aircraft", "compare"];
+const sectionIds = ["top", "aircraft", "archive", "compare", "analysis"];
+
+const tools = [
+  {
+    href: "#/compare",
+    kicker: "Interactive comparison",
+    title: "Head to head",
+    text: "Pick up to three aircraft and compare speed, weight, range and size on animated charts, with a sortable table of all twelve.",
+  },
+  {
+    href: "#/timeline",
+    kicker: "Combined timeline",
+    title: "Fifty years of fighters",
+    text: "Every milestone from every file on one axis, filterable by origin and by how well each entry is sourced.",
+  },
+];
 
 const availableAircraft = aircraft.filter((entry) => entry.available);
 const originCount = new Set(availableAircraft.map((entry) => entry.origin))
@@ -377,6 +393,69 @@ function Home({ introDelay = 0.1 }) {
           number="03"
           heading="Side by side."
         />
+
+        <section
+          id="analysis"
+          className="relative scroll-mt-20 border-t border-white/10 px-5 py-24 md:px-10 md:py-32"
+        >
+          <div className="mx-auto max-w-[1500px]">
+            <div className="mb-12">
+              <SectionLabel>04 / Analysis</SectionLabel>
+
+              <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
+                Explore the data.
+              </h2>
+            </div>
+
+            <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
+              {tools.map((tool, index) => (
+                <motion.a
+                  key={tool.href}
+                  href={tool.href}
+                  initial={{
+                    opacity: 0,
+                    y: 30,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                    amount: 0.3,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    delay: index * 0.1,
+                  }}
+                  className="group relative flex flex-col bg-[#080b0c] p-7 transition-colors hover:bg-[#0d1210] md:p-10"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[.22em] text-lime-300">
+                    {tool.kicker}
+                  </span>
+
+                  <span className="mt-6 text-4xl font-black tracking-[-.06em] transition-colors group-hover:text-lime-300 md:text-5xl">
+                    {tool.title}
+                  </span>
+
+                  <p className="mb-10 mt-5 max-w-md text-sm leading-7 text-white/60">
+                    {tool.text}
+                  </p>
+
+                  <span className="mt-auto flex items-center gap-3 text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition group-hover:text-lime-300">
+                    Open
+                    <ArrowRight
+                      size={15}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </span>
+
+                  <div className="absolute bottom-0 left-0 h-px w-0 bg-lime-300 transition-all duration-500 group-hover:w-full" />
+                </motion.a>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
 
       <PageFooter label="AIRFRAME / ARCHIVE" />

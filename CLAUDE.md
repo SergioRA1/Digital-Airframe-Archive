@@ -31,6 +31,8 @@ There is no test suite, linter or formatter configured. Check a change with `npm
   - `#/<slug>` → aircraft page
   - `#/<slug>/gallery` → that aircraft's gallery
   - `#/archive` → combined gallery of all aircraft
+  - `#/compare` → `Compare.jsx`, the interactive comparison: animated bar charts for up to three aircraft and a sortable table of all of them. `#/compare/<slug>,<slug>,<slug>` preselects aircraft, and the page keeps the hash in sync with `history.replaceState` so comparisons can be shared
+  - `#/timeline` → `Chronology.jsx`, every milestone from every aircraft on one chart and in one filterable list
   - `#gallery` → legacy alias for the J-20 gallery, kept so old links still work
 - The `pages` map in `App.jsx` registers every route. Each entry has a `title`, used for `document.title`, and a lazily loaded `component`.
 - Everything except `Home` is code-split with `React.lazy`. Keep new pages lazy.
@@ -46,6 +48,8 @@ A data module default-exports one object with these keys: `slug, badge, footerLa
 - `src/aircraft.js`: master list of aircraft for the Home page. Each entry has a slug, generation, designation, origin, dates, summary, an SVG `silhouette` path in an 816×480 viewBox starting at x=200, and `available`. Data modules reuse the silhouette with `aircraft.find(e => e.slug === "<slug>").silhouette`. Never duplicate the path.
 - `src/Layout.jsx`: page chrome: `PageHeader`, `PageFooter`, `GridBackdrop`, `ScrollProgress`, `goToSection()` and the `useActiveSection()` hook.
 - `src/Sections.jsx`: shared content sections: `Specifications`, `Timeline`, `Variants`, `Comparison`, `Reference`, `SectionLabel`. Their default props hold the J-20 content. The `peers` array here drives the cross-aircraft comparison table, and each row links to the aircraft by `slug`.
+- `src/figures.js`: numeric performance figures (speed, weight, radius, ceiling, size) keyed by slug, used by `#/compare`. Each value mirrors a row in that aircraft's specifications, so change both together. `null` means not published.
+- `Chronology.jsx` reads milestones directly: J-20 from `milestones` in `Sections.jsx`, F-22 from `milestones` exported by `F22.jsx`, and the rest from each data module. A new aircraft must be imported there too.
 - `src/usage.js`: the "Capabilities / Use and operations / Limits and caveats" panel for each aircraft, keyed by slug. `Timeline` shows it automatically.
 - `src/photos.js`: photos keyed by a short id (`<aircraft>_<x>`). Each one has `src` (1280px wide), `full` (1920px wide), `photographer`, `licence` and `source` (the photo's page on its original site).
 - `src/Gallery.jsx`: the per-aircraft image arrays and the exported `galleries` map keyed by slug. `#/archive` merges all galleries.
@@ -60,7 +64,7 @@ Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 3. Register the route in the `pages` map in `src/App.jsx`.
 4. Add photos to `src/photos.js` and a gallery to `galleries` in `src/Gallery.jsx`.
 5. Add usage text to `src/usage.js`.
-6. Add a row to `peers` in `src/Sections.jsx`.
+6. Add a row to `peers` in `src/Sections.jsx`, an entry to `figures` in `src/figures.js`, and import its data module into `sources` in `src/Chronology.jsx`.
 7. Update the `next` chain. Pages link in a loop: J-20 → F-22 → F-35 → Su-57 → F-16 → Typhoon → Rafale → Gripen → J-35 → J-16 → J-15 → F-15EX → J-20. Re-point the previous page's `next` to the new aircraft and give the new one the old target.
 8. Update any hard-coded counts in copy, such as "twelve aircraft" in `App.jsx` comments or "twelve fighters" in the `Comparison` intro.
 

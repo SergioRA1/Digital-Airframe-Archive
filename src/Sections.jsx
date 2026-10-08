@@ -5,7 +5,7 @@ import { ArrowUpRight, ExternalLink, Minus, Plus } from "lucide-react";
 import { photos } from "./photos.js";
 import { usage } from "./usage.js";
 
-const milestones = [
+export const milestones = [
   {
     date: "LATE 1990s",
     title: "Programme origins",
@@ -152,7 +152,7 @@ const variants = [
   },
 ];
 
-const peers = [
+export const peers = [
   {
     name: "Lockheed Martin F-22A",
     slug: "f-22",
@@ -364,7 +364,7 @@ export function SectionLabel({ children }) {
   );
 }
 
-function ConfidenceTag({ confidence }) {
+export function ConfidenceTag({ confidence }) {
   const isConfirmed = confidence === "CONFIRMED";
 
   return (
@@ -907,9 +907,12 @@ export function Specifications({
       id="specifications"
       className="relative scroll-mt-20 overflow-hidden border-t border-white/10 bg-[#080b0c] px-5 py-28 md:px-10 md:py-40"
     >
-      <div className="pointer-events-none absolute -right-8 top-0 text-[24vw] font-black leading-none tracking-[-.09em] text-white/[.018]">
-        DATA
-      </div>
+      {/* Drawn with ::before so audits don't read the watermark as text. */}
+      <div
+        aria-hidden="true"
+        data-watermark="DATA"
+        className="pointer-events-none absolute -right-8 top-0 text-[24vw] font-black leading-none tracking-[-.09em] text-white/[.018] before:content-[attr(data-watermark)]"
+      />
 
       <div className="relative mx-auto max-w-[1500px]">
         <div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end">

@@ -239,7 +239,7 @@ const specifications = [
   },
 ];
 
-const milestones = [
+export const milestones = [
   {
     date: "1981",
     title: "A new requirement",
