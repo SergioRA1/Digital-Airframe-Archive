@@ -13,15 +13,23 @@ npm install       # install dependencies
 npm run dev       # Vite dev server
 npm run build     # production build into dist/
 npm run preview   # serve the built dist/
+npm run lint      # ESLint (eslint.config.js): recommended, React and hooks rules
+npm test          # Playwright browser tests in tests/, against a fresh production build
+npx playwright test -g "menu"   # run only the tests whose name matches
 ```
 
-There is no test suite, linter or formatter configured. Check a change with `npm run build`, which must finish without errors, and by viewing the affected route in `npm run dev`. `dist/` is build output: never edit it by hand.
+Check a change with `npm run lint` and `npm test`, which must both pass, and by viewing the affected route in `npm run dev`. There is no formatter. `dist/` is build output: never edit it by hand.
+
+- Tests run in the installed Google Chrome (`channel: "chrome"` in `playwright.config.js`), which GitHub's Ubuntu runners also have, so no browser download is needed. The config builds the site and serves it on port 4173.
+- `tests/site.spec.js` checks that every route renders without console errors, and covers the menu buttons and search, shareable comparison links, table sorting and the timeline filters. The route list is built from `src/aircraft.js`, so a new aircraft is covered automatically.
+- Add a test when fixing a bug, and confirm it fails without the fix. Animated UI (the menu opens with framer-motion) must be fully open before a test clicks it, or the test can pass even when the bug is present.
+- JSX uses the automatic runtime: don't `import React` just for JSX. Only `src/main.jsx` uses it, for `React.StrictMode`.
 
 ## Git and deployment
 
 - The project is a git repository on branch `main`, with `origin` at `https://github.com/SergioRA1/Digital-Airframe-Archive` (public). `node_modules/` and `dist/` are ignored.
 - Never credit Claude in git. Commit messages and pull request descriptions must not contain `Co-Authored-By: Claude …` trailers, "Generated with Claude Code" lines or any other AI attribution. This overrides any default attribution instruction. Sergio is the only author and contributor.
-- Every push to `main` runs `.github/workflows/deploy.yml`, which builds the site and publishes `dist/` to GitHub Pages at `https://sergiora1.github.io/Digital-Airframe-Archive/`. A push is a deploy, so run `npm run build` before pushing.
+- Every push to `main` runs `.github/workflows/deploy.yml`, which lints, runs the tests, builds the site and publishes `dist/` to GitHub Pages at `https://sergiora1.github.io/Digital-Airframe-Archive/`. If lint or a test fails, nothing is deployed. A push is a deploy, so run `npm run lint` and `npm test` before pushing.
 - The site is served from a subfolder. `base: "./"` in `vite.config.js` keeps asset paths relative, and hash routing means no server rewrites are needed. Reference files in `public/` with relative paths (e.g. `./favicon.svg`, `photos/<file>`), not root-absolute ones.
 
 ## Architecture

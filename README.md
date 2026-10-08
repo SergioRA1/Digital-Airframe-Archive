@@ -26,6 +26,7 @@ An interactive digital exhibition of twelve modern combat aircraft, built as a s
 - [Tailwind CSS 3](https://tailwindcss.com/)
 - [framer-motion](https://motion.dev/) for animation, which respects the system's reduced-motion setting
 - [lucide-react](https://lucide.dev/) icons
+- [ESLint](https://eslint.org/) and [Playwright](https://playwright.dev/) for linting and browser tests
 
 Plain JavaScript and JSX, with no backend. Routing is hash-based, and every page except the home page is loaded on demand.
 
@@ -38,7 +39,13 @@ npm install       # install dependencies
 npm run dev       # start the dev server
 npm run build     # production build into dist/
 npm run preview   # serve the production build
+npm run lint      # check the code with ESLint
+npm test          # run the browser tests
 ```
+
+## Tests
+
+[Playwright](https://playwright.dev/) tests in `tests/` run against the production build in Google Chrome. They open every page and gallery and fail on any console error, and they check the menu, search, shareable comparison links, table sorting and timeline filters.
 
 ## Project structure
 
@@ -64,7 +71,7 @@ To add an aircraft, create a data module in `src/pages/` and register it in the 
 
 ## Deployment
 
-Every push to `main` builds the site and publishes it to GitHub Pages through [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+Every push to `main` lints the code, runs the tests, builds the site and publishes it to GitHub Pages. A failing check stops the deploy, so a broken build never reaches the live site. This runs through [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
 
 ## Content and photos
 
