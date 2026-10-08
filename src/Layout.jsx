@@ -241,7 +241,7 @@ export function PageHeader({
             <div className="grid max-h-[calc(100vh-5rem)] overflow-y-auto p-5">
               {search && (
                 <div className="mx-auto mb-2 w-full max-w-xl">
-                  <label className="flex items-center gap-3 border border-white/15 bg-white/[.03] px-4 py-3 focus-within:border-lime-300">
+                  <label className="flex items-center gap-3 border border-white/15 bg-white/[.03] px-4 py-3">
                     <Search size={15} className="text-white/50" />
                     <input
                       type="search"
@@ -250,7 +250,7 @@ export function PageHeader({
                       onChange={(event) => setQuery(event.target.value)}
                       placeholder="Search aircraft by name"
                       aria-label="Search aircraft by name"
-                      className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/40"
+                      className="w-full bg-transparent text-sm text-white/60 outline-none placeholder:text-white/40 focus-visible:outline-none"
                     />
                   </label>
 
