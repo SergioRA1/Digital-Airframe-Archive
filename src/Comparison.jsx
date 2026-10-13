@@ -184,7 +184,7 @@ export function Comparison({
             </caption>
 
             <thead>
-              <tr className="border-b border-white/10 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+              <tr className="border-b border-white/10 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                 {[
                   "Aircraft",
                   "Gen.",
@@ -254,7 +254,7 @@ export function Comparison({
           </table>
         </div>
 
-        <p className="mt-5 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+        <p className="mt-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
           Rows run from most to least capable, an editorial estimate ·
           Rounded published figures · Service dates refer to first
           operational units · Generation labels are informal, and 4.5 marks

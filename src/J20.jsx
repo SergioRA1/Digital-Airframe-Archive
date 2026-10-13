@@ -514,7 +514,7 @@ function J20({ introDelay = 0.1 }) {
                 <button
                   type="button"
                   onClick={() => goToSection("overview")}
-                  className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
+                  className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
                 >
                   Enter archive
 
@@ -527,7 +527,7 @@ function J20({ introDelay = 0.1 }) {
                 <button
                   type="button"
                   onClick={openGallery}
-                  className="flex items-center gap-4 border border-white/20 px-6 py-4 text-[11px] uppercase tracking-[.2em] text-white/75 transition hover:border-lime-300 hover:text-lime-300"
+                  className="flex items-center gap-4 border border-white/20 px-6 py-4 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/75 transition hover:border-lime-300 hover:text-lime-300"
                 >
                   View photography
                   <Camera size={15} />
@@ -538,14 +538,14 @@ function J20({ introDelay = 0.1 }) {
             <div className="relative lg:-ml-20">
               <Aircraft />
 
-              <div className="absolute right-[12%] top-[18%] hidden font-mono text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
+              <div className="absolute right-[12%] top-[18%] hidden font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
                 <span className="text-lime-300">●</span> Visual model / 001
               </div>
             </div>
           </div>
 
           <div className="mx-auto mt-8 flex w-full max-w-[1500px] items-end justify-between border-t border-white/10 pt-5">
-            <div className="grid grid-cols-3 gap-8 font-mono text-[10px] uppercase tracking-[.18em] text-white/50 md:gap-16">
+            <div className="grid grid-cols-3 gap-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50 md:gap-16">
               <div>
                 <b className="block text-xs text-white/80">05</b>
                 Generation
@@ -565,7 +565,7 @@ function J20({ introDelay = 0.1 }) {
             <button
               type="button"
               onClick={() => goToSection("overview")}
-              className="hidden items-center gap-3 text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300 md:flex"
+              className="hidden items-center gap-3 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300 md:flex"
             >
               Scroll to explore
 
@@ -627,7 +627,7 @@ function J20({ introDelay = 0.1 }) {
                   >
                     <div className="flex items-center justify-between">
                       <span
-                        className={`font-mono text-[11px] ${
+                        className={`font-mono text-xs sm:text-[11px] ${
                           selected ? "text-black/70" : "text-lime-300"
                         }`}
                       >
@@ -699,7 +699,7 @@ function J20({ introDelay = 0.1 }) {
                         className="group flex w-full items-start gap-4 border-b border-white/10 py-4 text-left"
                       >
                         <span
-                          className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border font-mono text-[11px] transition ${
+                          className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border font-mono text-xs sm:text-[11px] transition ${
                             active
                               ? "border-lime-300 bg-lime-300 text-black"
                               : "border-lime-300/50 text-lime-300 group-hover:border-lime-300"
@@ -740,7 +740,7 @@ function J20({ introDelay = 0.1 }) {
               </div>
 
               <div className="relative border border-white/10 bg-black/20 p-4 md:p-10">
-                <div className="absolute left-4 top-4 z-10 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+                <div className="absolute left-4 top-4 z-10 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                   Top projection / illustrative
                 </div>
 
@@ -751,7 +751,7 @@ function J20({ introDelay = 0.1 }) {
                   onSelectFeature={setActiveFeature}
                 />
 
-                <div className="grid grid-cols-3 border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-[.15em] text-white/50">
+                <div className="grid grid-cols-3 border-t border-white/10 pt-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.15em] text-white/50">
                   <span>Axis X / Stable</span>
                   <span className="text-center">Select a marker</span>
                   <span className="text-right text-lime-300">
@@ -777,7 +777,7 @@ function J20({ introDelay = 0.1 }) {
                 </h2>
               </div>
 
-              <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[.2em] text-white/50">
+              <div className="flex items-center gap-3 font-mono text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/50">
                 <Activity size={14} className="text-lime-300" />
                 Interface simulation online
               </div>
@@ -797,12 +797,12 @@ function J20({ introDelay = 0.1 }) {
                         <Icon size={20} />
                       </div>
 
-                      <span className="font-mono text-[11px] text-white/50">
+                      <span className="font-mono text-xs sm:text-[11px] text-white/50">
                         SYS / {system.id}
                       </span>
                     </div>
 
-                    <div className="mt-14 font-mono text-[10px] uppercase tracking-[.25em] text-lime-300">
+                    <div className="mt-14 font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
                       {system.kicker}
                     </div>
 
@@ -818,7 +818,7 @@ function J20({ introDelay = 0.1 }) {
                       {system.reported}
                     </p>
 
-                    <div className="mt-10 flex justify-between border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+                    <div className="mt-10 flex justify-between border-t border-white/10 pt-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                       <span>{system.metric}</span>
                       <span className="text-white/70">{system.value}</span>
                     </div>
@@ -871,7 +871,7 @@ function J20({ introDelay = 0.1 }) {
                   ["STATUS", "ONLINE"],
                 ].map(([label, value]) => (
                   <div key={label} className="bg-[#090c0d] p-5">
-                    <div className="font-mono text-[10px] tracking-[.2em] text-white/50">
+                    <div className="font-mono text-xs sm:text-[10px] tracking-[.2em] text-white/50">
                       {label}
                     </div>
 
@@ -885,7 +885,7 @@ function J20({ introDelay = 0.1 }) {
               <button
                 type="button"
                 onClick={openGallery}
-                className="group mt-10 flex items-center gap-4 border border-white/20 px-6 py-4 text-[11px] uppercase tracking-[.2em] transition hover:border-lime-300 hover:text-lime-300"
+                className="group mt-10 flex items-center gap-4 border border-white/20 px-6 py-4 text-xs sm:text-[11px] uppercase tracking-[.2em] transition hover:border-lime-300 hover:text-lime-300"
               >
                 Enter photographic archive
 
@@ -897,7 +897,7 @@ function J20({ introDelay = 0.1 }) {
 
               <a
                 href="#/f-22"
-                className="group mt-4 flex w-fit items-center gap-4 font-mono text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300"
+                className="group mt-4 flex w-fit items-center gap-4 font-mono text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300"
               >
                 Next aircraft / F-22 Raptor
 

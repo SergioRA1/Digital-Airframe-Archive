@@ -159,7 +159,7 @@ const ticks = Array.from(
 function ConfidenceLabel({ confidence }) {
   return (
     <span
-      className="flex items-center gap-2 whitespace-nowrap font-mono text-[10px] uppercase tracking-[.2em]"
+      className="flex items-center gap-2 whitespace-nowrap font-mono text-xs sm:text-[10px] uppercase tracking-[.2em]"
       style={{ color: confidenceFill[confidence] }}
     >
       <span
@@ -174,7 +174,7 @@ function ConfidenceLabel({ confidence }) {
 function FilterGroup({ label, options, value, onChange }) {
   return (
     <div>
-      <div className="mb-3 font-mono text-[10px] uppercase tracking-[.22em] text-white/50">
+      <div className="mb-3 font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-white/50">
         {label}
       </div>
 
@@ -185,7 +185,7 @@ function FilterGroup({ label, options, value, onChange }) {
             type="button"
             onClick={() => onChange(option)}
             aria-pressed={value === option}
-            className={`border px-4 py-2 font-mono text-[10px] uppercase tracking-[.2em] transition ${
+            className={`border px-4 py-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] transition ${
               value === option
                 ? "border-lime-300 bg-lime-300 text-black"
                 : "border-white/15 text-white/60 hover:border-lime-300 hover:text-lime-300"
@@ -278,7 +278,7 @@ function Chronology({ introDelay = 0.1 }) {
               />
             </div>
 
-            <div className="mt-8 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+            <div className="mt-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
               <span className="mr-3 text-lime-300">
                 {String(filtered.length).padStart(3, "0")}
               </span>
@@ -480,7 +480,7 @@ function Chronology({ introDelay = 0.1 }) {
                     aria-live="polite"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="font-mono text-[11px] uppercase tracking-[.24em] text-lime-300">
+                      <span className="font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
                         {active.date} · {active.designation}
                       </span>
 
@@ -497,7 +497,7 @@ function Chronology({ introDelay = 0.1 }) {
 
                     <a
                       href={`#/${active.slug}`}
-                      className="group mt-5 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300"
+                      className="group mt-5 inline-flex items-center gap-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300"
                     >
                       Open the {active.designation} file
                       <ArrowUpRight
@@ -509,7 +509,7 @@ function Chronology({ introDelay = 0.1 }) {
                 )}
               </AnimatePresence>
 
-              <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[.2em] text-white/50 lg:flex-col">
+              <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 lg:flex-col">
                 {levels.map((name) => (
                   <span key={name} className="flex items-center gap-2">
                     <span
@@ -547,7 +547,7 @@ function Chronology({ introDelay = 0.1 }) {
                 <button
                   type="button"
                   onClick={() => setNewestFirst((value) => !value)}
-                  className="mt-6 flex items-center gap-3 border border-white/15 px-4 py-2 font-mono text-[10px] uppercase tracking-[.2em] text-white/70 transition hover:border-lime-300 hover:text-lime-300"
+                  className="mt-6 flex items-center gap-3 border border-white/15 px-4 py-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/70 transition hover:border-lime-300 hover:text-lime-300"
                 >
                   {newestFirst ? <ArrowDown size={12} /> : <ArrowUp size={12} />}
                   {newestFirst ? "Newest first" : "Oldest first"}
@@ -563,7 +563,7 @@ function Chronology({ introDelay = 0.1 }) {
                 </caption>
 
                 <thead>
-                  <tr className="border-b border-white/10 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+                  <tr className="border-b border-white/10 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                     {["Date", "Aircraft", "Milestone", "Confidence"].map(
                       (heading) => (
                         <th
@@ -603,7 +603,7 @@ function Chronology({ introDelay = 0.1 }) {
                             : "text-white/65 hover:bg-white/[.03]"
                         }`}
                       >
-                        <td className="whitespace-nowrap p-5 font-mono text-[11px] uppercase tracking-[.18em] text-lime-300">
+                        <td className="whitespace-nowrap p-5 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-lime-300">
                           {event.date}
                         </td>
 
@@ -651,7 +651,7 @@ function Chronology({ introDelay = 0.1 }) {
                 type="button"
                 onClick={() => setShowAll((value) => !value)}
                 aria-expanded={showAll}
-                className="mt-6 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition hover:text-lime-300"
+                className="mt-6 flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition hover:text-lime-300"
               >
                 {showAll ? <Minus size={14} /> : <Plus size={14} />}
                 {showAll

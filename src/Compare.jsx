@@ -113,7 +113,7 @@ function ConfidenceDot({ confidence }) {
 
 function ConfidenceLegend() {
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+    <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
       {Object.keys(confidenceColours).map((confidence) => (
         <span key={confidence} className="flex items-center gap-2">
           <ConfidenceDot confidence={confidence} />
@@ -147,7 +147,7 @@ function MetricChart({ metric, selected }) {
           {metric.label}
         </h3>
 
-        <span className="font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+        <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
           {metric.unit}
         </span>
       </div>
@@ -181,7 +181,7 @@ function MetricChart({ metric, selected }) {
                 className="grid grid-cols-[4.5rem_1fr] items-center gap-4 md:grid-cols-[6rem_1fr_12rem]"
               >
                 <span
-                  className="font-mono text-[11px] uppercase tracking-[.16em]"
+                  className="font-mono text-xs sm:text-[11px] uppercase tracking-[.16em]"
                   style={{ color: colour }}
                 >
                   {designations[slug]}
@@ -232,7 +232,7 @@ function MetricChart({ metric, selected }) {
                   )}
                 </div>
 
-                <div className="col-span-2 flex items-center gap-3 pl-[5.5rem] font-mono text-[11px] uppercase tracking-[.14em] md:col-span-1 md:justify-end md:pl-0">
+                <div className="col-span-2 flex items-center gap-3 pl-[5.5rem] font-mono text-xs sm:text-[11px] uppercase tracking-[.14em] md:col-span-1 md:justify-end md:pl-0">
                   {entry ? (
                     <>
                       <ConfidenceDot confidence={entry.confidence} />
@@ -400,7 +400,7 @@ function Compare({ introDelay = 0.1 }) {
                     type="button"
                     onClick={() => toggle(peer.slug)}
                     aria-pressed={isSelected}
-                    className={`flex items-center gap-2 border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[.18em] transition ${
+                    className={`flex items-center gap-2 border px-4 py-2.5 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] transition ${
                       isSelected
                         ? "border-white/40 bg-white/[.06] text-white"
                         : "border-white/15 text-white/55 hover:border-lime-300 hover:text-lime-300"
@@ -423,7 +423,7 @@ function Compare({ introDelay = 0.1 }) {
             <button
               type="button"
               onClick={copyLink}
-              className="mt-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[.18em] text-white/55 transition hover:text-lime-300"
+              className="mt-6 flex items-center gap-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/55 transition hover:text-lime-300"
             >
               {copied ? <Check size={13} /> : <Link size={13} />}
               <span aria-live="polite">
@@ -470,7 +470,7 @@ function Compare({ introDelay = 0.1 }) {
               ))}
             </div>
 
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+            <p className="mt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
               Figures from each aircraft's specifications · Ranges are
               plotted at their midpoint · "Mach 2 class" is plotted as Mach
               2.0 · Published figures are not like-for-like, and combat
@@ -508,7 +508,7 @@ function Compare({ introDelay = 0.1 }) {
                 </caption>
 
                 <thead>
-                  <tr className="border-b border-white/10 font-mono text-[10px] uppercase tracking-[.18em] text-white/50">
+                  <tr className="border-b border-white/10 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
                     <th scope="col" className="w-12 p-4 font-normal">
                       <span className="sr-only">In chart</span>
                     </th>
@@ -648,7 +648,7 @@ function Compare({ introDelay = 0.1 }) {
             <div className="mt-5 flex flex-col justify-between gap-4 md:flex-row">
               <ConfidenceLegend />
 
-              <span className="font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+              <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                 — Not published · Unpublished figures sort last
               </span>
             </div>

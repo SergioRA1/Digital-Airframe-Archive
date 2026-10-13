@@ -114,7 +114,7 @@ export function ConfidenceTag({ confidence }) {
 
   return (
     <span
-      className={`flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.2em] ${
+      className={`flex items-center gap-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] ${
         isConfirmed ? "text-lime-300" : "text-amber-300"
       }`}
     >
@@ -134,7 +134,7 @@ function UsagePanel({ info }) {
 
   return (
     <div className="mt-10 border border-white/10 bg-white/[.02] p-6">
-      <div className="font-mono text-[10px] uppercase tracking-[.22em] text-lime-300">
+      <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-lime-300">
         Capabilities and use
       </div>
 
@@ -154,7 +154,7 @@ function UsagePanel({ info }) {
             <div className="space-y-6 pt-6">
               {info.sections.map((section) => (
                 <div key={section.title}>
-                  <h3 className="font-mono text-[10px] uppercase tracking-[.22em] text-white/50">
+                  <h3 className="font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-white/50">
                     {section.title}
                   </h3>
 
@@ -173,7 +173,7 @@ function UsagePanel({ info }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls="usage-details"
-        className="mt-6 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition hover:text-lime-300"
+        className="mt-6 flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition hover:text-lime-300"
       >
         {open ? <Minus size={14} /> : <Plus size={14} />}
         {open ? "Show less" : "Read more"}
@@ -234,7 +234,7 @@ export function Timeline({
                 <span className="absolute -left-[5px] top-1.5 h-[9px] w-[9px] rounded-full border border-lime-300/70 bg-[#050708] transition group-hover:bg-lime-300" />
 
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="font-mono text-[11px] uppercase tracking-[.24em] text-lime-300">
+                  <span className="font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
                     {milestone.date}
                   </span>
 
@@ -320,7 +320,7 @@ export function Variants({
                   </div>
                 )}
 
-                <figcaption className="min-h-[6.25rem] border-b border-white/10 px-7 py-3 font-mono text-[10px] uppercase leading-5 tracking-[.14em] text-white/50 md:px-10">
+                <figcaption className="min-h-[6.25rem] border-b border-white/10 px-7 py-3 font-mono text-xs sm:text-[10px] uppercase leading-5 tracking-[.14em] text-white/50 md:px-10">
                   {variant.photo ? (
                     <>
                       <span className="block text-white/65">
@@ -352,12 +352,12 @@ export function Variants({
                     {variant.code}
                   </div>
 
-                  <span className="shrink-0 border border-white/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[.2em] text-white/60">
+                  <span className="shrink-0 border border-white/15 px-3 py-1.5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/60">
                     {variant.status}
                   </span>
                 </div>
 
-                <div className="mt-8 flex items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-[.22em]">
+                <div className="mt-8 flex items-center justify-between gap-4 font-mono text-xs sm:text-[11px] uppercase tracking-[.22em]">
                   <span className="text-lime-300">{variant.name}</span>
 
                   <span className="shrink-0 text-white/50">
@@ -468,7 +468,7 @@ export function Reference({
 
         <div className="lg:pt-24">
           <div className="border border-white/10 bg-black/20 p-7 md:p-10">
-            <div className="font-mono text-[11px] uppercase tracking-[.25em] text-lime-300">
+            <div className="font-mono text-xs sm:text-[11px] uppercase tracking-[.25em] text-lime-300">
               Further reading
             </div>
 
@@ -559,7 +559,7 @@ export function Specifications({
               {intro}
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-5 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+            <div className="mt-6 flex flex-wrap gap-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_8px_#c7ff37]" />
                 Confirmed or reported
@@ -585,7 +585,7 @@ export function Specifications({
                 type="button"
                 onClick={() => setSpecificationGroup(group)}
                 aria-pressed={specificationGroup === group}
-                className={`border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[.2em] transition ${
+                className={`border px-4 py-2.5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] transition ${
                   specificationGroup === group
                     ? "border-lime-300 bg-lime-300 text-black"
                     : "border-white/15 text-white/60 hover:border-lime-300/60 hover:text-lime-300"
@@ -610,7 +610,7 @@ export function Specifications({
                 type="button"
                 onClick={() => setUnits(unitSystem)}
                 aria-pressed={units === unitSystem}
-                className={`px-4 py-2.5 font-mono text-[10px] uppercase tracking-[.2em] transition ${
+                className={`px-4 py-2.5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] transition ${
                   units === unitSystem
                     ? "bg-white text-black"
                     : "text-white/60 hover:text-lime-300"
@@ -654,16 +654,16 @@ export function Specifications({
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <div className="font-mono text-[10px] uppercase tracking-[.28em] text-white/50">
+                    <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.28em] text-white/50">
                       {specification.group}
                     </div>
 
-                    <div className="mt-3 font-mono text-[11px] uppercase tracking-[.24em] text-lime-300">
+                    <div className="mt-3 font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
                       {specification.label}
                     </div>
                   </div>
 
-                  <div className="font-mono text-[10px] text-white/50">
+                  <div className="font-mono text-xs sm:text-[10px] text-white/50">
                     {String(index + 1).padStart(2, "0")}
                   </div>
                 </div>
@@ -673,7 +673,7 @@ export function Specifications({
                     {measurement.value}
                   </div>
 
-                  <div className="mt-4 font-mono text-[10px] uppercase tracking-[.24em] text-white/50">
+                  <div className="mt-4 font-mono text-xs sm:text-[10px] uppercase tracking-[.24em] text-white/50">
                     {measurement.unit}
                   </div>
                 </div>
@@ -683,12 +683,12 @@ export function Specifications({
                 </p>
 
                 <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+                  <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                     Data confidence
                   </span>
 
                   <span
-                    className={`flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.2em] ${
+                    className={`flex items-center gap-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] ${
                       isEstimate ? "text-amber-300" : "text-lime-300"
                     }`}
                   >
@@ -726,7 +726,7 @@ export function Specifications({
         </div>
 
         <div className="mt-6 grid gap-4 border border-white/10 bg-black/20 p-5 md:grid-cols-[auto_1fr] md:items-center md:gap-8 md:p-7">
-          <div className="font-mono text-[10px] uppercase tracking-[.25em] text-amber-300">
+          <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-amber-300">
             Data notice
           </div>
 

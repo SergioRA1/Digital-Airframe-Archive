@@ -203,7 +203,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                 <button
                   type="button"
                   onClick={() => goToSection("design")}
-                  className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
+                  className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
                 >
                   Enter archive
 
@@ -215,7 +215,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
 
                 <a
                   href={galleryHref}
-                  className="flex items-center gap-4 border border-white/20 px-6 py-4 text-[11px] uppercase tracking-[.2em] text-white/75 transition hover:border-lime-300 hover:text-lime-300"
+                  className="flex items-center gap-4 border border-white/20 px-6 py-4 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/75 transition hover:border-lime-300 hover:text-lime-300"
                 >
                   View photography
                   <Camera size={15} />
@@ -230,7 +230,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                 detail={page.detail}
               />
 
-              <div className="absolute right-[6%] top-[8%] hidden font-mono text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
+              <div className="absolute right-[6%] top-[8%] hidden font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
                 <span className="text-lime-300">●</span> Visual model /{" "}
                 {page.model}
               </div>
@@ -238,7 +238,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
           </div>
 
           <div className="mx-auto mt-8 flex w-full max-w-[1500px] items-end justify-between border-t border-white/10 pt-5">
-            <div className="grid grid-cols-3 gap-8 font-mono text-[10px] uppercase tracking-[.18em] text-white/50 md:gap-16">
+            <div className="grid grid-cols-3 gap-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50 md:gap-16">
               {page.heroStats.map(([value, label], index) => (
                 <div key={label}>
                   <b
@@ -256,7 +256,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
             <button
               type="button"
               onClick={() => goToSection("design")}
-              className="hidden items-center gap-3 text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300 md:flex"
+              className="hidden items-center gap-3 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300 md:flex"
             >
               Scroll to explore
 
@@ -308,12 +308,12 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                         <Icon size={20} />
                       </div>
 
-                      <span className="font-mono text-[11px] text-white/50">
+                      <span className="font-mono text-xs sm:text-[11px] text-white/50">
                         DSN / {feature.id}
                       </span>
                     </div>
 
-                    <div className="mt-14 font-mono text-[10px] uppercase tracking-[.25em] text-lime-300">
+                    <div className="mt-14 font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
                       {feature.kicker}
                     </div>
 
@@ -325,7 +325,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                       {feature.description}
                     </p>
 
-                    <div className="mt-10 flex justify-between border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+                    <div className="mt-10 flex justify-between border-t border-white/10 pt-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                       <span>{feature.metric}</span>
                       <span className="text-white/70">{feature.value}</span>
                     </div>
@@ -383,7 +383,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
               className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] md:p-12"
             >
               <span>
-                <span className="block font-mono text-[10px] uppercase tracking-[.25em] text-lime-300">
+                <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
                   Photographic archive
                 </span>
 
@@ -403,7 +403,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
               className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] md:p-12"
             >
               <span>
-                <span className="block font-mono text-[10px] uppercase tracking-[.25em] text-lime-300">
+                <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
                   Next aircraft
                 </span>
 

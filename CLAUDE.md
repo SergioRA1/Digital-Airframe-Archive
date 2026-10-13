@@ -22,7 +22,7 @@ npx playwright test -g "menu"   # run only the tests whose name matches
 Check a change with `npm run lint` and `npm test`, which must both pass, and by viewing the affected route in `npm run dev`. There is no formatter. `dist/` is build output: never edit it by hand.
 
 - Tests run in the installed Google Chrome (`channel: "chrome"` in `playwright.config.js`), which GitHub's Ubuntu runners also have, so no browser download is needed. The config builds the site and serves it on port 4173.
-- `tests/site.spec.js` checks that every route renders without console errors, and covers the menu buttons and search, shareable comparison links, table sorting and the timeline filters. The route list is built from `src/aircraft.js`, so a new aircraft is covered automatically.
+- `tests/site.spec.js` checks that every route renders without console errors and that no visible text runs off screen at 360px wide, and covers the menu buttons and search, shareable comparison links, table sorting and the timeline filters. The route list is built from `src/aircraft.js`, so a new aircraft is covered automatically.
 - Add a test when fixing a bug, and confirm it fails without the fix. Animated UI (the menu opens with framer-motion) must be fully open before a test clicks it, or the test can pass even when the bug is present.
 - JSX uses the automatic runtime: don't `import React` just for JSX. Only `src/main.jsx` uses it, for `React.StrictMode`.
 
@@ -106,7 +106,7 @@ Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 ### Code style
 - Two-space indentation, double quotes, semicolons.
 - Function components. Pages and top-level views use `export default`, shared components use named exports. Imports always include the `.jsx`/`.js` extension.
-- Style with Tailwind utility classes inline. The visual language is a near-black background `#050708`, off-white text `#edf0e9`, lime accent (`lime-300` / `#c7ff37`), `white/NN` opacity tints for borders and secondary text, and `font-mono` (JetBrains Mono) uppercase labels with wide tracking. Global styles live only in `src/index.css`.
+- Style with Tailwind utility classes inline. The visual language is a near-black background `#050708`, off-white text `#edf0e9`, lime accent (`lime-300` / `#c7ff37`), `white/NN` opacity tints for borders and secondary text, and `font-mono` (JetBrains Mono) uppercase labels with wide tracking. Small labels are never below 12px on phones: write `text-xs sm:text-[10px]` or `text-xs sm:text-[11px]`, not a bare `text-[10px]`. SVG text that scales with its chart is the exception. Global styles live only in `src/index.css`.
 - Section wrappers follow the existing pattern: `<section id="..." className="relative scroll-mt-20 border-t border-white/10 px-5 py-28 md:px-10 md:py-40">` with an inner `mx-auto max-w-[1500px]`. Section `id`s must match the page's `navigationItems`.
 - Animate with framer-motion. Write the `initial`, `animate` and `transition` objects across multiple lines, as the existing code does. Reduced motion is handled globally (`MotionConfig reducedMotion="user"` plus CSS), so don't add separate checks.
 - Keep content in data modules and keep JSX for presentation. Prefer extending the data shape over special-casing one aircraft inside `AircraftPage.jsx`.

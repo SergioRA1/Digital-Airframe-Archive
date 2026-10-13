@@ -164,7 +164,7 @@ export function PageHeader({
           className="group flex items-center gap-3 text-left"
           aria-label={showHangarLink ? "Return to all aircraft" : "Return to top"}
         >
-          <div className="grid h-8 w-8 place-items-center border border-lime-300/60 text-[11px] font-bold text-lime-300 transition group-hover:bg-lime-300 group-hover:text-black">
+          <div className="grid h-8 w-8 place-items-center border border-lime-300/60 text-xs sm:text-[11px] font-bold text-lime-300 transition group-hover:bg-lime-300 group-hover:text-black">
             {badge}
           </div>
 
@@ -173,7 +173,7 @@ export function PageHeader({
               AIRFRAME
             </div>
 
-            <div className="font-mono text-[10px] tracking-[.18em] text-white/60">
+            <div className="font-mono text-xs sm:text-[10px] tracking-[.18em] text-white/60">
               DIGITAL ARCHIVE
             </div>
           </div>
@@ -192,7 +192,7 @@ export function PageHeader({
               type="button"
               onClick={() => selectSection(sectionId)}
               aria-current={activeSection === sectionId ? "true" : undefined}
-              className={`text-[11px] uppercase tracking-[.18em] transition hover:text-lime-300 ${
+              className={`text-xs sm:text-[11px] uppercase tracking-[.18em] transition hover:text-lime-300 ${
                 activeSection === sectionId
                   ? "text-lime-300"
                   : "text-white/55"
@@ -205,7 +205,7 @@ export function PageHeader({
           {galleryHref && (
             <a
               href={galleryHref}
-              className="flex items-center gap-2 text-[11px] uppercase tracking-[.18em] text-lime-300 transition hover:text-white"
+              className="flex items-center gap-2 text-xs sm:text-[11px] uppercase tracking-[.18em] text-lime-300 transition hover:text-white"
             >
               <Camera size={13} />
               Gallery
@@ -218,7 +218,7 @@ export function PageHeader({
             <a
               href="#/"
               aria-label="All aircraft"
-              className="flex h-10 items-center gap-2 border border-white/10 bg-white/[.03] px-3 text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
+              className="flex h-10 items-center gap-2 border border-white/10 bg-white/[.03] px-3 text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
             >
               <LayoutGrid size={14} />
               <span className="hidden sm:inline">All aircraft</span>
@@ -290,7 +290,7 @@ export function PageHeader({
                                 {entry.name}
                               </span>
                             </span>
-                            <span className="font-mono text-[10px] uppercase tracking-[.18em] text-white/50">
+                            <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
                               {entry.manufacturer} · {entry.origin}
                             </span>
                           </a>
@@ -347,7 +347,7 @@ export function PageFooter({ label }) {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-8 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+        <div className="flex flex-wrap items-center gap-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
           <a href="#/" className="transition hover:text-lime-300">
             All aircraft
           </a>
@@ -367,7 +367,7 @@ export function PageFooter({ label }) {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-[1500px] flex-col justify-between gap-2 border-t border-white/10 pt-6 font-mono text-[10px] uppercase tracking-[.2em] text-white/50 md:flex-row">
+      <div className="mx-auto mt-10 flex max-w-[1500px] flex-col justify-between gap-2 border-t border-white/10 pt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:flex-row">
         <span>
           Made by <span className="text-white/80">Sergio Rodriguez Anton</span>
         </span>
@@ -385,7 +385,7 @@ export function PageFooter({ label }) {
 
 export function SectionLabel({ children }) {
   return (
-    <div className="mb-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[.3em] text-lime-300">
+    <div className="mb-5 flex items-center gap-3 font-mono text-xs sm:text-[11px] uppercase tracking-[.3em] text-lime-300">
       <span className="h-px w-8 bg-lime-300/70" />
       {children}
     </div>

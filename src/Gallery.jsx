@@ -1289,22 +1289,22 @@ function GalleryNavigation({ onBack, gallery }) {
           </span>
 
           <span className="text-left">
-            <span className="block text-[11px] font-semibold uppercase tracking-[.24em]">
+            <span className="block text-xs sm:text-[11px] font-semibold uppercase tracking-[.24em]">
               {gallery.label}
             </span>
 
-            <span className="mt-1 block font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+            <span className="mt-1 block font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
               Return to archive
             </span>
           </span>
         </button>
 
         <div className="hidden text-right sm:block">
-          <div className="font-mono text-[10px] uppercase tracking-[.28em] text-lime-300">
+          <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.28em] text-lime-300">
             Visual archive
           </div>
 
-          <div className="mt-1 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+          <div className="mt-1 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
             Public photography · {gallery.years}
           </div>
         </div>
@@ -1359,7 +1359,7 @@ function GalleryHero({ onExplore, gallery }) {
         }}
         className="relative mx-auto w-full max-w-[1500px]"
       >
-        <div className="mb-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[.3em] text-lime-300">
+        <div className="mb-8 flex items-center gap-4 font-mono text-xs sm:text-[11px] uppercase tracking-[.3em] text-lime-300">
           <span className="h-px w-10 bg-lime-300" />
           Photographic record
         </div>
@@ -1377,7 +1377,7 @@ function GalleryHero({ onExplore, gallery }) {
           <button
             type="button"
             onClick={onExplore}
-            className="group flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-[11px] font-bold uppercase tracking-[.22em] text-black transition hover:bg-white"
+            className="group flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.22em] text-black transition hover:bg-white"
           >
             Explore images
 
@@ -1388,7 +1388,7 @@ function GalleryHero({ onExplore, gallery }) {
           </button>
         </div>
 
-        <div className="mt-12 flex flex-wrap gap-x-12 gap-y-4 border-t border-white/15 pt-6 font-mono text-[10px] uppercase tracking-[.2em] text-white/60">
+        <div className="mt-12 flex flex-wrap gap-x-12 gap-y-4 border-t border-white/15 pt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/60">
           <div>
             <span className="mr-3 text-lime-300">
               {String(images.length).padStart(2, "0")}
@@ -1474,7 +1474,7 @@ function GalleryCard({ image, index, name, onOpen }) {
           </div>
         </div>
 
-        <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[.2em] text-white/60">
+        <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/60">
           <span>Image / {image.number}</span>
           <span>Click to expand</span>
         </div>
@@ -1487,7 +1487,7 @@ function GalleryCard({ image, index, name, onOpen }) {
       >
         <div>
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase tracking-[.28em] text-lime-300">
+            <span className="font-mono text-xs sm:text-[11px] uppercase tracking-[.28em] text-lime-300">
               Record {image.number}
             </span>
 
@@ -1498,7 +1498,7 @@ function GalleryCard({ image, index, name, onOpen }) {
             {image.title}
           </h2>
 
-          <p className="mt-5 font-mono text-[11px] uppercase tracking-[.2em] text-white/60">
+          <p className="mt-5 font-mono text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60">
             {image.subtitle}
           </p>
 
@@ -1508,9 +1508,9 @@ function GalleryCard({ image, index, name, onOpen }) {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-6">
-          <div className="grid gap-5 text-[11px] sm:grid-cols-2">
+          <div className="grid gap-5 text-xs sm:text-[11px] sm:grid-cols-2">
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+              <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                 Photographer
               </div>
 
@@ -1520,7 +1520,7 @@ function GalleryCard({ image, index, name, onOpen }) {
             </div>
 
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+              <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
                 Licence
               </div>
 
@@ -1532,7 +1532,7 @@ function GalleryCard({ image, index, name, onOpen }) {
             href={image.source}
             target="_blank"
             rel="noreferrer noopener"
-            className="mt-7 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[.2em] text-white/50 transition hover:text-lime-300"
+            className="mt-7 inline-flex items-center gap-3 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 transition hover:text-lime-300"
           >
             View original source
             <ExternalLink size={13} />
@@ -1659,7 +1659,7 @@ function Lightbox({
 
             <div className="mt-5 flex flex-col justify-between gap-4 border-t border-white/15 pt-5 md:flex-row md:items-center">
               <div>
-                <div className="font-mono text-[10px] uppercase tracking-[.25em] text-lime-300">
+                <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
                   Record {selectedImage.number}
                 </div>
 
@@ -1668,7 +1668,7 @@ function Lightbox({
                 </div>
               </div>
 
-              <div className="font-mono text-[10px] uppercase tracking-[.18em] text-white/50">
+              <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
                 {selectedIndex + 1} / {images.length} ·{" "}
                 {selectedImage.photographer} · {selectedImage.licence}
               </div>
@@ -1733,7 +1733,7 @@ function Gallery({ onBack, aircraft = "j-20" }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-16 grid gap-8 lg:grid-cols-[1fr_.7fr] lg:items-end">
               <div>
-                <div className="font-mono text-[11px] uppercase tracking-[.3em] text-lime-300">
+                <div className="font-mono text-xs sm:text-[11px] uppercase tracking-[.3em] text-lime-300">
                   01 / Selected photography
                 </div>
 
@@ -1767,7 +1767,7 @@ function Gallery({ onBack, aircraft = "j-20" }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="grid gap-10 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <div className="font-mono text-[11px] uppercase tracking-[.3em] text-lime-300">
+                <div className="font-mono text-xs sm:text-[11px] uppercase tracking-[.3em] text-lime-300">
                   02 / Media notice
                 </div>
 
@@ -1787,7 +1787,7 @@ function Gallery({ onBack, aircraft = "j-20" }) {
                 <button
                   type="button"
                   onClick={onBack}
-                  className="group mt-8 flex items-center gap-4 bg-lime-300 px-6 py-4 text-[11px] font-bold uppercase tracking-[.22em] text-black transition hover:bg-white"
+                  className="group mt-8 flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.22em] text-black transition hover:bg-white"
                 >
                   Return to archive
 
@@ -1803,12 +1803,12 @@ function Gallery({ onBack, aircraft = "j-20" }) {
       </main>
 
       <footer className="border-t border-white/10 px-5 py-10 md:px-10">
-        <div className="mx-auto flex max-w-[1500px] flex-col justify-between gap-5 font-mono text-[10px] uppercase tracking-[.2em] text-white/50 sm:flex-row">
+        <div className="mx-auto flex max-w-[1500px] flex-col justify-between gap-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 sm:flex-row">
           <span>{gallery.label} · Visual archive</span>
           <span>Independent educational design concept</span>
         </div>
 
-        <div className="mx-auto mt-6 flex max-w-[1500px] flex-col justify-between gap-2 border-t border-white/10 pt-6 font-mono text-[10px] uppercase tracking-[.2em] text-white/50 sm:flex-row">
+        <div className="mx-auto mt-6 flex max-w-[1500px] flex-col justify-between gap-2 border-t border-white/10 pt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 sm:flex-row">
           <span>
             Made by{" "}
             <span className="text-white/80">Sergio Rodriguez Anton</span>

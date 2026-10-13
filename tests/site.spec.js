@@ -67,6 +67,69 @@ test.describe("every route renders", () => {
     });
   }
 
+  const phoneRoutes = [
+    "#/",
+    "#/compare",
+    "#/timeline",
+    "#/archive",
+    ...slugs.map((slug) => `#/${slug}`),
+    "#/f-15ex/gallery",
+  ];
+
+  for (const route of phoneRoutes) {
+    test(`${route} keeps its text on screen on a phone`, async ({ page }) => {
+      await page.setViewportSize({
+        width: 360,
+        height: 780,
+      });
+      // Entrance animations start off to the side, so turn them off.
+      await page.emulateMedia({
+        reducedMotion: "reduce",
+      });
+      await open(page, route);
+
+      // Scroll through once so every scroll-triggered entrance has played.
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 400) {
+          window.scrollTo(0, y);
+          await new Promise((resolve) => setTimeout(resolve, 30));
+        }
+      });
+      await page.waitForTimeout(300);
+
+      // Visible text that runs past the screen edge, ignoring anything inside
+      // a box that scrolls or clips on purpose (such as the wide tables).
+      const offscreen = await page.evaluate(() => {
+        const clipped = (element) => {
+          for (let node = element.parentElement; node && node !== document.body; node = node.parentElement) {
+            if (getComputedStyle(node).overflowX !== "visible") {
+              return true;
+            }
+          }
+
+          return false;
+        };
+
+        return [...document.querySelectorAll("body *")]
+          .filter((element) =>
+            [...element.childNodes].some(
+              (node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim(),
+            ),
+          )
+          .filter((element) => !element.closest(".sr-only, [aria-hidden='true']"))
+          .filter((element) => {
+            const box = element.getBoundingClientRect();
+
+            return box.width > 0 && (box.right > window.innerWidth + 1 || box.left < -1);
+          })
+          .filter((element) => !clipped(element))
+          .map((element) => element.textContent.trim().slice(0, 60));
+      });
+
+      expect(offscreen).toEqual([]);
+    });
+  }
+
   test("legacy #gallery opens the J-20 gallery", async ({ page }) => {
     await open(page, "#gallery");
 

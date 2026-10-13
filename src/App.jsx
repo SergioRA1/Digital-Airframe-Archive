@@ -161,7 +161,7 @@ function App() {
             className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050708] text-[#edf0e9]"
           >
             <div className="w-[min(86vw,520px)]">
-              <div className="mb-4 flex items-end justify-between font-mono text-[11px] uppercase tracking-[.28em] text-white/55">
+              <div className="mb-4 flex items-end justify-between font-mono text-xs sm:text-[11px] uppercase tracking-[.28em] text-white/55">
                 <span>Digital airframe archive</span>
                 <span>{progress}%</span>
               </div>
@@ -175,7 +175,7 @@ function App() {
                 />
               </div>
 
-              <div className="mt-4 font-mono text-[11px] uppercase tracking-[.22em] text-lime-300/70">
+              <div className="mt-4 font-mono text-xs sm:text-[11px] uppercase tracking-[.22em] text-lime-300/70">
                 Initializing visual systems
               </div>
             </div>

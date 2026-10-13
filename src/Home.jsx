@@ -96,7 +96,7 @@ function AircraftCard({ entry, index, fileNumber }) {
       }}
       className="group relative flex flex-col overflow-hidden bg-[#080b0c] p-7 transition-colors hover:bg-[#0d1210] md:p-10"
     >
-      <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[.22em]">
+      <div className="flex items-center justify-between font-mono text-xs sm:text-[10px] uppercase tracking-[.22em]">
         <span className="text-white/50">
           File / {String(fileNumber).padStart(2, "0")} · {entry.origin}
         </span>
@@ -126,7 +126,7 @@ function AircraftCard({ entry, index, fileNumber }) {
         {entry.designation}
       </div>
 
-      <div className="mt-3 font-mono text-[11px] uppercase tracking-[.24em] text-lime-300">
+      <div className="mt-3 font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
         {entry.manufacturer} · {entry.name}
       </div>
 
@@ -135,7 +135,7 @@ function AircraftCard({ entry, index, fileNumber }) {
       </p>
 
       <div className="mt-auto flex flex-wrap items-end justify-between gap-x-6 gap-y-5 border-t border-white/10 pt-6">
-        <div className="flex gap-8 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+        <div className="flex gap-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
           <div>
             <b className="block text-sm text-white/85">
               {entry.firstFlight}
@@ -149,7 +149,7 @@ function AircraftCard({ entry, index, fileNumber }) {
           </div>
         </div>
 
-        <span className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition group-hover:text-lime-300">
+        <span className="flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition group-hover:text-lime-300">
           Open file
           <ArrowRight
             size={15}
@@ -228,7 +228,7 @@ function Home({ introDelay = 0.1 }) {
               <button
                 type="button"
                 onClick={() => goToSection("aircraft")}
-                className="group flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
+                className="group flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
               >
                 Browse aircraft
 
@@ -239,7 +239,7 @@ function Home({ introDelay = 0.1 }) {
               </button>
             </div>
 
-            <div className="mt-12 flex flex-wrap gap-x-12 gap-y-4 border-t border-white/15 pt-6 font-mono text-[10px] uppercase tracking-[.2em] text-white/50">
+            <div className="mt-12 flex flex-wrap gap-x-12 gap-y-4 border-t border-white/15 pt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
               <div>
                 <span className="mr-3 text-lime-300">
                   {String(availableAircraft.length).padStart(2, "0")}
@@ -293,7 +293,7 @@ function Home({ introDelay = 0.1 }) {
                   type="button"
                   onClick={() => setOrigin(name)}
                   aria-pressed={origin === name}
-                  className={`border px-4 py-2 font-mono text-[10px] uppercase tracking-[.2em] transition ${
+                  className={`border px-4 py-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] transition ${
                     origin === name
                       ? "border-lime-300 bg-lime-300 text-black"
                       : "border-white/15 text-white/60 hover:border-lime-300 hover:text-lime-300"
@@ -311,7 +311,7 @@ function Home({ introDelay = 0.1 }) {
                     {group.title}
                   </h3>
 
-                  <p className="font-mono text-[10px] uppercase tracking-[.18em] text-white/50">
+                  <p className="font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
                     {group.items.length} files · {group.note}
                   </p>
                 </div>
@@ -354,7 +354,7 @@ function Home({ introDelay = 0.1 }) {
 
                 <a
                   href="#/archive"
-                  className="group mt-8 flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
+                  className="group mt-8 flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
                 >
                   Play the full archive
 
@@ -381,7 +381,7 @@ function Home({ introDelay = 0.1 }) {
                     className="h-full w-full object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-100"
                   />
 
-                  <span className="absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-[.2em] text-white">
+                  <span className="absolute bottom-3 left-3 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white">
                     {label}
                   </span>
                 </a>
@@ -431,7 +431,7 @@ function Home({ introDelay = 0.1 }) {
                   }}
                   className="group relative flex flex-col bg-[#080b0c] p-7 transition-colors hover:bg-[#0d1210] md:p-10"
                 >
-                  <span className="font-mono text-[10px] uppercase tracking-[.22em] text-lime-300">
+                  <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-lime-300">
                     {tool.kicker}
                   </span>
 
@@ -443,7 +443,7 @@ function Home({ introDelay = 0.1 }) {
                     {tool.text}
                   </p>
 
-                  <span className="mt-auto flex items-center gap-3 text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition group-hover:text-lime-300">
+                  <span className="mt-auto flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition group-hover:text-lime-300">
                     Open
                     <ArrowRight
                       size={15}
