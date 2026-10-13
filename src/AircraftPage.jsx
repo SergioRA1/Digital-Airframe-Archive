@@ -6,13 +6,13 @@ import {
   PageFooter,
   PageHeader,
   ScrollProgress,
+  SectionLabel,
   goToSection,
   useActiveSection,
 } from "./Layout.jsx";
+import { Comparison } from "./Comparison.jsx";
 import {
-  Comparison,
   Reference,
-  SectionLabel,
   Specifications,
   Timeline,
   Variants,

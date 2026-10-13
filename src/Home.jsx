@@ -8,11 +8,12 @@ import {
   PageFooter,
   PageHeader,
   ScrollProgress,
+  SectionLabel,
   goToSection,
   useActiveSection,
 } from "./Layout.jsx";
 import { photos } from "./photos.js";
-import { Comparison, SectionLabel } from "./Sections.jsx";
+import { Comparison } from "./Comparison.jsx";
 
 // One representative frame per aircraft for the archive teaser.
 const teaser = [

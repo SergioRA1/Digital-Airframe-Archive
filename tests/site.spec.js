@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { readFileSync } from "node:fs";
+
 import { aircraft } from "../src/aircraft.js";
+import { outputPath, renderFigures } from "../scripts/generate-figures.js";
 
 const slugs = aircraft
   .filter((entry) => entry.available)
@@ -190,6 +193,20 @@ test.describe("compare", () => {
     await expect(page).toHaveURL(/#\/compare\/rafale$/);
   });
 
+  test("chart figures come from the aircraft's specifications", async ({
+    page,
+  }) => {
+    await open(page, "#/compare/f-15ex");
+
+    const chart = page.locator("#chart");
+
+    await expect(chart.getByText("MACH 2.5")).toBeVisible();
+    await expect(chart.getByText("≈ 36,700")).toBeVisible();
+    // Ranges keep their published wording in the chart.
+    await page.goto("#/compare/j-20");
+    await expect(chart.getByText("20.4–21.2")).toBeVisible();
+  });
+
   test("table headers sort the rows", async ({ page }) => {
     await open(page, "#/compare");
 
@@ -228,4 +245,11 @@ test.describe("timeline", () => {
     expect(shown).toBeGreaterThan(0);
     expect(shown).toBeLessThan(total);
   });
+});
+
+test("src/figures.js matches the aircraft specifications", () => {
+  expect(
+    readFileSync(outputPath, "utf8"),
+    "A specification changed: run `npm run figures` and commit src/figures.js.",
+  ).toBe(renderFigures());
 });

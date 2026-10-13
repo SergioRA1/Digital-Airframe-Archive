@@ -382,3 +382,12 @@ export function PageFooter({ label }) {
     </footer>
   );
 }
+
+export function SectionLabel({ children }) {
+  return (
+    <div className="mb-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[.3em] text-lime-300">
+      <span className="h-px w-8 bg-lime-300/70" />
+      {children}
+    </div>
+  );
+}

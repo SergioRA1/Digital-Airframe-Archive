@@ -16,9 +16,10 @@ import {
   PageFooter,
   PageHeader,
   ScrollProgress,
+  SectionLabel,
   useActiveSection,
 } from "./Layout.jsx";
-import { SectionLabel, peers } from "./Sections.jsx";
+import { peers } from "./Comparison.jsx";
 
 const navigationItems = [
   ["top", "Select"],

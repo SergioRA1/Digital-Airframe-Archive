@@ -3,12 +3,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowUp, ArrowUpRight, Minus, Plus } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
-import { milestones as f22Milestones } from "./F22.jsx";
+import { milestones as f22Milestones } from "./data/f22.js";
+import { milestones as j20Milestones } from "./data/j20.js";
 import {
   GridBackdrop,
   PageFooter,
   PageHeader,
   ScrollProgress,
+  SectionLabel,
   useActiveSection,
 } from "./Layout.jsx";
 import f15ex from "./pages/f15ex.js";
@@ -21,7 +23,6 @@ import j35 from "./pages/j35.js";
 import rafale from "./pages/rafale.js";
 import su57 from "./pages/su57.js";
 import typhoon from "./pages/typhoon.js";
-import { SectionLabel, milestones as j20Milestones } from "./Sections.jsx";
 
 const navigationItems = [
   ["top", "Filter"],

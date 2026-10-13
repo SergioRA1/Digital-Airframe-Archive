@@ -15,6 +15,7 @@ npm run build     # production build into dist/
 npm run preview   # serve the built dist/
 npm run lint      # ESLint (eslint.config.js): recommended, React and hooks rules
 npm test          # Playwright browser tests in tests/, against a fresh production build
+npm run figures   # regenerate src/figures.js after changing a specification
 npx playwright test -g "menu"   # run only the tests whose name matches
 ```
 
@@ -50,7 +51,7 @@ Check a change with `npm run lint` and `npm test`, which must both pass, and by 
 - A boot overlay runs for about 1.5s on first load. Pages accept an `introDelay` prop so their entrance animations start after it.
 
 ### Two kinds of aircraft pages
-1. **Bespoke pages**: `J20.jsx` and `F22.jsx`. These are hand-built components with their own visuals, such as the radar display and custom aircraft SVG.
+1. **Bespoke pages**: `J20.jsx` and `F22.jsx`. These are hand-built components with their own visuals, such as the radar display and custom aircraft SVG. Their `specifications` and `milestones` live in `src/data/j20.js` and `src/data/f22.js`, so the comparison and timeline don't load the page components.
 2. **Data-driven pages**: every other aircraft. Each one is a plain data module in `src/pages/<slug>.js`, rendered by the shared `AircraftPage.jsx` template through the `dataPage()` helper in `App.jsx`. **Add new aircraft this way.**
 
 A data module default-exports one object with these keys: `slug, badge, footerLabel, eyebrow, title (array of 1–2 parts, e.g. ["F","35"]), model, tagline, heroStats, silhouette, detail {spine, canopy, exhaust}, next {href, label}, designHeading, designIntro, designFeatures, specHeading, specIntro, specNotice, specifications, historyHeading, historyIntro, milestones, variantsHeading, variantsIntro, variants, compareIntro, glossary, sources, referenceNote`. Copy an existing module such as `src/pages/f35.js` as the template. Icons in `designFeatures` are lucide-react components imported into the data module.
@@ -58,9 +59,10 @@ A data module default-exports one object with these keys: `slug, badge, footerLa
 ### Shared modules
 - `src/aircraft.js`: master list of aircraft for the Home page. Each entry has a slug, generation, designation, origin, dates, summary, an SVG `silhouette` path in an 816×480 viewBox starting at x=200, and `available`. Data modules reuse the silhouette with `aircraft.find(e => e.slug === "<slug>").silhouette`. Never duplicate the path.
 - `src/Layout.jsx`: page chrome: `PageHeader`, `PageFooter`, `GridBackdrop`, `ScrollProgress`, `goToSection()` and the `useActiveSection()` hook.
-- `src/Sections.jsx`: shared content sections: `Specifications`, `Timeline`, `Variants`, `Comparison`, `Reference`, `SectionLabel`. Their default props hold the J-20 content. The `peers` array here drives the cross-aircraft comparison table, and each row links to the aircraft by `slug`.
-- `src/figures.js`: numeric performance figures (speed, weight, radius, ceiling, size) keyed by slug, used by `#/compare`. Each value mirrors a row in that aircraft's specifications, so change both together. `null` means not published.
-- `Chronology.jsx` reads milestones directly: J-20 from `milestones` in `Sections.jsx`, F-22 from `milestones` exported by `F22.jsx`, and the rest from each data module. A new aircraft must be imported there too.
+- `src/Sections.jsx`: shared content sections for aircraft pages: `Specifications`, `Timeline`, `Variants`, `Reference`. Their default props hold the J-20 content.
+- `src/Comparison.jsx`: the cross-aircraft `Comparison` table and the `peers` array that drives it (each row links to the aircraft by `slug`). It is separate from `Sections.jsx` so the hangar page can show the table without loading the aircraft-page sections, `usage.js` and the J-20 defaults. `SectionLabel` lives in `Layout.jsx` for the same reason.
+- `src/figures.js`: numeric performance figures (speed, weight, radius, ceiling, size) keyed by slug, used by `#/compare`. **Generated, never edit by hand.** `scripts/generate-figures.js` reads each aircraft's `specifications` rows by label (`MAXIMUM SPEED`, `MAX TAKEOFF WEIGHT`, `COMBAT RADIUS`, `SERVICE CEILING`, `LENGTH`, `WINGSPAN`) and parses the chart value from the row's `value` text (ranges plot at their midpoint, `MACH 2 CLASS` as 2). A missing row means not published. After changing a specification, run `npm run figures` and commit the result; a test fails if `figures.js` is out of date. It is generated rather than computed in the browser so `#/compare` doesn't download every aircraft's text.
+- `Chronology.jsx` reads milestones directly: J-20 and F-22 from `src/data/`, and the rest from each data module. A new aircraft must be imported there too.
 - `src/usage.js`: the "Capabilities / Use and operations / Limits and caveats" panel for each aircraft, keyed by slug. `Timeline` shows it automatically.
 - `src/photos.js`: photos keyed by a short id (`<aircraft>_<x>`). Each one has `src` (1280px wide), `full` (1920px wide), `photographer`, `licence` and `source` (the photo's page on its original site).
 - `src/Gallery.jsx`: the per-aircraft image arrays and the exported `galleries` map keyed by slug. `#/archive` merges all galleries.
@@ -75,7 +77,7 @@ Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 3. Register the route in the `pages` map in `src/App.jsx`.
 4. Add photos to `src/photos.js` and a gallery to `galleries` in `src/Gallery.jsx`.
 5. Add usage text to `src/usage.js`.
-6. Add a row to `peers` in `src/Sections.jsx`, an entry to `figures` in `src/figures.js`, and import its data module into `sources` in `src/Chronology.jsx`.
+6. Add a row to `peers` in `src/Comparison.jsx`, import its data module into `specificationSources` in `scripts/generate-figures.js` and `sources` in `src/Chronology.jsx`, then run `npm run figures`. Use the standard specification labels above so the comparison charts pick up its figures.
 7. Update the `next` chain. Pages link in a loop: J-20 → F-22 → F-35 → Su-57 → F-16 → Typhoon → Rafale → Gripen → J-35 → J-16 → J-15 → F-15EX → J-20. Re-point the previous page's `next` to the new aircraft and give the new one the old target.
 8. Update any hard-coded counts in copy, such as "twelve aircraft" in `App.jsx` comments or "twelve fighters" in the `Comparison` intro.
 

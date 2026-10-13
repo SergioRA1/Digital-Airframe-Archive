@@ -12,18 +12,19 @@ import {
 } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
+import { specifications } from "./data/j20.js";
 import {
   GridBackdrop,
   PageFooter,
   PageHeader,
   ScrollProgress,
+  SectionLabel,
   goToSection,
   useActiveSection,
 } from "./Layout.jsx";
+import { Comparison } from "./Comparison.jsx";
 import {
-  Comparison,
   Reference,
-  SectionLabel,
   Specifications,
   Timeline,
   Variants,
@@ -179,177 +180,6 @@ const airframeFeatures = [
     y: 318,
     detail:
       "A main bay under the fuselage and two smaller side bays keep stores inside the airframe.",
-  },
-];
-
-const specifications = [
-  {
-    group: "IDENTITY",
-    label: "PRIMARY ROLE",
-    value: "AIR SUPERIORITY",
-    unit: "STEALTH FIGHTER",
-    detail:
-      "Publicly described as an air-superiority fighter with a secondary precision-strike capability.",
-    confidence: "REPORTED",
-  },
-  {
-    group: "IDENTITY",
-    label: "MANUFACTURER",
-    value: "CHENGDU",
-    unit: "AIRCRAFT CORPORATION",
-    detail:
-      "Developed and manufactured by Chengdu Aircraft Corporation in China.",
-    confidence: "CONFIRMED",
-  },
-  {
-    group: "CONFIGURATION",
-    label: "CREW",
-    value: "1",
-    unit: "PILOT",
-    detail:
-      "The original and baseline production aircraft use a single-seat configuration.",
-    confidence: "CONFIRMED",
-  },
-  {
-    group: "DIMENSIONS",
-    label: "LENGTH",
-    value: "20.4–21.2",
-    unit: "METRES",
-    imperial: {
-      value: "66.9–69.6",
-      unit: "FEET",
-    },
-    detail:
-      "Approximate range found across public references. Values vary between sources.",
-    confidence: "ESTIMATE",
-  },
-  {
-    group: "DIMENSIONS",
-    label: "WINGSPAN",
-    value: "13.0–13.5",
-    unit: "METRES",
-    imperial: {
-      value: "42.7–44.3",
-      unit: "FEET",
-    },
-    detail:
-      "Approximate published wingspan depending on the source and aircraft variant.",
-    confidence: "ESTIMATE",
-  },
-  {
-    group: "DIMENSIONS",
-    label: "HEIGHT",
-    value: "4.4–4.7",
-    unit: "METRES",
-    imperial: {
-      value: "14.4–15.4",
-      unit: "FEET",
-    },
-    detail:
-      "Approximate published height rather than an official manufacturer measurement.",
-    confidence: "ESTIMATE",
-  },
-  {
-    group: "PROGRAMME",
-    label: "FIRST FLIGHT",
-    value: "11 JAN 2011",
-    unit: "CHENGDU",
-    detail:
-      "The date associated with the aircraft's publicly reported maiden flight.",
-    confidence: "CONFIRMED",
-  },
-  {
-    group: "PROGRAMME",
-    label: "SERVICE ENTRY",
-    value: "MAR 2017",
-    unit: "PLAAF",
-    detail:
-      "The J-20 was publicly reported as entering service in March 2017.",
-    confidence: "CONFIRMED",
-  },
-  {
-    group: "IDENTITY",
-    label: "NAME",
-    value: "MIGHTY DRAGON",
-    unit: "AS USED IN CHINESE MEDIA",
-    detail:
-      "The name commonly used for the aircraft in Chinese media and public commentary.",
-    confidence: "REPORTED",
-  },
-  {
-    group: "CONFIGURATION",
-    label: "POWERPLANT",
-    value: "2 × WS-10C",
-    unit: "AFTERBURNING TURBOFANS",
-    detail:
-      "Reported for later production aircraft. Early examples used Russian-derived AL-31 series engines; the WS-15 is reported in testing.",
-    confidence: "REPORTED",
-  },
-  {
-    group: "CONFIGURATION",
-    label: "WEAPON BAYS",
-    value: "1 + 2",
-    unit: "MAIN + SIDE BAYS",
-    detail:
-      "A main ventral bay for longer-range missiles and two side bays for short-range missiles, as seen at public displays.",
-    confidence: "REPORTED",
-  },
-  {
-    group: "DIMENSIONS",
-    label: "MAX TAKEOFF WEIGHT",
-    value: "≈ 37,000",
-    unit: "KILOGRAMS",
-    imperial: {
-      value: "≈ 81,600",
-      unit: "POUNDS",
-    },
-    detail:
-      "A commonly cited open-source estimate. No official figure has been published.",
-    confidence: "ESTIMATE",
-  },
-  {
-    group: "PERFORMANCE",
-    label: "MAXIMUM SPEED",
-    value: "MACH 2.0",
-    unit: "APPROXIMATE",
-    detail:
-      "A widely quoted estimate for speed at altitude; actual performance depends on the engines fitted.",
-    confidence: "ESTIMATE",
-  },
-  {
-    group: "PERFORMANCE",
-    label: "SERVICE CEILING",
-    value: "≈ 20,000",
-    unit: "METRES",
-    imperial: {
-      value: "≈ 65,600",
-      unit: "FEET",
-    },
-    detail:
-      "An open-source estimate repeated across public references.",
-    confidence: "ESTIMATE",
-  },
-  {
-    group: "PERFORMANCE",
-    label: "COMBAT RADIUS",
-    value: "≈ 2,000",
-    unit: "KILOMETRES",
-    imperial: {
-      value: "≈ 1,240",
-      unit: "MILES",
-    },
-    detail:
-      "Estimates vary widely with mission profile and external fuel. The long airframe suggests a large internal fuel load.",
-    confidence: "ESTIMATE",
-  },
-  {
-    group: "PROGRAMME",
-    label: "AIRFRAMES BUILT",
-    value: "300+",
-    unit: "OPEN-SOURCE ESTIMATE",
-    detail:
-      "Analyst estimates based on serial numbers and imagery as of 2025. Production totals are not officially published.",
-    confidence: "ESTIMATE",
   },
 ];
 
