@@ -2,114 +2,68 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, Minus, Plus } from "lucide-react";
 
-import { milestones } from "./data/j20.js";
+import {
+  localise,
+  useDate,
+  useLanguage,
+  useTerm,
+  useText,
+} from "./i18n.js";
 import { SectionLabel } from "./Layout.jsx";
-import { photos } from "./photos.js";
+import { usage as spanishUsage } from "./locales/es/usage.js";
 import { usage } from "./usage.js";
 
-const variants = [
-  {
-    code: "J-20",
-    name: "Baseline",
-    seats: "1",
-    status: "IN SERVICE",
-    photo: photos.j20_base,
-    caption: "Flypast at Airshow China, Zhuhai, 2016",
-    summary:
-      "The original single-seat production aircraft. Early examples flew with Russian-derived AL-31 series engines; later batches are reported to use the Chinese WS-10C.",
-    points: [
-      "Single-seat canard-delta layout",
-      "Main ventral bay plus two side bays",
-      "In service since 2017",
-    ],
+const text = {
+  en: {
+    capabilities: "Capabilities and use",
+    showLess: "Show less",
+    readMore: "Read more",
+    history: "History",
+    variants: "Variants",
+    noPhoto: "No freely licensed photograph is available",
+    photo: "Photo",
+    crew: "Crew",
+    reference: "Reference",
+    termsHeading: "Terms, decoded.",
+    furtherReading: "Further reading",
+    specifications: "Specifications",
+    watermark: "DATA",
+    confirmedOrReported: "Confirmed or reported",
+    publicEstimate: "Public estimate",
+    filterGroups: "Filter specifications by group",
+    units: "Measurement units",
+    metric: "Metric",
+    imperial: "Imperial",
+    dataConfidence: "Data confidence",
+    dataNotice: "Data notice",
   },
-  {
-    code: "J-20A",
-    name: "Updated single-seat",
-    seats: "1",
-    status: "REPORTED",
-    photo: photos.j20_a,
-    caption: "J-20s in the 2019 National Day flypast, Beijing",
-    summary:
-      "An updated single-seat airframe with a raised, blended spine behind the canopy. Widely associated with the WS-15 engine, which is reported to be fitted to production aircraft from 2026.",
-    points: [
-      "Reshaped canopy and dorsal spine",
-      "Associated with WS-15 engines",
-      "Designation usage varies between sources",
-    ],
+  es: {
+    capabilities: "Capacidades y uso",
+    showLess: "Mostrar menos",
+    readMore: "Leer más",
+    history: "Historia",
+    variants: "Variantes",
+    noPhoto: "No hay ninguna fotografía con licencia libre",
+    photo: "Foto",
+    crew: "Tripulación",
+    reference: "Referencia",
+    termsHeading: "Términos, explicados.",
+    furtherReading: "Para saber más",
+    specifications: "Especificaciones",
+    watermark: "DATOS",
+    confirmedOrReported: "Confirmado o según informes",
+    publicEstimate: "Estimación pública",
+    filterGroups: "Filtrar especificaciones por grupo",
+    units: "Unidades de medida",
+    metric: "Métrico",
+    imperial: "Imperial",
+    dataConfidence: "Fiabilidad del dato",
+    dataNotice: "Aviso sobre los datos",
   },
-  {
-    code: "J-20S",
-    name: "Twin-seat",
-    seats: "2",
-    status: "UNVEILED 2024",
-    summary:
-      "A tandem two-seat variant, first seen in 2021 and presented officially in 2024. Public commentary links the second seat to mission management and teaming with uncrewed aircraft.",
-    points: [
-      "First twin-seat stealth fighter seen publicly",
-      "Second crew member for mission management",
-      "Described as multirole",
-    ],
-  },
-];
-
-const glossary = [
-  {
-    term: "Fifth generation",
-    definition:
-      "An informal label for fighters that combine low observability, internal weapon carriage, advanced sensors and a high degree of data fusion. There is no single agreed definition.",
-  },
-  {
-    term: "Low observable (LO)",
-    definition:
-      "Design measures that reduce how easily an aircraft is detected — shaping, aligned edges, internal weapon bays and surface materials. Often called stealth.",
-  },
-  {
-    term: "Canard",
-    definition:
-      "A small control surface ahead of the main wing. On the J-20 the all-moving canards add lift and pitch control, an unusual choice for a low-observable design.",
-  },
-  {
-    term: "Diverterless supersonic inlet (DSI)",
-    definition:
-      "An engine intake that uses a shaped bump and forward-swept cowl instead of moving ramps or a separate boundary-layer diverter, saving weight and reducing radar reflections.",
-  },
-  {
-    term: "AESA radar",
-    definition:
-      "Active electronically scanned array. A radar whose beam is steered electronically by many small transmit/receive modules rather than by a moving dish.",
-  },
-  {
-    term: "EOTS",
-    definition:
-      "Electro-optical targeting system. A passive infrared and optical sensor, seen on the J-20 as a faceted housing beneath the nose.",
-  },
-  {
-    term: "Supercruise",
-    definition:
-      "Sustained supersonic flight without afterburner. Often cited as a goal of the WS-15 engine; no performance figures have been officially published.",
-  },
-];
-
-const sources = [
-  {
-    label: "Wikipedia — Chengdu J-20",
-    href: "https://en.wikipedia.org/wiki/Chengdu_J-20",
-    note: "General reference and citations",
-  },
-  {
-    label: "CSIS ChinaPower — J-20 overview",
-    href: "https://chinapower.csis.org/china-chengdu-j-20/",
-    note: "Analysis and comparison with peers",
-  },
-  {
-    label: "Wikimedia Commons — J-20 media",
-    href: "https://commons.wikimedia.org/wiki/Category:Chengdu_J-20",
-    note: "Freely licensed photographs",
-  },
-];
+};
 
 export function ConfidenceTag({ confidence }) {
+  const translate = useTerm();
   const isConfirmed = confidence === "CONFIRMED";
 
   return (
@@ -124,18 +78,19 @@ export function ConfidenceTag({ confidence }) {
         }`}
       />
 
-      {confidence}
+      {translate(confidence)}
     </span>
   );
 }
 
 function UsagePanel({ info }) {
+  const t = useText(text);
   const [open, setOpen] = useState(false);
 
   return (
     <div className="mt-10 border border-white/10 bg-white/[.02] p-6">
       <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-lime-300">
-        Capabilities and use
+        {t.capabilities}
       </div>
 
       <p className="mt-4 text-sm leading-7 text-white/70">{info.summary}</p>
@@ -176,7 +131,7 @@ function UsagePanel({ info }) {
         className="mt-6 flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition hover:text-lime-300"
       >
         {open ? <Minus size={14} /> : <Plus size={14} />}
-        {open ? "Show less" : "Read more"}
+        {open ? t.showLess : t.readMore}
       </button>
     </div>
   );
@@ -185,10 +140,18 @@ function UsagePanel({ info }) {
 export function Timeline({
   slug,
   number = "05",
-  heading = "From rumour to flight line.",
-  intro = "A condensed public timeline of the programme, from early design studies to the latest variants. Entries based on photographs and press reporting rather than official statements are marked as reported.",
-  items = milestones,
+  heading,
+  intro,
+  items,
 }) {
+  const t = useText(text);
+  const formatDate = useDate();
+  const language = useLanguage();
+  const info =
+    language === "es"
+      ? localise(usage[slug], spanishUsage[slug])
+      : usage[slug];
+
   return (
     <section
       id="history"
@@ -197,7 +160,9 @@ export function Timeline({
       <div className="mx-auto max-w-[1500px]">
         <div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr]">
           <div className="lg:self-start">
-            <SectionLabel>{number} / History</SectionLabel>
+            <SectionLabel>
+              {number} / {t.history}
+            </SectionLabel>
 
             <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-6xl">
               {heading}
@@ -207,7 +172,7 @@ export function Timeline({
               {intro}
             </p>
 
-            {usage[slug] && <UsagePanel key={slug} info={usage[slug]} />}
+            {info && <UsagePanel key={slug} info={info} />}
           </div>
 
           <ol className="relative border-l border-white/10">
@@ -235,7 +200,7 @@ export function Timeline({
 
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className="font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
-                    {milestone.date}
+                    {formatDate(milestone.date)}
                   </span>
 
                   <ConfidenceTag confidence={milestone.confidence} />
@@ -259,11 +224,13 @@ export function Timeline({
 
 export function Variants({
   number = "06",
-  heading = "One airframe, three forms.",
-  intro = "The family as it is described in public sources. Designations are not applied consistently between publications, so treat the names as working labels.",
-  items = variants,
+  heading,
+  intro,
+  items,
   silhouette,
 }) {
+  const t = useText(text);
+
   return (
     <section
       id="variants"
@@ -272,7 +239,9 @@ export function Variants({
       <div className="mx-auto max-w-[1500px]">
         <div className="mb-16 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
           <div>
-            <SectionLabel>{number} / Variants</SectionLabel>
+            <SectionLabel>
+              {number} / {t.variants}
+            </SectionLabel>
 
             <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
               {heading}
@@ -333,14 +302,13 @@ export function Variants({
                         rel="noreferrer noopener"
                         className="transition hover:text-lime-300"
                       >
-                        Photo: {variant.photo.photographer} ·{" "}
+                        {t.photo}: {variant.photo.photographer} ·{" "}
                         {variant.photo.licence}
                       </a>
                     </>
                   ) : (
                     <span className="block">
-                      {variant.caption ||
-                        "No freely licensed photograph is available"}
+                      {variant.caption || t.noPhoto}
                     </span>
                   )}
                 </figcaption>
@@ -361,7 +329,7 @@ export function Variants({
                   <span className="text-lime-300">{variant.name}</span>
 
                   <span className="shrink-0 text-white/50">
-                    Crew / {variant.seats}
+                    {t.crew} / {variant.seats}
                   </span>
                 </div>
 
@@ -391,10 +359,11 @@ export function Variants({
 
 export function Reference({
   number = "08",
-  entries = glossary,
-  links = sources,
-  note = "Much about this aircraft is not officially published. Figures on this site are drawn from open sources and should be read as approximate.",
+  entries,
+  links,
+  note,
 }) {
+  const t = useText(text);
   const [openTerm, setOpenTerm] = useState(entries[0].term);
 
   return (
@@ -404,10 +373,12 @@ export function Reference({
     >
       <div className="mx-auto grid max-w-[1500px] gap-16 lg:grid-cols-[1.2fr_.8fr]">
         <div>
-          <SectionLabel>{number} / Reference</SectionLabel>
+          <SectionLabel>
+            {number} / {t.reference}
+          </SectionLabel>
 
           <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-            Terms, decoded.
+            {t.termsHeading}
           </h2>
 
           <div className="mt-12 border-t border-white/10">
@@ -469,7 +440,7 @@ export function Reference({
         <div className="lg:pt-24">
           <div className="border border-white/10 bg-black/20 p-7 md:p-10">
             <div className="font-mono text-xs sm:text-[11px] uppercase tracking-[.25em] text-lime-300">
-              Further reading
+              {t.furtherReading}
             </div>
 
             <ul className="mt-8 space-y-6">
@@ -513,10 +484,12 @@ export function Reference({
 export function Specifications({
   specifications,
   number = "04",
-  heading = "The public profile.",
-  intro = "A structured overview of publicly reported characteristics and programme milestones. Approximate measurements are marked separately from confirmed historical information.",
-  notice = "Measurements may refer to different aircraft variants and should not be interpreted as official technical documentation. Dates and descriptions are included for educational context.",
+  heading,
+  intro,
+  notice,
 }) {
+  const t = useText(text);
+  const translate = useTerm();
   const [specificationGroup, setSpecificationGroup] = useState("ALL");
   const [units, setUnits] = useState("metric");
 
@@ -540,14 +513,16 @@ export function Specifications({
       {/* Drawn with ::before so audits don't read the watermark as text. */}
       <div
         aria-hidden="true"
-        data-watermark="DATA"
+        data-watermark={t.watermark}
         className="pointer-events-none absolute -right-8 top-0 text-[24vw] font-black leading-none tracking-[-.09em] text-white/[.018] before:content-[attr(data-watermark)]"
       />
 
       <div className="relative mx-auto max-w-[1500px]">
         <div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end">
           <div>
-            <SectionLabel>{number} / Specifications</SectionLabel>
+            <SectionLabel>
+              {number} / {t.specifications}
+            </SectionLabel>
 
             <h2 className="max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-6xl">
               {heading}
@@ -562,12 +537,12 @@ export function Specifications({
             <div className="mt-6 flex flex-wrap gap-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_8px_#c7ff37]" />
-                Confirmed or reported
+                {t.confirmedOrReported}
               </span>
 
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-300 shadow-[0_0_8px_#fcd34d]" />
-                Public estimate
+                {t.publicEstimate}
               </span>
             </div>
           </div>
@@ -577,7 +552,7 @@ export function Specifications({
           <div
             className="flex flex-wrap gap-2"
             role="group"
-            aria-label="Filter specifications by group"
+            aria-label={t.filterGroups}
           >
             {specificationGroups.map((group) => (
               <button
@@ -591,7 +566,7 @@ export function Specifications({
                     : "border-white/15 text-white/60 hover:border-lime-300/60 hover:text-lime-300"
                 }`}
               >
-                {group}
+                {translate(group)}
               </button>
             ))}
           </div>
@@ -599,11 +574,11 @@ export function Specifications({
           <div
             className="flex w-fit border border-white/15"
             role="group"
-            aria-label="Measurement units"
+            aria-label={t.units}
           >
             {[
-              ["metric", "Metric"],
-              ["imperial", "Imperial"],
+              ["metric", t.metric],
+              ["imperial", t.imperial],
             ].map(([unitSystem, label]) => (
               <button
                 key={unitSystem}
@@ -655,7 +630,7 @@ export function Specifications({
                 <div className="flex items-start justify-between">
                   <div>
                     <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.28em] text-white/50">
-                      {specification.group}
+                      {translate(specification.group)}
                     </div>
 
                     <div className="mt-3 font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
@@ -684,7 +659,7 @@ export function Specifications({
 
                 <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
                   <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
-                    Data confidence
+                    {t.dataConfidence}
                   </span>
 
                   <span
@@ -698,7 +673,7 @@ export function Specifications({
                       }`}
                     />
 
-                    {specification.confidence}
+                    {translate(specification.confidence)}
                   </span>
                 </div>
 
@@ -727,7 +702,7 @@ export function Specifications({
 
         <div className="mt-6 grid gap-4 border border-white/10 bg-black/20 p-5 md:grid-cols-[auto_1fr] md:items-center md:gap-8 md:p-7">
           <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-amber-300">
-            Data notice
+            {t.dataNotice}
           </div>
 
           <p className="text-xs leading-6 text-white/60">{notice}</p>

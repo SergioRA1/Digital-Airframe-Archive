@@ -10,6 +10,46 @@ import {
 } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
+import {
+  switchLanguageHref,
+  useHref,
+  useLanguage,
+  useTerm,
+  useText,
+} from "./i18n.js";
+
+const text = {
+  en: {
+    archive: "DIGITAL ARCHIVE",
+    returnToAircraft: "Return to all aircraft",
+    returnToTop: "Return to top",
+    gallery: "Gallery",
+    allAircraft: "All aircraft",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    search: "Search aircraft by name",
+    noMatch: (query) => `No aircraft match “${query}”.`,
+    switchLanguage: "Ver en español",
+    disclaimer:
+      "Independent educational and visual design concept. This is not an official manufacturer or military website.",
+    madeBy: "Made by",
+  },
+  es: {
+    archive: "ARCHIVO DIGITAL",
+    returnToAircraft: "Volver a todas las aeronaves",
+    returnToTop: "Volver arriba",
+    gallery: "Galería",
+    allAircraft: "Todas las aeronaves",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+    search: "Buscar aeronave por nombre",
+    noMatch: (query) => `Ninguna aeronave coincide con «${query}».`,
+    switchLanguage: "View in English",
+    disclaimer:
+      "Concepto independiente de diseño visual y divulgación. No es un sitio web oficial de ningún fabricante ni de ninguna fuerza armada.",
+    madeBy: "Hecho por",
+  },
+};
 
 export function goToSection(sectionId) {
   const section = document.getElementById(sectionId);
@@ -109,6 +149,11 @@ export function PageHeader({
   showHangarLink = true,
   search = false,
 }) {
+  const t = useText(text);
+  const href = useHref();
+  const translate = useTerm();
+  const language = useLanguage();
+  const otherLanguage = language === "es" ? "en" : "es";
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pendingSection = useRef(null);
@@ -124,8 +169,13 @@ export function PageHeader({
         .filter(
           (entry) =>
             entry.available &&
-            [entry.designation, entry.name, entry.manufacturer, entry.origin]
-              .some(startsWord),
+            [
+              entry.designation,
+              entry.name,
+              entry.manufacturer,
+              entry.origin,
+              translate(entry.origin),
+            ].some(startsWord),
         )
         .sort(
           (a, b) =>
@@ -159,10 +209,12 @@ export function PageHeader({
         <button
           type="button"
           onClick={() =>
-            showHangarLink ? (window.location.hash = "#/") : selectSection("top")
+            showHangarLink
+              ? (window.location.hash = href("#/"))
+              : selectSection("top")
           }
           className="group flex items-center gap-3 text-left"
-          aria-label={showHangarLink ? "Return to all aircraft" : "Return to top"}
+          aria-label={showHangarLink ? t.returnToAircraft : t.returnToTop}
         >
           <div className="grid h-8 w-8 place-items-center border border-lime-300/60 text-xs sm:text-[11px] font-bold text-lime-300 transition group-hover:bg-lime-300 group-hover:text-black">
             {badge}
@@ -174,7 +226,7 @@ export function PageHeader({
             </div>
 
             <div className="font-mono text-xs sm:text-[10px] tracking-[.18em] text-white/60">
-              DIGITAL ARCHIVE
+              {t.archive}
             </div>
           </div>
         </button>
@@ -204,24 +256,43 @@ export function PageHeader({
 
           {galleryHref && (
             <a
-              href={galleryHref}
+              href={href(galleryHref)}
               className="flex items-center gap-2 text-xs sm:text-[11px] uppercase tracking-[.18em] text-lime-300 transition hover:text-white"
             >
               <Camera size={13} />
-              Gallery
+              {t.gallery}
             </a>
           )}
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* Read the hash on click: the compare page updates it without a
+              re-render. */}
+          <a
+            href={switchLanguageHref(window.location.hash, otherLanguage)}
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.hash = switchLanguageHref(
+                window.location.hash,
+                otherLanguage,
+              );
+            }}
+            lang={otherLanguage}
+            aria-label={t.switchLanguage}
+            title={t.switchLanguage}
+            className="grid h-10 min-w-10 place-items-center border border-white/10 bg-white/[.03] px-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
+          >
+            {otherLanguage}
+          </a>
+
           {showHangarLink && (
             <a
-              href="#/"
-              aria-label="All aircraft"
+              href={href("#/")}
+              aria-label={t.allAircraft}
               className="flex h-10 items-center gap-2 border border-white/10 bg-white/[.03] px-3 text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
             >
               <LayoutGrid size={14} />
-              <span className="hidden sm:inline">All aircraft</span>
+              <span className="hidden sm:inline">{t.allAircraft}</span>
             </a>
           )}
 
@@ -229,7 +300,7 @@ export function PageHeader({
             type="button"
             onClick={() => setMenuOpen((currentValue) => !currentValue)}
             className={`grid h-10 w-10 place-items-center border border-white/10 bg-white/[.03] ${menuBreakpoint}`}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? t.closeMenu : t.openMenu}
             aria-expanded={menuOpen}
           >
             {menuOpen ? <X size={17} /> : <Menu size={17} />}
@@ -264,8 +335,8 @@ export function PageHeader({
                       autoFocus
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
-                      placeholder="Search aircraft by name"
-                      aria-label="Search aircraft by name"
+                      placeholder={t.search}
+                      aria-label={t.search}
                       className="w-full bg-transparent text-sm text-white outline-none focus-visible:outline-none placeholder:text-white/40"
                     />
                   </label>
@@ -274,14 +345,14 @@ export function PageHeader({
                     <ul className="mt-2 border border-white/10">
                       {results.length === 0 && (
                         <li className="px-4 py-3 text-xs text-white/50">
-                          No aircraft match “{query.trim()}”.
+                          {t.noMatch(query.trim())}
                         </li>
                       )}
 
                       {results.map((entry) => (
                         <li key={entry.slug}>
                           <a
-                            href={`#/${entry.slug}`}
+                            href={href(`#/${entry.slug}`)}
                             className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 text-sm transition last:border-b-0 hover:bg-white/[.04] hover:text-lime-300"
                           >
                             <span className="font-semibold">
@@ -291,7 +362,7 @@ export function PageHeader({
                               </span>
                             </span>
                             <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
-                              {entry.manufacturer} · {entry.origin}
+                              {entry.manufacturer} · {translate(entry.origin)}
                             </span>
                           </a>
                         </li>
@@ -319,11 +390,11 @@ export function PageHeader({
 
               {galleryHref && (
                 <a
-                  href={galleryHref}
+                  href={href(galleryHref)}
                   className="flex items-center gap-3 border-b border-white/10 py-4 text-left text-xs uppercase tracking-[.2em] text-lime-300"
                 >
                   <Camera size={14} />
-                  Gallery
+                  {t.gallery}
                 </a>
               )}
             </div>
@@ -335,6 +406,9 @@ export function PageHeader({
 }
 
 export function PageFooter({ label }) {
+  const t = useText(text);
+  const href = useHref();
+
   return (
     <footer className="relative border-t border-white/10 px-5 py-12 md:px-10">
       <div className="mx-auto flex max-w-[1500px] flex-col justify-between gap-8 md:flex-row md:items-end">
@@ -342,14 +416,13 @@ export function PageFooter({ label }) {
           <div className="text-xl font-bold tracking-[.15em]">{label}</div>
 
           <p className="mt-3 max-w-md text-xs leading-5 text-white/50">
-            Independent educational and visual design concept. This is not an
-            official manufacturer or military website.
+            {t.disclaimer}
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
-          <a href="#/" className="transition hover:text-lime-300">
-            All aircraft
+          <a href={href("#/")} className="transition hover:text-lime-300">
+            {t.allAircraft}
           </a>
 
           <button
@@ -357,7 +430,7 @@ export function PageFooter({ label }) {
             onClick={() => goToSection("top")}
             className="group flex items-center gap-4 uppercase tracking-[.2em] transition hover:text-lime-300"
           >
-            Return to top
+            {t.returnToTop}
 
             <ChevronRight
               size={13}
@@ -369,7 +442,7 @@ export function PageFooter({ label }) {
 
       <div className="mx-auto mt-10 flex max-w-[1500px] flex-col justify-between gap-2 border-t border-white/10 pt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:flex-row">
         <span>
-          Made by <span className="text-white/80">Sergio Rodriguez Anton</span>
+          {t.madeBy} <span className="text-white/80">Sergio Rodriguez Anton</span>
         </span>
 
         <a

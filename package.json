@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "playwright test",
-    "figures": "node scripts/generate-figures.js"
+    "figures": "node scripts/generate-figures.js",
+    "translations": "node scripts/check-translations.js"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",

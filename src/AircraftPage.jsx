@@ -11,6 +11,7 @@ import {
   useActiveSection,
 } from "./Layout.jsx";
 import { Comparison } from "./Comparison.jsx";
+import { useHref, useText } from "./i18n.js";
 import {
   Reference,
   Specifications,
@@ -18,22 +19,55 @@ import {
   Variants,
 } from "./Sections.jsx";
 
-const navigationItems = [
-  ["design", "Design"],
-  ["specifications", "Data"],
-  ["history", "History"],
-  ["variants", "Variants"],
-  ["compare", "Compare"],
-  ["reference", "Reference"],
-];
+const text = {
+  en: {
+    navigation: [
+      ["design", "Design"],
+      ["specifications", "Data"],
+      ["history", "History"],
+      ["variants", "Variants"],
+      ["compare", "Compare"],
+      ["reference", "Reference"],
+    ],
+    silhouette: (name) => `Stylized ${name} silhouette seen from above`,
+    enterArchive: "Enter archive",
+    viewPhotography: "View photography",
+    visualModel: "Visual model",
+    scroll: "Scroll to explore",
+    design: "Design",
+    photoArchive: "Photographic archive",
+    inFrame: (name) => `${name} in frame`,
+    nextAircraft: "Next aircraft",
+  },
+  es: {
+    navigation: [
+      ["design", "Diseño"],
+      ["specifications", "Datos"],
+      ["history", "Historia"],
+      ["variants", "Variantes"],
+      ["compare", "Comparar"],
+      ["reference", "Referencia"],
+    ],
+    silhouette: (name) => `Silueta estilizada del ${name} vista desde arriba`,
+    enterArchive: "Entrar al archivo",
+    viewPhotography: "Ver fotografías",
+    visualModel: "Modelo visual",
+    scroll: "Desplázate para explorar",
+    design: "Diseño",
+    photoArchive: "Archivo fotográfico",
+    inFrame: (name) => `El ${name} en imágenes`,
+    nextAircraft: "Siguiente aeronave",
+  },
+};
 
 const sectionIds = [
   "top",
   "archive",
-  ...navigationItems.map(([sectionId]) => sectionId),
+  ...text.en.navigation.map(([sectionId]) => sectionId),
 ];
 
 function HeroAircraft({ slug, silhouette, detail }) {
+  const t = useText(text);
   const gradientId = `${slug}-body`;
   const edgeId = `${slug}-edge`;
   const glowId = `${slug}-glow`;
@@ -73,7 +107,7 @@ function HeroAircraft({ slug, silhouette, detail }) {
         viewBox="200 0 816 480"
         className="relative w-full overflow-visible drop-shadow-[0_35px_28px_rgba(0,0,0,.65)]"
         role="img"
-        aria-label={`Stylized ${slug.toUpperCase()} silhouette seen from above`}
+        aria-label={t.silhouette(slug.toUpperCase())}
       >
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
@@ -135,8 +169,10 @@ function HeroAircraft({ slug, silhouette, detail }) {
 }
 
 function AircraftPage({ page, introDelay = 0.1 }) {
+  const t = useText(text);
+  const href = useHref();
   const activeSection = useActiveSection(sectionIds);
-  const galleryHref = `#/${page.slug}/gallery`;
+  const galleryHref = href(`#/${page.slug}/gallery`);
 
   return (
     <div className="min-h-screen bg-[#050708] text-[#edf0e9] selection:bg-lime-300 selection:text-black">
@@ -146,7 +182,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
 
       <PageHeader
         badge={page.badge}
-        items={navigationItems}
+        items={t.navigation}
         activeSection={activeSection}
         galleryHref={galleryHref}
       />
@@ -205,7 +241,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                   onClick={() => goToSection("design")}
                   className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
                 >
-                  Enter archive
+                  {t.enterArchive}
 
                   <ChevronRight
                     size={15}
@@ -217,7 +253,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                   href={galleryHref}
                   className="flex items-center gap-4 border border-white/20 px-6 py-4 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/75 transition hover:border-lime-300 hover:text-lime-300"
                 >
-                  View photography
+                  {t.viewPhotography}
                   <Camera size={15} />
                 </a>
               </div>
@@ -231,7 +267,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
               />
 
               <div className="absolute right-[6%] top-[8%] hidden font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
-                <span className="text-lime-300">●</span> Visual model /{" "}
+                <span className="text-lime-300">●</span> {t.visualModel} /{" "}
                 {page.model}
               </div>
             </div>
@@ -258,7 +294,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
               onClick={() => goToSection("design")}
               className="hidden items-center gap-3 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300 md:flex"
             >
-              Scroll to explore
+              {t.scroll}
 
               <motion.span
                 animate={{
@@ -282,7 +318,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-16 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>01 / Design</SectionLabel>
+                <SectionLabel>01 / {t.design}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
                   {page.designHeading}
@@ -384,11 +420,11 @@ function AircraftPage({ page, introDelay = 0.1 }) {
             >
               <span>
                 <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
-                  Photographic archive
+                  {t.photoArchive}
                 </span>
 
                 <span className="mt-4 block text-3xl font-semibold tracking-[-.04em] transition group-hover:text-lime-300 md:text-4xl">
-                  {page.title.join("-")} in frame
+                  {t.inFrame(page.title.join("-"))}
                 </span>
               </span>
 
@@ -399,12 +435,12 @@ function AircraftPage({ page, introDelay = 0.1 }) {
             </a>
 
             <a
-              href={page.next.href}
+              href={href(page.next.href)}
               className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] md:p-12"
             >
               <span>
                 <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
-                  Next aircraft
+                  {t.nextAircraft}
                 </span>
 
                 <span className="mt-4 block text-3xl font-semibold tracking-[-.04em] transition group-hover:text-lime-300 md:text-4xl">

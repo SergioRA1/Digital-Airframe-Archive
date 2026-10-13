@@ -19,7 +19,7 @@ import {
   SectionLabel,
   useActiveSection,
 } from "./Layout.jsx";
-import { peers } from "./Comparison.jsx";
+import { peers } from "./data/peers.js";
 
 const navigationItems = [
   ["top", "Select"],

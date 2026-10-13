@@ -5,7 +5,7 @@
 // The figures are generated rather than read in the browser so the compare
 // page doesn't download every aircraft's full text for six numbers.
 
-import { writeFileSync } from "node:fs";
+import { existsSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import { specifications as f22Specifications } from "../src/data/f22.js";
@@ -20,53 +20,82 @@ import j35 from "../src/pages/j35.js";
 import rafale from "../src/pages/rafale.js";
 import su57 from "../src/pages/su57.js";
 import typhoon from "../src/pages/typhoon.js";
+import { localise } from "../src/i18n.js";
+import spanishF22 from "../src/locales/es/f22.js";
+import spanishJ20 from "../src/locales/es/j20.js";
 
-// Each metric is found by its specification label.
+// Each metric is found by its English specification label.
 export const metrics = [
   {
     key: "speed",
     label: "Maximum speed",
+    spanishLabel: "Velocidad máxima",
     unit: "MACH",
     specification: "MAXIMUM SPEED",
   },
   {
     key: "mtow",
     label: "Max takeoff weight",
+    spanishLabel: "Peso máximo al despegue",
     unit: "KG",
     specification: "MAX TAKEOFF WEIGHT",
   },
   {
     key: "radius",
     label: "Combat radius",
+    spanishLabel: "Radio de combate",
     unit: "KM",
     specification: "COMBAT RADIUS",
   },
   {
     key: "ceiling",
     label: "Service ceiling",
+    spanishLabel: "Techo de servicio",
     unit: "M",
     specification: "SERVICE CEILING",
   },
   {
     key: "length",
     label: "Length",
+    spanishLabel: "Longitud",
     unit: "M",
     specification: "LENGTH",
   },
   {
     key: "wingspan",
     label: "Wingspan",
+    spanishLabel: "Envergadura",
     unit: "M",
     specification: "WINGSPAN",
   },
 ];
 
+const pages = { f35, su57, f16, typhoon, rafale, gripen, j35, j16, j15, f15ex };
+
 const specificationSources = {
   "j-20": j20Specifications,
   "f-22": f22Specifications,
   ...Object.fromEntries(
-    [f35, su57, f16, typhoon, rafale, gripen, j35, j16, j15, f15ex].map(
-      (page) => [page.slug, page.specifications],
+    Object.values(pages).map((page) => [page.slug, page.specifications]),
+  ),
+};
+
+// Spanish specification text, where it exists yet, for the displayed wording.
+const spanishPage = async (name) => {
+  const path = new URL(`../src/locales/es/pages/${name}.js`, import.meta.url);
+
+  return existsSync(path) ? (await import(path)).default : {};
+};
+
+const spanishSpecifications = {
+  "j-20": spanishJ20.specifications,
+  "f-22": spanishF22.specifications,
+  ...Object.fromEntries(
+    await Promise.all(
+      Object.entries(pages).map(async ([name, page]) => [
+        page.slug,
+        (await spanishPage(name)).specifications,
+      ]),
     ),
   ),
 };
@@ -88,28 +117,40 @@ export function parseFigure(text) {
   return Math.round(mean * 100) / 100;
 }
 
-function readFigure(rows, metric) {
-  const row = rows.find((entry) => entry.label === metric.specification);
+// The chart value always comes from the English row; only the displayed
+// wording ("MACH 1,6", "≈ 31.800") is translated.
+function readFigure(rows, displayRows, metric) {
+  const index = rows.findIndex((entry) => entry.label === metric.specification);
 
-  if (!row) {
+  if (index === -1) {
     return null;
   }
 
   return {
-    value: parseFigure(row.value),
-    display: row.value,
-    confidence: row.confidence,
+    value: parseFigure(rows[index].value),
+    display: displayRows[index].value,
+    confidence: rows[index].confidence,
   };
 }
 
-export function buildFigures() {
+export function buildFigures(language = "en") {
   return Object.fromEntries(
-    Object.entries(specificationSources).map(([slug, rows]) => [
-      slug,
-      Object.fromEntries(
-        metrics.map((metric) => [metric.key, readFigure(rows, metric)]),
-      ),
-    ]),
+    Object.entries(specificationSources).map(([slug, rows]) => {
+      const displayRows =
+        language === "es"
+          ? localise(rows, spanishSpecifications[slug])
+          : rows;
+
+      return [
+        slug,
+        Object.fromEntries(
+          metrics.map((metric) => [
+            metric.key,
+            readFigure(rows, displayRows, metric),
+          ]),
+        ),
+      ];
+    }),
   );
 }
 
@@ -118,16 +159,17 @@ export function renderFigures() {
   const text = (value) => JSON.stringify(value);
   const key = (name) => (/^[a-z]\w*$/i.test(name) ? name : text(name));
 
-  const metricLines = metrics.flatMap((metric) => [
-    "  {",
-    `    key: ${text(metric.key)},`,
-    `    label: ${text(metric.label)},`,
-    `    unit: ${text(metric.unit)},`,
-    "  },",
-  ]);
+  const metricLines = (label) =>
+    metrics.flatMap((metric) => [
+      "  {",
+      `    key: ${text(metric.key)},`,
+      `    label: ${text(metric[label])},`,
+      `    unit: ${text(metric.unit)},`,
+      "  },",
+    ]);
 
-  const figureLines = Object.entries(buildFigures()).flatMap(
-    ([slug, values]) => [
+  const figureLines = (language) =>
+    Object.entries(buildFigures(language)).flatMap(([slug, values]) => [
       `  ${key(slug)}: {`,
       ...Object.entries(values).map(([name, figure]) =>
         figure
@@ -135,8 +177,7 @@ export function renderFigures() {
           : `    ${name}: null,`,
       ),
       "  },",
-    ],
-  );
+    ]);
 
   return [
     "// Generated by scripts/generate-figures.js from each aircraft's",
@@ -152,11 +193,30 @@ export function renderFigures() {
     "});",
     "",
     "export const metrics = [",
-    ...metricLines,
+    ...metricLines("label"),
     "];",
     "",
     "export const figures = {",
-    ...figureLines,
+    ...figureLines("en"),
+    "};",
+    "",
+    "const spanishMetrics = [",
+    ...metricLines("spanishLabel"),
+    "];",
+    "",
+    "// Same values, with the Spanish specification wording where it exists.",
+    "const spanishFigures = {",
+    ...figureLines("es"),
+    "};",
+    "",
+    "export const metricsByLanguage = {",
+    "  en: metrics,",
+    "  es: spanishMetrics,",
+    "};",
+    "",
+    "export const figuresByLanguage = {",
+    "  en: figures,",
+    "  es: spanishFigures,",
     "};",
     "",
   ].join("\n");

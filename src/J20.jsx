@@ -12,7 +12,14 @@ import {
 } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
-import { specifications } from "./data/j20.js";
+import {
+  glossary,
+  milestones,
+  sectionText,
+  sources,
+  specifications,
+  variants,
+} from "./data/j20.js";
 import {
   GridBackdrop,
   PageFooter,
@@ -829,21 +836,37 @@ function J20({ introDelay = 0.1 }) {
           </div>
         </section>
 
-        <Specifications specifications={specifications} />
+        <Specifications
+          specifications={specifications}
+          heading={sectionText.specHeading}
+          intro={sectionText.specIntro}
+          notice={sectionText.specNotice}
+        />
 
-        <Timeline slug="j-20" />
+        <Timeline
+          slug="j-20"
+          heading={sectionText.historyHeading}
+          intro={sectionText.historyIntro}
+          items={milestones}
+        />
 
         <Variants
+          heading={sectionText.variantsHeading}
+          intro={sectionText.variantsIntro}
+          items={variants}
           silhouette={silhouette}
-          intro="The J-20 family as it is described in public sources. Designations are not applied consistently between publications, so treat the names as working labels. Where no freely licensed photograph exists, a silhouette is shown instead."
         />
 
         <Comparison
           current="j-20"
-          intro="Published dimensions and dates for the J-20 alongside eleven other aircraft. The J-20 is one of the longest aircraft in the table; its figures are public estimates."
+          intro={sectionText.compareIntro}
         />
 
-        <Reference />
+        <Reference
+          entries={glossary}
+          links={sources}
+          note={sectionText.referenceNote}
+        />
 
         <section
           id="profile"

@@ -34,7 +34,7 @@ async function open(page, hash) {
   });
 
   await page.goto(hash);
-  await expect(page.getByText("Initializing visual systems")).toBeHidden();
+  await expect(page.locator("[data-boot]")).toHaveCount(0);
 
   return errors;
 }
@@ -63,6 +63,17 @@ test.describe("every route renders", () => {
       const errors = await open(page, route);
 
       await expect(page.locator("h1").first()).toBeVisible();
+      await expect(page.locator("html")).toHaveAttribute("lang", "en");
+      expect(errors).toEqual([]);
+    });
+
+    const spanishRoute = route === "#/" ? "#/es/" : `#/es${route.slice(1)}`;
+
+    test(spanishRoute, async ({ page }) => {
+      const errors = await open(page, spanishRoute);
+
+      await expect(page.locator("h1").first()).toBeVisible();
+      await expect(page.locator("html")).toHaveAttribute("lang", "es");
       expect(errors).toEqual([]);
     });
   }
@@ -216,6 +227,39 @@ test.describe("menu", () => {
     await page.getByRole("searchbox", { name: "Search aircraft by name" }).fill("zzz");
 
     await expect(page.getByText("No aircraft match")).toBeVisible();
+  });
+});
+
+test.describe("language", () => {
+  test("the switch opens the same page in the other language", async ({
+    page,
+  }) => {
+    await open(page, "#/f-35");
+
+    await page.getByRole("link", { name: "Ver en español" }).click();
+    await expect(page).toHaveURL(/#\/es\/f-35$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "es");
+    await expect(page.getByText("Un diseño, tres misiones.")).toBeVisible();
+
+    await page.getByRole("link", { name: "View in English" }).click();
+    await expect(page).toHaveURL(/#\/f-35$/);
+    await expect(page.getByText("One design, three roles.")).toBeVisible();
+  });
+
+  test("links on a Spanish page stay in Spanish", async ({ page }) => {
+    await open(page, "#/es/f-35");
+
+    await expect(page.locator('a[href="#/es/f-35/gallery"]').first()).toBeAttached();
+    await expect(page.locator('a[href="#/es/su-57"]').first()).toBeAttached();
+    await expect(page.locator('a[href^="#/"]:not([href^="#/es"])')).toHaveCount(0);
+  });
+
+  test("dates, confidence and groups are shown in Spanish", async ({ page }) => {
+    await open(page, "#/es/f-35");
+
+    await expect(page.getByText("15 DIC 2006").first()).toBeAttached();
+    await expect(page.getByText("CONFIRMADO").first()).toBeAttached();
+    await expect(page.getByRole("button", { name: "DIMENSIONES" })).toBeAttached();
   });
 });
 

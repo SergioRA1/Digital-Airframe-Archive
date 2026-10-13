@@ -1,6 +1,8 @@
-// J-20 data used outside its hand-built page as well: the comparison
-// charts read the specifications and the combined timeline reads the
-// milestones. Keeping it here means those pages don't load J20.jsx or Sections.jsx.
+// J-20 content for the shared page sections, kept out of J20.jsx so the
+// comparison and timeline pages can read the specifications and milestones
+// without loading the page component.
+
+import { photos } from "../photos.js";
 
 export const specifications = [
   {
@@ -273,3 +275,124 @@ export const milestones = [
     confidence: "REPORTED",
   },
 ];
+
+export const variants = [
+  {
+    code: "J-20",
+    name: "Baseline",
+    seats: "1",
+    status: "IN SERVICE",
+    photo: photos.j20_base,
+    caption: "Flypast at Airshow China, Zhuhai, 2016",
+    summary:
+      "The original single-seat production aircraft. Early examples flew with Russian-derived AL-31 series engines; later batches are reported to use the Chinese WS-10C.",
+    points: [
+      "Single-seat canard-delta layout",
+      "Main ventral bay plus two side bays",
+      "In service since 2017",
+    ],
+  },
+  {
+    code: "J-20A",
+    name: "Updated single-seat",
+    seats: "1",
+    status: "REPORTED",
+    photo: photos.j20_a,
+    caption: "J-20s in the 2019 National Day flypast, Beijing",
+    summary:
+      "An updated single-seat airframe with a raised, blended spine behind the canopy. Widely associated with the WS-15 engine, which is reported to be fitted to production aircraft from 2026.",
+    points: [
+      "Reshaped canopy and dorsal spine",
+      "Associated with WS-15 engines",
+      "Designation usage varies between sources",
+    ],
+  },
+  {
+    code: "J-20S",
+    name: "Twin-seat",
+    seats: "2",
+    status: "UNVEILED 2024",
+    summary:
+      "A tandem two-seat variant, first seen in 2021 and presented officially in 2024. Public commentary links the second seat to mission management and teaming with uncrewed aircraft.",
+    points: [
+      "First twin-seat stealth fighter seen publicly",
+      "Second crew member for mission management",
+      "Described as multirole",
+    ],
+  },
+];
+
+export const glossary = [
+  {
+    term: "Fifth generation",
+    definition:
+      "An informal label for fighters that combine low observability, internal weapon carriage, advanced sensors and a high degree of data fusion. There is no single agreed definition.",
+  },
+  {
+    term: "Low observable (LO)",
+    definition:
+      "Design measures that reduce how easily an aircraft is detected — shaping, aligned edges, internal weapon bays and surface materials. Often called stealth.",
+  },
+  {
+    term: "Canard",
+    definition:
+      "A small control surface ahead of the main wing. On the J-20 the all-moving canards add lift and pitch control, an unusual choice for a low-observable design.",
+  },
+  {
+    term: "Diverterless supersonic inlet (DSI)",
+    definition:
+      "An engine intake that uses a shaped bump and forward-swept cowl instead of moving ramps or a separate boundary-layer diverter, saving weight and reducing radar reflections.",
+  },
+  {
+    term: "AESA radar",
+    definition:
+      "Active electronically scanned array. A radar whose beam is steered electronically by many small transmit/receive modules rather than by a moving dish.",
+  },
+  {
+    term: "EOTS",
+    definition:
+      "Electro-optical targeting system. A passive infrared and optical sensor, seen on the J-20 as a faceted housing beneath the nose.",
+  },
+  {
+    term: "Supercruise",
+    definition:
+      "Sustained supersonic flight without afterburner. Often cited as a goal of the WS-15 engine; no performance figures have been officially published.",
+  },
+];
+
+export const sources = [
+  {
+    label: "Wikipedia — Chengdu J-20",
+    href: "https://en.wikipedia.org/wiki/Chengdu_J-20",
+    note: "General reference and citations",
+  },
+  {
+    label: "CSIS ChinaPower — J-20 overview",
+    href: "https://chinapower.csis.org/china-chengdu-j-20/",
+    note: "Analysis and comparison with peers",
+  },
+  {
+    label: "Wikimedia Commons — J-20 media",
+    href: "https://commons.wikimedia.org/wiki/Category:Chengdu_J-20",
+    note: "Freely licensed photographs",
+  },
+];
+
+// Headings and introductions for the shared sections on the J-20 page.
+export const sectionText = {
+  specHeading: "The public profile.",
+  specIntro:
+    "A structured overview of publicly reported characteristics and programme milestones. Approximate measurements are marked separately from confirmed historical information.",
+  specNotice:
+    "Measurements may refer to different aircraft variants and should not be interpreted as official technical documentation. Dates and descriptions are included for educational context.",
+  historyHeading: "From rumour to flight line.",
+  historyIntro:
+    "A condensed public timeline of the programme, from early design studies to the latest variants. Entries based on photographs and press reporting rather than official statements are marked as reported.",
+  variantsHeading: "One airframe, three forms.",
+  variantsIntro:
+    "The J-20 family as it is described in public sources. Designations are not applied consistently between publications, so treat the names as working labels. Where no freely licensed photograph exists, a silhouette is shown instead.",
+  compareIntro:
+    "Published dimensions and dates for the J-20 alongside eleven other aircraft. The J-20 is one of the longest aircraft in the table; its figures are public estimates.",
+  referenceNote:
+    "Much about this aircraft is not officially published. Figures on this site are drawn from open sources and should be read as approximate.",
+};
