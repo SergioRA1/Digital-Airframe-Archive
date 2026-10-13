@@ -38,9 +38,19 @@ export default [
     },
   },
   {
-    files: ["*.config.js", "scripts/**/*.js", "tests/**/*.js"],
+    files: ["*.config.js", "scripts/**/*.js"],
     languageOptions: {
       globals: globals.node,
+    },
+  },
+  {
+    // Tests run in Node, but code passed to page.evaluate() runs in the browser.
+    files: ["tests/**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
     },
   },
 ];
