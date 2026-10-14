@@ -24,7 +24,7 @@ npx playwright test -g "menu"   # run only the tests whose name matches
 Check a change with `npm run lint` and `npm test`, which must both pass, and by viewing the affected route in `npm run dev`. There is no formatter. `dist/` is build output: never edit it by hand.
 
 - Tests run in the installed Google Chrome (`channel: "chrome"` in `playwright.config.js`), which GitHub's Ubuntu runners also have, so no browser download is needed. The config builds the site and serves it on port 4173.
-- `tests/site.spec.js` checks that every route renders without console errors and that no visible text runs off screen at 360px wide, and covers the menu buttons and search, shareable comparison links, table sorting and the timeline filters. The route list is built from `src/aircraft.js`, so a new aircraft is covered automatically.
+- `tests/site.spec.js` checks that every route renders without console errors and that no visible text runs off screen at 360px wide, and covers the menu buttons and search, shareable comparison links, table sorting, the timeline filters, old `#/` links redirecting, moving between pages without a reload, and the prerendered HTML and sitemap. The route list is built from `src/aircraft.js`, so a new aircraft is covered automatically.
 - Add a test when fixing a bug, and confirm it fails without the fix. Animated UI (the menu opens with framer-motion) must be fully open before a test clicks it, or the test can pass even when the bug is present.
 - JSX uses the automatic runtime: don't `import React` just for JSX. Only `src/main.jsx` uses it, for `React.StrictMode`.
 
@@ -36,20 +36,23 @@ Check a change with `npm run lint` and `npm test`, which must both pass, and by 
 - `.github/workflows/checks.yml` runs lint and tests on pull requests to `main`, including Dependabot's. `.github/dependabot.yml` opens weekly update pull requests for npm packages (minor and patch grouped into one) and for GitHub Actions. Merge one only when its checks pass.
 - `.github/workflows/photos.yml` runs `npm run photos` (`scripts/check-photos.js`) every Monday. If a photo address fails, it opens an issue titled "Broken photo links" listing each one with its file and line, updates it while they stay broken, and closes it once they work. It reads addresses from `src/photos.js` and `src/Gallery.jsx`: a photo stored anywhere else must be added to `files` in the script.
 - CI uses Node 24 (`node-version` in both workflows) on the `ubuntu-24.04` runner image, pinned rather than `ubuntu-latest` so GitHub's image changes can't break a deploy unannounced. Keep the workflows on the same image, Node and action versions. If the image ever lacks Google Chrome, a step installs it with Playwright.
-- The site is served from a subfolder. `base: "./"` in `vite.config.js` keeps asset paths relative, and hash routing means no server rewrites are needed. Reference files in `public/` with relative paths (e.g. `./favicon.svg`, `photos/<file>`), not root-absolute ones.
+- The site is served from a subfolder, `/Digital-Airframe-Archive/`. `basePath` and `siteUrl` in `src/site.js` hold it; `vite.config.js` builds for it, so asset paths are absolute, and the tests serve the build under it too (`npm run dev` opens at `http://localhost:5173/Digital-Airframe-Archive/`). In `index.html` reference `public/` files root-absolute (`/favicon.svg`), which Vite prefixes with the base; in code and data write the full path, `"/Digital-Airframe-Archive/photos/<file>"`, since relative paths break on nested pages. If the site moves to its own domain, change both values in `src/site.js`.
 
 ## Architecture
 
 ### Routing (`src/App.jsx`)
-- Hash-based routing with no router library. `readRoute()` parses `window.location.hash`:
-  - `#/` or an unknown slug → `Home` (the hangar / aircraft index)
-  - `#/<slug>` → aircraft page
-  - `#/<slug>/gallery` → that aircraft's gallery
-  - `#/archive` → combined gallery of all aircraft
-  - `#/compare` → `Compare.jsx`, the interactive comparison: animated bar charts for up to three aircraft and a sortable table of all of them. `#/compare/<slug>,<slug>,<slug>` preselects aircraft, and the page keeps the hash in sync with `history.replaceState` so comparisons can be shared
-  - `#/timeline` → `Chronology.jsx`, every milestone from every aircraft on one chart and in one filterable list
-  - `#gallery` → legacy alias for the J-20 gallery, kept so old links still work
-- The `pages` map in `App.jsx` registers every route. Each entry has a `title`, used for `document.title`, and a lazily loaded `component`.
+- Every page has its own address under the base path, with no router library. `src/routes.js` holds the routes, and `readRoute()` in `App.jsx` reads `window.location` through `readLocation()`:
+  - `/` or an unknown page → `Home` (the hangar / aircraft index)
+  - `/<slug>/` → aircraft page
+  - `/<slug>/gallery/` → that aircraft's gallery
+  - `/archive/` → combined gallery of all aircraft
+  - `/compare/` → `Compare.jsx`, the interactive comparison: animated bar charts for up to three aircraft and a sortable table of all of them. `/compare/?aircraft=<slug>,<slug>,<slug>` preselects aircraft, and the page keeps the query in sync with `history.replaceState` so comparisons can be shared
+  - `/timeline/` → `Chronology.jsx`, every milestone from every aircraft on one chart and in one filterable list
+  - Spanish pages add `es/` after the base path (`/es/f-35/gallery/`).
+- Code and data write internal links in a short route form, `"#/f-35"` or `"#/es/f-35/gallery"` (the site's address format before pages had their own). `hrefFor()` / `useHref()` turn a route into an address. Old `#/...` links, including `#/compare/<slugs>` and the even older `#gallery`, are redirected to their address when the site loads, so links shared before the change still work.
+- The app never reloads between pages. A click on any `<a>` pointing inside the site is handled in `App.jsx` with `history.pushState`; in code, move between pages with `navigate(address)` from `src/routes.js`, never by setting `window.location`. Back and Forward work through `popstate`.
+- `npm run build` runs `scripts/prerender.js` after Vite. It writes `dist/<path>/index.html` for every page in both languages (`allRoutes` in `src/routes.js`), each with its own title, description, canonical address, hreflang alternates and Open Graph tags, and the page's main text and links inside `#root`, which React replaces when it starts. It also writes `dist/404.html` (served by GitHub Pages for any other address; the app then shows the hangar) and `dist/sitemap.xml`. The block between `<!-- page-meta -->` comments in `index.html` is what it replaces, so keep it there.
+- The `pages` map in `App.jsx` holds each page's lazily loaded `component`. Titles, used for `document.title` and the prerendered files, are in `pageTitles` in `src/routes.js`.
 - Everything except `Home` is code-split with `React.lazy`. Keep new pages lazy.
 - A boot overlay runs for about 1.5s on first load. Pages accept an `introDelay` prop so their entrance animations start after it.
 
@@ -64,7 +67,7 @@ A data module default-exports one object with these keys: `slug, badge, footerLa
 - `src/Layout.jsx`: page chrome: `PageHeader`, `PageFooter`, `GridBackdrop`, `ScrollProgress`, `goToSection()` and the `useActiveSection()` hook.
 - `src/Sections.jsx`: shared content sections for aircraft pages: `Specifications`, `Timeline`, `Variants`, `Reference`. They take all their text as props; the J-20 page passes its content from `src/data/j20.js`.
 - `src/Comparison.jsx`: the cross-aircraft `Comparison` table and the `peers` array that drives it (each row links to the aircraft by `slug`). It is separate from `Sections.jsx` so the hangar page can show the table without loading the aircraft-page sections, `usage.js` and the J-20 defaults. `SectionLabel` lives in `Layout.jsx` for the same reason.
-- `src/figures.js`: numeric performance figures (speed, weight, radius, ceiling, size) keyed by slug, used by `#/compare`. **Generated, never edit by hand.** `scripts/generate-figures.js` reads each aircraft's `specifications` rows by label (`MAXIMUM SPEED`, `MAX TAKEOFF WEIGHT`, `COMBAT RADIUS`, `SERVICE CEILING`, `LENGTH`, `WINGSPAN`) and parses the chart value from the row's `value` text (ranges plot at their midpoint, `MACH 2 CLASS` as 2). A missing row means not published. After changing a specification, run `npm run figures` and commit the result; a test fails if `figures.js` is out of date. It is generated rather than computed in the browser so `#/compare` doesn't download every aircraft's text.
+- `src/figures.js`: numeric performance figures (speed, weight, radius, ceiling, size) keyed by slug, used by the compare page. **Generated, never edit by hand.** `scripts/generate-figures.js` reads each aircraft's `specifications` rows by label (`MAXIMUM SPEED`, `MAX TAKEOFF WEIGHT`, `COMBAT RADIUS`, `SERVICE CEILING`, `LENGTH`, `WINGSPAN`) and parses the chart value from the row's `value` text (ranges plot at their midpoint, `MACH 2 CLASS` as 2). A missing row means not published. After changing a specification, run `npm run figures` and commit the result; a test fails if `figures.js` is out of date. It is generated rather than computed in the browser so `#/compare` doesn't download every aircraft's text.
 - `Chronology.jsx` reads milestones directly: J-20 and F-22 from `src/data/`, and the rest from each data module. A new aircraft must be imported there too.
 - `src/counts.js`: the number of aircraft in words for each language (`counts.en.all`, `counts.en.others`, `countWord()`), so copy that mentions "twelve aircraft" updates itself when one is added. Never write the count by hand.
 - `src/usage.js`: the "Capabilities / Use and operations / Limits and caveats" panel for each aircraft, keyed by slug. `Timeline` shows it automatically.
@@ -75,10 +78,10 @@ A data module default-exports one object with these keys: `slug, badge, footerLa
   - Each `galleries` entry has a `years` range (e.g. `"2009–2024"`). Widen it when a new photo falls outside it.
 
 ### Languages (English and Spanish)
-- The site is written in English. Spanish pages live at `#/es/...` (e.g. `#/es/f-35/gallery`). `readRoute()` in `App.jsx` reads the language from the hash, sets `<html lang>` and the page title, and provides it through `LanguageContext`. The header has an EN/ES switch that opens the same page in the other language.
+- The site is written in English. Spanish pages live under `es/` (e.g. `/es/f-35/gallery/`). `readRoute()` in `App.jsx` reads the language from the address, sets `<html lang>` and the page title, and provides it through `LanguageContext`. The header has an EN/ES switch that opens the same page in the other language.
 - `src/i18n.js` holds the helpers: `useLanguage()`, `useText(table)` for a component's `{ en: {...}, es: {...} }` UI strings, `useHref()` / `localHref()` for internal links, `useTerm()` for values stored in English because code relies on them (confidence levels, specification groups, origins), `useDate()` for milestone dates, and `localise(english, spanish)`.
 - Spanish content never copies the English data. Each Spanish module under `src/locales/es/` mirrors one English module's shape (objects by key, arrays by position) and holds only text. `localise()` lays it over the English, so numbers, icons, links, photos, dates and enum values always come from the English. Spanish modules load only on Spanish pages: data pages find `src/locales/es/pages/<name>.js` by file name, and other lazy pages receive theirs as a `translation` prop (see `localised()` in `App.jsx`).
-- Every internal link must go through `useHref()` (or `localHref()` for `window.location.hash = ...`), or a Spanish visitor drops back to English. A test fails if a Spanish page has an English link.
+- Every internal link must go through `useHref()` (or `localHref()` with `navigate()`), or a Spanish visitor drops back to English. A test fails if a Spanish page has an English link or a link still in `#/` form.
 - Dates, confidence levels, specification groups and origins stay in English in the data: the timeline parses dates and the filters compare the English values. Show them with `useDate()` / `useTerm()`. A new specification group or origin needs a Spanish entry in `terms` in `i18n.js`.
 - `npm run translations` (`scripts/check-translations.js`) lists English text with no Spanish string, Spanish entries with no English counterpart, and fixed fields (codes, links, credits, dates) that were translated. A test fails on any of these. A string that stays the same in Spanish (a designation, a company name) is still written in the Spanish module, so a deliberate copy can be told from a missing one.
 - When you change or add English text, change the Spanish module in the same commit. After changing a specification, run `npm run figures` too: `figures.js` holds the Spanish display text for the compare page.
@@ -88,7 +91,7 @@ A data module default-exports one object with these keys: `slug, badge, footerLa
 Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 1. Add an entry to `src/aircraft.js`.
 2. Create `src/pages/<slug>.js`.
-3. Register the route in the `pages` map in `src/App.jsx`.
+3. Register the page component in the `pages` map in `src/App.jsx`, and its title in `pageTitles` in `src/routes.js`. Its addresses, prerendered files and sitemap entries follow from `src/aircraft.js`.
 4. Add photos to `src/photos.js`, a gallery to `galleries` in `src/Gallery.jsx`, its captions and `galleryText` entry to `src/data/gallery.js`, and their Spanish to `src/locales/es/gallery.js`.
 5. Add usage text to `src/usage.js`.
 6. Add a row to `peers` in `src/Comparison.jsx`, import its data module into `specificationSources` in `scripts/generate-figures.js` and `sources` in `src/Chronology.jsx`, then run `npm run figures`. Use the standard specification labels above so the comparison charts pick up its figures.
@@ -109,7 +112,7 @@ Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
   | Openverse | The original work's CC licence | Openverse only indexes other sites. Set `source` to the original host page (Flickr, etc.), not the Openverse page, and confirm the licence there. Its API (`api.openverse.org/v1/images/?q=...&license=by,by-sa,cc0,pdm`) needs no key. Most of its aircraft results are Commons files. |
   | Unsplash | `"Unsplash License"` | Hotlink `images.unsplash.com` with width parameters (`?w=1280`, `?w=1920`). Credit the photographer as shown on Unsplash. |
   | Pexels | `"Pexels License"` | Hotlink `images.pexels.com` with width parameters (`?w=1280`, `?w=1920`). Credit the photographer. |
-  | Pixabay | `"Pixabay Content License"` | Pixabay does not allow permanent hotlinking. Download the image into `public/photos/` and reference it as `/photos/<file>`. |
+  | Pixabay | `"Pixabay Content License"` | Pixabay does not allow permanent hotlinking. Download the image into `public/photos/` and reference it with the base path, `"/Digital-Airframe-Archive/photos/<file>"`. |
 
 - Only use CC0, CC BY, CC BY-SA, public domain or the site licences above. Never use NC or ND licences or "editorial use only" images.
 - Unsplash, Pexels and Pixabay need API keys, and none are configured in this environment.

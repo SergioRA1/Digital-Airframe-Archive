@@ -7,17 +7,28 @@ import { checkTranslations, pairs } from "../scripts/check-translations.js";
 import { readAddresses } from "../scripts/check-photos.js";
 import { countWord } from "../src/counts.js";
 import { peers } from "../src/data/peers.js";
+import { siteUrl } from "../src/site.js";
+import {
+  allRoutes,
+  basePath,
+  documentTitle,
+  routePath,
+} from "../src/routes.js";
 import { outputPath, renderFigures } from "../scripts/generate-figures.js";
 
 const slugs = aircraft
   .filter((entry) => entry.available)
   .map((entry) => entry.slug);
 
-// Opens a route and waits for the boot overlay to finish. Any uncaught
+// A page's address relative to the base URL ("es/f-35/gallery/"), for
+// page.goto().
+const address = (route) => routePath(route).slice(basePath.length) || "./";
+
+// Opens a page and waits for the boot overlay to finish. Any uncaught
 // error, console error or failed request for the site's own files fails the
 // test. Photos and fonts from other sites are left out: a slow or refused
 // Wikimedia image is not a bug in this code and should not block a deploy.
-async function open(page, hash) {
+async function open(page, path) {
   const errors = [];
   const isOwnFile = (url) => url.startsWith("http://localhost");
 
@@ -37,7 +48,7 @@ async function open(page, hash) {
     }
   });
 
-  await page.goto(hash);
+  await page.goto(path);
   await expect(page.locator("[data-boot]")).toHaveCount(0);
 
   return errors;
@@ -53,42 +64,29 @@ async function sectionAtTop(page, sectionId) {
 }
 
 test.describe("every route renders", () => {
-  const routes = [
-    "#/",
-    "#/archive",
-    "#/compare",
-    "#/timeline",
-    ...slugs.map((slug) => `#/${slug}`),
-    ...slugs.map((slug) => `#/${slug}/gallery`),
-  ];
+  // Every page in both languages, from src/routes.js.
+  for (const route of allRoutes) {
+    const path = address(route);
 
-  for (const route of routes) {
-    test(route, async ({ page }) => {
-      const errors = await open(page, route);
+    test(path, async ({ page }) => {
+      const errors = await open(page, path);
 
       await expect(page.locator("h1").first()).toBeVisible();
-      await expect(page.locator("html")).toHaveAttribute("lang", "en");
-      expect(errors).toEqual([]);
-    });
-
-    const spanishRoute = route === "#/" ? "#/es/" : `#/es${route.slice(1)}`;
-
-    test(spanishRoute, async ({ page }) => {
-      const errors = await open(page, spanishRoute);
-
-      await expect(page.locator("h1").first()).toBeVisible();
-      await expect(page.locator("html")).toHaveAttribute("lang", "es");
+      await expect(page.locator("html")).toHaveAttribute("lang", route.language);
+      // A page missing from the pages map in App.jsx would show the hangar.
+      await expect(page).toHaveTitle(documentTitle(route));
+      await expect(page.locator(".prerender")).toHaveCount(0);
       expect(errors).toEqual([]);
     });
   }
 
   const phoneRoutes = [
-    "#/",
-    "#/compare",
-    "#/timeline",
-    "#/archive",
-    ...slugs.map((slug) => `#/${slug}`),
-    "#/f-15ex/gallery",
+    "./",
+    "compare/",
+    "timeline/",
+    "archive/",
+    ...slugs.map((slug) => `${slug}/`),
+    "f-15ex/gallery/",
   ];
 
   for (const route of phoneRoutes) {
@@ -145,16 +143,72 @@ test.describe("every route renders", () => {
     });
   }
 
-  test("legacy #gallery opens the J-20 gallery", async ({ page }) => {
-    await open(page, "#gallery");
-
-    await expect(page.locator("h1").first()).toContainText("IN FRAME");
-  });
-
-  test("an unknown slug falls back to the hangar", async ({ page }) => {
-    await open(page, "#/not-an-aircraft");
+  test("an unknown page falls back to the hangar", async ({ page }) => {
+    await open(page, "not-an-aircraft/");
 
     await expect(page.locator("#aircraft")).toBeAttached();
+  });
+});
+
+test.describe("addresses", () => {
+  const redirects = [
+    ["#/f-35", "f-35/"],
+    ["#/es/f-35/gallery", "es/f-35/gallery/"],
+    ["#/archive", "archive/"],
+    ["#gallery", "j-20/gallery/"],
+    ["#/compare/f-22,j-20", "compare/?aircraft=f-22,j-20"],
+    ["#/es/compare/typhoon", "es/compare/?aircraft=typhoon"],
+  ];
+
+  for (const [old, current] of redirects) {
+    test(`an old ${old} link opens ${current}`, async ({ page }) => {
+      await open(page, `./${old}`);
+
+      await expect(page).toHaveURL(
+        (url) => url.pathname + url.search + url.hash === basePath + current,
+      );
+    });
+  }
+
+  test("links open pages without reloading, and Back returns", async ({
+    page,
+  }) => {
+    await open(page, "./");
+    await page.evaluate(() => {
+      window.notReloaded = true;
+    });
+
+    await page.locator(`a[href="${basePath}f-35/"]`).first().click();
+    await expect(page).toHaveURL(new RegExp(`${basePath}f-35/$`));
+    await expect(page).toHaveTitle("F-35 | Airframe Archive");
+
+    await page.goBack();
+    await expect(page).toHaveURL(new RegExp(`${basePath}$`));
+    await expect(page.locator("#aircraft")).toBeAttached();
+    expect(await page.evaluate(() => window.notReloaded)).toBe(true);
+  });
+
+  // What search engines and link previews read before any script runs.
+  test("every page has its own HTML file", async ({ request }) => {
+    for (const route of allRoutes) {
+      const html = await (await request.get(address(route))).text();
+      const url = siteUrl + routePath(route).slice(basePath.length);
+
+      expect(html, address(route)).toContain(`<html lang="${route.language}">`);
+      expect(html, address(route)).toContain(`<title>${documentTitle(route)}</title>`);
+      expect(html, address(route)).toContain(`<link rel="canonical" href="${url}" />`);
+      expect(html, address(route)).toMatch(/<div class="prerender">.*<h1>/s);
+    }
+  });
+
+  test("the sitemap lists every page, and 404.html is not indexed", async ({
+    request,
+  }) => {
+    const sitemap = await (await request.get("sitemap.xml")).text();
+    const notFound = await (await request.get("404.html")).text();
+
+    expect(sitemap.match(/<loc>/g)).toHaveLength(allRoutes.length);
+    expect(notFound).toContain('<meta name="robots" content="noindex" />');
   });
 });
 
@@ -162,7 +216,7 @@ test.describe("menu", () => {
   const cases = [
     {
       name: "aircraft page, desktop",
-      route: "#/j-20",
+      route: "j-20/",
       label: "Reference",
       section: "reference",
       viewport: {
@@ -172,7 +226,7 @@ test.describe("menu", () => {
     },
     {
       name: "hangar, phone",
-      route: "#/",
+      route: "./",
       label: "Analysis",
       section: "analysis",
       viewport: {
@@ -182,7 +236,7 @@ test.describe("menu", () => {
     },
     {
       name: "compare, phone",
-      route: "#/compare",
+      route: "compare/",
       label: "Table",
       section: "table",
       viewport: {
@@ -215,17 +269,17 @@ test.describe("menu", () => {
   }
 
   test("search finds an aircraft and opens its page", async ({ page }) => {
-    await open(page, "#/");
+    await open(page, "./");
 
     await page.getByRole("button", { name: "Open menu" }).click();
     await page.getByRole("searchbox", { name: "Search aircraft by name" }).fill("raf");
     await page.locator("header").getByRole("link", { name: /Rafale/ }).click();
 
-    await expect(page).toHaveURL(/#\/rafale$/);
+    await expect(page).toHaveURL(/\/rafale\/$/);
   });
 
   test("search says when nothing matches", async ({ page }) => {
-    await open(page, "#/");
+    await open(page, "./");
 
     await page.getByRole("button", { name: "Open menu" }).click();
     await page.getByRole("searchbox", { name: "Search aircraft by name" }).fill("zzz");
@@ -238,31 +292,37 @@ test.describe("language", () => {
   test("the switch opens the same page in the other language", async ({
     page,
   }) => {
-    await open(page, "#/f-35");
+    await open(page, "f-35/");
 
     await page.getByRole("link", { name: "Ver en español" }).click();
-    await expect(page).toHaveURL(/#\/es\/f-35$/);
+    await expect(page).toHaveURL(/\/Digital-Airframe-Archive\/es\/f-35\/$/);
     await expect(page.locator("html")).toHaveAttribute("lang", "es");
     await expect(page.getByText("Un diseño, tres misiones.")).toBeVisible();
 
     await page.getByRole("link", { name: "View in English" }).click();
-    await expect(page).toHaveURL(/#\/f-35$/);
+    await expect(page).toHaveURL(/\/Digital-Airframe-Archive\/f-35\/$/);
     await expect(page.getByText("One design, three roles.")).toBeVisible();
   });
 
   test("links on a Spanish page stay in Spanish", async ({ page }) => {
-    await open(page, "#/es/f-35");
+    await open(page, "es/f-35/");
 
-    await expect(page.locator('a[href="#/es/f-35/gallery"]').first()).toBeAttached();
-    await expect(page.locator('a[href="#/es/su-57"]').first()).toBeAttached();
+    await expect(
+      page.locator(`a[href="${basePath}es/f-35/gallery/"]`).first(),
+    ).toBeAttached();
+    await expect(page.locator(`a[href="${basePath}es/su-57/"]`).first()).toBeAttached();
     // The language switch is the one link that leaves Spanish on purpose.
     await expect(
-      page.locator('a[href^="#/"]:not([href^="#/es"]):not([lang="en"])'),
+      page.locator(
+        `a[href^="${basePath}"]:not([href^="${basePath}es/"]):not([lang="en"])`,
+      ),
     ).toHaveCount(0);
+    // Nothing still links in the old "#/..." form.
+    await expect(page.locator('a[href^="#/"]')).toHaveCount(0);
   });
 
   test("dates, confidence and groups are shown in Spanish", async ({ page }) => {
-    await open(page, "#/es/f-35");
+    await open(page, "es/f-35/");
 
     await expect(page.getByText("15 DIC 2006").first()).toBeAttached();
     await expect(page.getByText("CONFIRMADO").first()).toBeAttached();
@@ -275,7 +335,7 @@ test.describe("compare", () => {
     page.getByRole("group", { name: "Choose aircraft to compare" });
 
   test("a shared link preselects its aircraft", async ({ page }) => {
-    await open(page, "#/compare/f-22,j-20,typhoon");
+    await open(page, "compare/?aircraft=f-22,j-20,typhoon");
 
     await expect(picker(page).getByRole("button", { name: "Typhoon" })).toHaveAttribute(
       "aria-pressed",
@@ -290,11 +350,11 @@ test.describe("compare", () => {
   test("a fourth pick replaces the oldest and updates the link", async ({
     page,
   }) => {
-    await open(page, "#/compare/f-22,j-20,typhoon");
+    await open(page, "compare/?aircraft=f-22,j-20,typhoon");
 
     await picker(page).getByRole("button", { name: "Gripen" }).click();
 
-    await expect(page).toHaveURL(/#\/compare\/j-20,typhoon,gripen$/);
+    await expect(page).toHaveURL(/\/compare\/\?aircraft=j-20,typhoon,gripen$/);
     await expect(picker(page).getByRole("button", { name: "F-22" })).toHaveAttribute(
       "aria-pressed",
       "false",
@@ -302,27 +362,27 @@ test.describe("compare", () => {
   });
 
   test("invalid slugs in a link are ignored", async ({ page }) => {
-    await open(page, "#/compare/nope,rafale");
+    await open(page, "compare/?aircraft=nope,rafale");
 
-    await expect(page).toHaveURL(/#\/compare\/rafale$/);
+    await expect(page).toHaveURL(/\/compare\/\?aircraft=rafale$/);
   });
 
   test("chart figures come from the aircraft's specifications", async ({
     page,
   }) => {
-    await open(page, "#/compare/f-15ex");
+    await open(page, "compare/?aircraft=f-15ex");
 
     const chart = page.locator("#chart");
 
     await expect(chart.getByText("MACH 2.5")).toBeVisible();
     await expect(chart.getByText("≈ 36,700")).toBeVisible();
     // Ranges keep their published wording in the chart.
-    await page.goto("#/compare/j-20");
+    await page.goto("compare/?aircraft=j-20");
     await expect(chart.getByText("20.4–21.2")).toBeVisible();
   });
 
   test("table headers sort the rows", async ({ page }) => {
-    await open(page, "#/compare");
+    await open(page, "compare/");
 
     const header = page.getByRole("columnheader", { name: /Maximum speed/ });
     const firstRow = page.locator("#table tbody tr").first();
@@ -339,7 +399,7 @@ test.describe("compare", () => {
 
 test.describe("timeline", () => {
   test("filters narrow the milestones shown", async ({ page }) => {
-    await open(page, "#/timeline");
+    await open(page, "timeline/");
 
     const counter = page.getByText(/milestones shown/i);
     const count = async () =>

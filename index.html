@@ -3,22 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050708" />
+    <meta name="color-scheme" content="dark" />
+    <!-- page-meta: scripts/prerender.js replaces this block in each page's
+         own HTML file with its title, description, canonical address and
+         language alternates. -->
+    <title>Airframe | Digital Aircraft Archive</title>
     <meta
       name="description"
       content="An interactive digital exhibition of modern combat aircraft"
     />
-    <meta name="theme-color" content="#050708" />
-    <meta name="color-scheme" content="dark" />
     <meta property="og:title" content="Airframe | Digital Aircraft Archive" />
     <meta
       property="og:description"
       content="An interactive digital exhibition of modern combat aircraft"
     />
-    <meta property="og:type" content="website" />
     <meta
       property="og:url"
       content="https://sergiora1.github.io/Digital-Airframe-Archive/"
     />
+    <!-- /page-meta -->
+    <meta property="og:type" content="website" />
     <!-- Link previews need an absolute image URL, so this one names the live site. -->
     <meta
       property="og:image"
@@ -48,10 +53,11 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400&display=swap"
       />
     </noscript>
-    <title>Airframe | Digital Aircraft Archive</title>
   </head>
 
   <body>
+    <!-- scripts/prerender.js fills #root with each page's text and links, for
+         search engines and link previews. React replaces it when it starts. -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

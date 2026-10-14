@@ -3,8 +3,8 @@
 // Photos are hotlinked from Wikimedia Commons (and could come from the other
 // sources listed in CLAUDE.md), where files are sometimes renamed or deleted.
 // This reads every `src`, `full` and `source` address from src/photos.js and
-// src/Gallery.jsx and asks each server for it. Local files (photos/<file>)
-// are checked on disk.
+// src/Gallery.jsx and asks each server for it. Local files
+// (/Digital-Airframe-Archive/photos/<file>) are checked on disk.
 //
 // Run `npm run photos`. It exits with 1 if anything is broken, and writes a
 // Markdown report to the file given with --report, which the weekly workflow
@@ -12,6 +12,8 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+
+import { basePath } from "../src/site.js";
 
 const root = new URL("../", import.meta.url);
 const files = ["src/photos.js", "src/Gallery.jsx"];
@@ -49,7 +51,10 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // pause; a 404 is final.
 async function check({ address }) {
   if (!/^https?:\/\//.test(address)) {
-    const path = new URL(`public/${address.replace(/^\.?\//, "")}`, root);
+    const file = address.startsWith(basePath)
+      ? address.slice(basePath.length)
+      : address.replace(/^\.?\//, "");
+    const path = new URL(`public/${file}`, root);
 
     return existsSync(path)
       ? { ok: true }

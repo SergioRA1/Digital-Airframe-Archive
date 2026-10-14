@@ -17,6 +17,7 @@ import {
   useTerm,
   useText,
 } from "./i18n.js";
+import { navigate } from "./routes.js";
 
 const text = {
   en: {
@@ -149,15 +150,13 @@ export function LanguageSwitch() {
   const otherLanguage = language === "es" ? "en" : "es";
 
   return (
-    // Read the hash on click: the compare page updates it without a re-render.
+    // Read the address on click: the compare page updates it without a
+    // re-render.
     <a
-      href={switchLanguageHref(window.location.hash, otherLanguage)}
+      href={switchLanguageHref(window.location, otherLanguage)}
       onClick={(event) => {
         event.preventDefault();
-        window.location.hash = switchLanguageHref(
-          window.location.hash,
-          otherLanguage,
-        );
+        navigate(switchLanguageHref(window.location, otherLanguage));
       }}
       lang={otherLanguage}
       aria-label={t.switchLanguage}
@@ -236,7 +235,7 @@ export function PageHeader({
           type="button"
           onClick={() =>
             showHangarLink
-              ? (window.location.hash = href("#/"))
+              ? navigate(href("#/"))
               : selectSection("top")
           }
           className="group flex items-center gap-3 text-left"

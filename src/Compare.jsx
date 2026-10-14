@@ -11,7 +11,8 @@ import {
 
 import { aircraft } from "./aircraft.js";
 import { figuresByLanguage, metrics, metricsByLanguage } from "./figures.js";
-import { localise, term as translate, useLanguage, useHref, useTerm, useText } from "./i18n.js";
+import { localHref, localise, term as translate, useLanguage, useHref, useTerm, useText } from "./i18n.js";
+import { navigateEvent } from "./routes.js";
 import {
   GridBackdrop,
   PageFooter,
@@ -112,13 +113,11 @@ const seriesColours = ["#c7ff37", "#6fd3ff", "#ff8a5c"];
 const maxSelected = seriesColours.length;
 const defaultSelection = ["f-22", "j-20", "su-57"];
 
-// The selection lives in the URL (#/compare/f-22,j-20), so a comparison can
-// be shared as a link.
+// The selection lives in the address (compare/?aircraft=f-22,j-20), so a
+// comparison can be shared as a link.
 function readSelection() {
-  const [, list = ""] = window.location.hash
-    .replace(/^#\/?/, "")
-    .replace(/^es\//, "")
-    .split("/");
+  const list =
+    new URLSearchParams(window.location.search).get("aircraft") ?? "";
   const slugs = [...new Set(list.split(","))]
     .filter((slug) => peers.some((peer) => peer.slug === slug))
     .slice(0, maxSelected);
@@ -391,24 +390,28 @@ function Compare({ introDelay = 0.1 }) {
     });
   };
 
-  // replaceState does not fire hashchange, so App keeps the scroll position.
+  // replaceState fires no event, so App keeps the scroll position.
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
-      `${language === "es" ? "#/es" : "#"}/compare/${selected.join(",")}`,
+      localHref("#/compare", language) +
+        (selected.length ? `?aircraft=${selected.join(",")}` : ""),
     );
     setCopied(false);
   }, [selected, language]);
 
-  // A pasted comparison link changes the hash without remounting the page.
+  // Back and forward between comparisons, or a link to this page from the
+  // page itself, change the address without remounting it.
   useEffect(() => {
-    const handleHashChange = () => setSelected(readSelection());
+    const handleNavigation = () => setSelected(readSelection());
 
-    window.addEventListener("hashchange", handleHashChange);
+    window.addEventListener("popstate", handleNavigation);
+    window.addEventListener(navigateEvent, handleNavigation);
 
     return () => {
-      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("popstate", handleNavigation);
+      window.removeEventListener(navigateEvent, handleNavigation);
     };
   }, []);
 

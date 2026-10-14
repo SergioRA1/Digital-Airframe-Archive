@@ -32,6 +32,7 @@ import {
 } from "./Layout.jsx";
 import { Comparison } from "./Comparison.jsx";
 import { localise, useHref } from "./i18n.js";
+import { navigate } from "./routes.js";
 import {
   Reference,
   Specifications,
@@ -365,7 +366,7 @@ function J20({ introDelay = 0.1, translation }) {
   }));
 
   const openGallery = () => {
-    window.location.hash = href("#/j-20/gallery").slice(1);
+    navigate(href("#/j-20/gallery"));
   };
 
   return (

@@ -1,5 +1,7 @@
 import { createContext, useContext } from "react";
 
+import { hrefFor, readLocation, routePath } from "./routes.js";
+
 // The site is written in English. Spanish lives at #/es/..., and its text is
 // laid over the English data (see `localise`), so numbers, icons, links and
 // enum values are never copied into a translation.
@@ -23,20 +25,11 @@ export function useText(table) {
   };
 }
 
-// Turns a site link ("#/f-35", "#/") into the same page in `language`. Other
-// links, such as external URLs, are returned unchanged.
+// Turns a site route ("#/f-35", "#/") into the address of that page in
+// `language` (see src/routes.js). Other links, such as external URLs, are
+// returned unchanged.
 export function localHref(href, language) {
-  if (
-    language === "en" ||
-    typeof href !== "string" ||
-    !href.startsWith("#/") ||
-    href === "#/es" ||
-    href.startsWith("#/es/")
-  ) {
-    return href;
-  }
-
-  return href === "#/" ? "#/es/" : `#/es${href.slice(1)}`;
+  return hrefFor(href, language);
 }
 
 export function useHref() {
@@ -45,11 +38,10 @@ export function useHref() {
   return (href) => localHref(href, language);
 }
 
-// The same page in the other language, for the header switch.
-export function switchLanguageHref(hash, language) {
-  const path = hash.replace(/^#\/?/, "").replace(/^es(\/|$)/, "");
-
-  return language === "es" ? `#/es/${path}` : `#/${path}`;
+// The same page in the other language, for the header switch. Keeps the
+// query, such as the compare page's selection.
+export function switchLanguageHref(location, language) {
+  return routePath({ ...readLocation(location), language }) + location.search;
 }
 
 // React components such as lucide icons are plain objects too, so they are

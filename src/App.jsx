@@ -3,6 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import Home from "./Home.jsx";
 import { LanguageContext, localHref, localise } from "./i18n.js";
+import {
+  basePath,
+  documentTitle,
+  navigate,
+  navigateEvent,
+  readLocation,
+} from "./routes.js";
 
 // Each page loads on demand, so the hangar page ships without the data for
 // every aircraft. A page with Spanish text in its own module gets a
@@ -63,116 +70,81 @@ const Gallery = localised(
   () => import("./locales/es/gallery.js"),
 );
 
+// The page component for each route in src/routes.js (galleries, including
+// the archive, are rendered by Gallery).
 const pages = {
-  archive: {
-    title: {
-      en: "Visual archive",
-      es: "Archivo visual",
-    },
-    gallery: true,
-  },
   compare: {
-    title: {
-      en: "Compare",
-      es: "Comparar",
-    },
     component: localised(() => import("./Compare.jsx")),
   },
   timeline: {
-    title: {
-      en: "Timeline",
-      es: "Cronología",
-    },
     component: localised(
       () => import("./Chronology.jsx"),
       () => import("./locales/es/timeline.js"),
     ),
   },
   "j-20": {
-    title: "J-20",
     component: localised(
       () => import("./J20.jsx"),
       () => import("./locales/es/j20.js"),
     ),
   },
   "f-22": {
-    title: "F-22",
     component: localised(
       () => import("./F22.jsx"),
       () => import("./locales/es/f22.js"),
     ),
   },
-  "f-35": { title: "F-35", component: dataPage("f35", () => import("./pages/f35.js")) },
-  "su-57": { title: "Su-57", component: dataPage("su57", () => import("./pages/su57.js")) },
-  "f-16": { title: "F-16", component: dataPage("f16", () => import("./pages/f16.js")) },
-  typhoon: { title: "Typhoon", component: dataPage("typhoon", () => import("./pages/typhoon.js")) },
-  rafale: { title: "Rafale", component: dataPage("rafale", () => import("./pages/rafale.js")) },
-  gripen: { title: "Gripen", component: dataPage("gripen", () => import("./pages/gripen.js")) },
-  "j-35": { title: "J-35", component: dataPage("j35", () => import("./pages/j35.js")) },
-  "j-16": { title: "J-16", component: dataPage("j16", () => import("./pages/j16.js")) },
-  "j-15": { title: "J-15T", component: dataPage("j15", () => import("./pages/j15.js")) },
-  "f-15ex": { title: "F-15EX", component: dataPage("f15ex", () => import("./pages/f15ex.js")) },
+  "f-35": { component: dataPage("f35", () => import("./pages/f35.js")) },
+  "su-57": { component: dataPage("su57", () => import("./pages/su57.js")) },
+  "f-16": { component: dataPage("f16", () => import("./pages/f16.js")) },
+  typhoon: { component: dataPage("typhoon", () => import("./pages/typhoon.js")) },
+  rafale: { component: dataPage("rafale", () => import("./pages/rafale.js")) },
+  gripen: { component: dataPage("gripen", () => import("./pages/gripen.js")) },
+  "j-35": { component: dataPage("j35", () => import("./pages/j35.js")) },
+  "j-16": { component: dataPage("j16", () => import("./pages/j16.js")) },
+  "j-15": { component: dataPage("j15", () => import("./pages/j15.js")) },
+  "f-15ex": { component: dataPage("f15ex", () => import("./pages/f15ex.js")) },
 };
 
-const titles = {
-  en: {
-    home: "Airframe | Digital Aircraft Archive",
-    gallery: (name) => `${name} Gallery | Airframe Archive`,
-    page: (name) => `${name} | Airframe Archive`,
-  },
-  es: {
-    home: "Airframe | Archivo digital de aeronaves",
-    gallery: (name) => `Galería del ${name} | Archivo Airframe`,
-    page: (name) => `${name} | Archivo Airframe`,
-  },
-};
-
-const pageTitle = (page, language) =>
-  typeof page.title === "string" ? page.title : page.title[language];
-
-// Spanish pages sit under #/es/ (e.g. #/es/f-35/gallery); everything else is
-// English.
+// Titles live in src/routes.js, which the prerendered pages share. An old
+// "#/..." link is replaced by the page's own address before anything renders.
 function readRoute() {
-  let path = window.location.hash.replace(/^#\/?/, "");
-  let language = "en";
+  const route = readLocation(window.location);
 
-  if (path === "es" || path.startsWith("es/")) {
-    language = "es";
-    path = path.slice(3);
+  if (route.redirect) {
+    window.history.replaceState(null, "", route.redirect);
+
+    return readLocation(window.location);
   }
 
-  // Links from before the hangar page existed pointed at "#gallery".
-  if (path === "gallery") {
-    return {
-      language,
-      aircraft: "j-20",
-      gallery: true,
-    };
+  return route;
+}
+
+// A click on a link to another page of the site, to handle without a reload.
+// Modified clicks (new tab, download) and other sites are left to the browser.
+function internalAddress(event) {
+  const link = event.target.closest?.("a[href]");
+
+  if (
+    !link ||
+    event.defaultPrevented ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey ||
+    (link.target && link.target !== "_self") ||
+    link.hasAttribute("download")
+  ) {
+    return null;
   }
 
-  const [aircraft, view] = path.split("/");
+  const url = new URL(link.href, window.location.href);
 
-  if (aircraft === "archive") {
-    return {
-      language,
-      aircraft,
-      gallery: true,
-    };
-  }
-
-  if (!pages[aircraft]) {
-    return {
-      language,
-      aircraft: null,
-      gallery: false,
-    };
-  }
-
-  return {
-    language,
-    aircraft,
-    gallery: view === "gallery",
-  };
+  return url.origin === window.location.origin &&
+    url.pathname.startsWith(basePath)
+    ? url.pathname + url.search
+    : null;
 }
 
 function App() {
@@ -198,7 +170,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleNavigation = () => {
       setRoute(readRoute());
 
       window.scrollTo({
@@ -207,28 +179,32 @@ function App() {
       });
     };
 
-    window.addEventListener("hashchange", handleHashChange);
+    const handleClick = (event) => {
+      const address = internalAddress(event);
+
+      if (address) {
+        event.preventDefault();
+        navigate(address);
+      }
+    };
+
+    window.addEventListener(navigateEvent, handleNavigation);
+    // Back and forward, and an old "#/..." link pasted into the address bar.
+    window.addEventListener("popstate", handleNavigation);
+    window.addEventListener("hashchange", handleNavigation);
+    document.addEventListener("click", handleClick);
 
     return () => {
-      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener(navigateEvent, handleNavigation);
+      window.removeEventListener("popstate", handleNavigation);
+      window.removeEventListener("hashchange", handleNavigation);
+      document.removeEventListener("click", handleClick);
     };
   }, []);
 
   useEffect(() => {
-    const page = pages[route.aircraft];
-    const title = titles[route.language];
-
     document.documentElement.lang = route.language;
-
-    if (!page) {
-      document.title = title.home;
-    } else if (route.aircraft === "archive") {
-      document.title = title.page(pageTitle(page, route.language));
-    } else if (route.gallery) {
-      document.title = title.gallery(pageTitle(page, route.language));
-    } else {
-      document.title = title.page(pageTitle(page, route.language));
-    }
+    document.title = documentTitle(route);
   }, [route]);
 
   const { language } = route;
@@ -244,9 +220,11 @@ function App() {
         key={`${language}-${route.aircraft}`}
         aircraft={route.aircraft}
         onBack={() => {
-          window.location.hash = localHref(
-            route.aircraft === "archive" ? "#/" : `#/${route.aircraft}`,
-            language,
+          navigate(
+            localHref(
+              route.aircraft === "archive" ? "#/" : `#/${route.aircraft}`,
+              language,
+            ),
           );
         }}
       />

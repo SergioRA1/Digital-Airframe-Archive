@@ -12,10 +12,10 @@ An interactive digital exhibition of twelve modern combat aircraft, built as a s
 
 - **Twelve aircraft files**: J-20, F-22, F-35, Su-57, F-16, Typhoon, Rafale, Gripen, J-35A, J-16, J-15T and F-15EX. Each has design notes, specifications, a programme timeline, variants and a reference section.
 - **Confidence labels**: every specification and milestone is marked as confirmed, reported or estimated, so official figures are kept apart from press reporting.
-- **Interactive comparison**: pick up to three aircraft and compare speed, weight, combat radius, ceiling and size on animated bar charts, with a sortable table of all twelve. The selection is kept in the address, so a comparison such as `#/compare/f-22,j-20,typhoon` can be shared as a link.
+- **Interactive comparison**: pick up to three aircraft and compare speed, weight, combat radius, ceiling and size on animated bar charts, with a sortable table of all twelve. The selection is kept in the address, so a comparison such as `compare/?aircraft=f-22,j-20,typhoon` can be shared as a link.
 - **Combined timeline**: every milestone from every aircraft on one chart and in one list, filterable by origin and by confidence.
 - **Photo galleries**: a gallery for each aircraft and a combined archive. Every photo is freely licensed and credited with its photographer, licence and source.
-- **English and Spanish**: every page is available in Spanish at `#/es/...`, with a switch in the header. Spanish text is laid over the English data, so figures and links are never duplicated, and a test fails if any English text has no translation.
+- **English and Spanish**: every page is available in Spanish under `es/`, with a switch in the header. Spanish text is laid over the English data, so figures and links are never duplicated, and a test fails if any English text has no translation.
 - **Hangar index**: a home page that lists every aircraft, with search by designation, name, manufacturer or origin.
 - **Two hand-built pages**: the J-20 and F-22 pages have custom visuals, such as a radar display and aircraft drawings. The other ten are rendered from data by one shared template.
 
@@ -31,7 +31,7 @@ An interactive digital exhibition of twelve modern combat aircraft, built as a s
 - [lucide-react](https://lucide.dev/) icons
 - [ESLint](https://eslint.org/) and [Playwright](https://playwright.dev/) for linting and browser tests
 
-Plain JavaScript and JSX, with no backend. Routing is hash-based, and every page except the home page is loaded on demand.
+Plain JavaScript and JSX, with no backend. Every page has its own address, and the build writes an HTML file for each one with its title, description and text, so search engines and link previews can read every page; `dist/sitemap.xml` lists them all. In the browser the site moves between pages without reloading, and every page except the home page is loaded on demand.
 
 ## Running locally
 

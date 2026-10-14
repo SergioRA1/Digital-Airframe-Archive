@@ -89,3 +89,31 @@ svg {
     transition-duration: 0.01ms !important;
   }
 }
+/* Each page's text as written into its HTML file by scripts/prerender.js, for
+   search engines and link previews. Visitors see it only for the moment
+   before React replaces it, so it just needs to be readable on the dark
+   background. */
+.prerender {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 6rem 1.25rem;
+  line-height: 1.6;
+  color: rgb(237 240 233 / 0.75);
+}
+
+.prerender a {
+  color: #c7ff37;
+}
+
+.prerender h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #edf0e9;
+}
+
+.prerender ul,
+.prerender ol {
+  list-style: none;
+  padding: 0;
+}
