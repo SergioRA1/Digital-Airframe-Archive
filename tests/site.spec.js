@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from "node:fs";
 
 import { aircraft } from "../src/aircraft.js";
 import { checkTranslations, pairs } from "../scripts/check-translations.js";
-import { readAddresses } from "../scripts/check-photos.js";
+import { readAddresses, readReferences } from "../scripts/check-links.js";
 import { countWord } from "../src/counts.js";
 import { peers } from "../src/data/peers.js";
 import { siteUrl } from "../src/site.js";
@@ -585,24 +585,28 @@ test("\"the programme in N dates\" matches each page's milestones", async () => 
   expect(problems).toEqual([]);
 });
 
-// The weekly photo check (scripts/check-photos.js) only reads photos.js and
-// Gallery.jsx, so a photo address anywhere else would never be checked.
-test("every photo address is where the weekly check looks", () => {
-  const checked = new Set(readAddresses().map(({ address }) => address));
+// The weekly link check (scripts/check-links.js) reads photos from photos.js
+// and Gallery.jsx and references from src/pages/ and src/data/, so a link
+// anywhere else would never be checked.
+test("every photo and reference link is where the weekly check looks", () => {
+  const checked = new Set(
+    [...readAddresses(), ...readReferences()].map(({ address }) => address),
+  );
   const elsewhere = readdirSync("src", { recursive: true })
     .filter((file) => /\.jsx?$/.test(file))
     .flatMap((file) =>
       [
         ...readFileSync(`src/${file}`, "utf8").matchAll(
-          /\b(?:src|full):\s*"([^"]+)"/g,
+          /\b(?:src|full):\s*"([^"]+)"|\bhref:\s*"(https?:[^"]+)"/g,
         ),
       ]
-        .map((match) => match[1])
+        .map((match) => match[1] ?? match[2])
         .filter((address) => !checked.has(address))
         .map((address) => `src/${file}: ${address}`),
     );
 
   expect(readAddresses().length).toBeGreaterThan(100);
+  expect(readReferences().length).toBeGreaterThan(20);
   expect(elsewhere).toEqual([]);
 });
 

@@ -1,8 +1,8 @@
-name: Photo links
+name: Links
 
-# Once a week, check that every hotlinked photo still exists. If any are
-# broken, open an issue listing them (or update the open one); when they are
-# all fixed, close it.
+# Once a week, check that every hotlinked photo and every reference link
+# still works. If any are broken, open an issue listing them (or update the
+# open one); when they are all fixed, close it.
 on:
   schedule:
     - cron: "17 6 * * 1"
@@ -13,12 +13,12 @@ permissions:
   issues: write
 
 jobs:
-  photos:
+  links:
     # Same image as deploy.yml.
     runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
-      TITLE: Broken photo links
+      TITLE: Broken links
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -26,7 +26,7 @@ jobs:
           node-version: 24
       # The script uses only Node's own modules, so no npm ci is needed.
       - id: check
-        run: node scripts/check-photos.js --report report.md
+        run: node scripts/check-links.js --report report.md
         continue-on-error: true
       - name: Open, update or close the issue
         run: |
@@ -39,8 +39,8 @@ jobs:
               gh issue create --title "$TITLE" --body-file report.md
             fi
           elif [ "${{ steps.check.outcome }}" = "success" ] && [ -n "$issue" ]; then
-            gh issue close "$issue" --comment "All photo links work again ($(date -u +%F))."
+            gh issue close "$issue" --comment "All links work again ($(date -u +%F))."
           fi
-      - name: Fail the run if photos are broken
+      - name: Fail the run if links are broken
         if: steps.check.outcome != 'success'
         run: exit 1
