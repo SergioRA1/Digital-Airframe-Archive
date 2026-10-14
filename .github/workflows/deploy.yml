@@ -16,7 +16,9 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Pinned rather than ubuntu-latest, which moves to a new Ubuntu release on
+    # GitHub's schedule. Change it on purpose, after a test run on the new image.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -24,6 +26,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # The tests use Google Chrome. The runner image includes it; install it
+      # only if an image ever comes without it.
+      - run: command -v google-chrome || npx playwright install --with-deps chrome
       - run: npm run lint
       # A failing test stops the job, so a broken build never reaches the site.
       - run: npm test
@@ -34,7 +39,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
