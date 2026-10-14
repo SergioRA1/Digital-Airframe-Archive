@@ -50,7 +50,11 @@ async function open(page, path) {
     }
   });
 
-  await page.goto(path);
+  // Don't wait for the "load" event: it waits for every photo, and while
+  // other tests fetch hundreds of Wikimedia photos the browser's
+  // connections to Wikimedia are all busy. The site is ready once the boot
+  // overlay has gone.
+  await page.goto(path, { waitUntil: "domcontentloaded" });
   await expect(page.locator("[data-boot]")).toHaveCount(0);
 
   return errors;
@@ -317,6 +321,18 @@ test.describe("addresses", () => {
       expect(html, address(route)).toContain(`<title>${documentTitle(route)}</title>`);
       expect(html, address(route)).toContain(`<link rel="canonical" href="${url}" />`);
       expect(html, address(route)).toMatch(/<div class="prerender">.*<h1>/s);
+
+      // Its own link-preview image, which must exist.
+      const image = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+
+      expect(image, address(route)).toMatch(
+        new RegExp(`^${siteUrl}og/${route.language}/[a-z0-9-]+\\.png$`),
+      );
+
+      const response = await request.get(image.slice(siteUrl.length));
+
+      expect(response.status(), image).toBe(200);
+      expect(response.headers()["content-type"]).toBe("image/png");
     }
   });
 

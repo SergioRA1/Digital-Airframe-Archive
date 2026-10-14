@@ -8,8 +8,9 @@
 //     alternates (hreflang), and Open Graph tags for link previews;
 //   - the page's main text and links, inside #root, which React replaces
 //     when it starts.
-// It also writes dist/404.html, which GitHub Pages serves for any other
-// address (the app then shows the hangar), and dist/sitemap.xml.
+// It also writes a link-preview image for each page (dist/og/), dist/404.html,
+// which GitHub Pages serves for any other address (the app then shows the
+// hangar), and dist/sitemap.xml.
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
@@ -18,7 +19,10 @@ import { fileURLToPath } from "node:url";
 import { aircraft as englishAircraft } from "../src/aircraft.js";
 import { counts } from "../src/counts.js";
 import { peers as englishPeers } from "../src/data/peers.js";
-import { galleryText as englishGalleryText } from "../src/data/gallery.js";
+import {
+  captions,
+  galleryText as englishGalleryText,
+} from "../src/data/gallery.js";
 import { formatDate, localise, term } from "../src/i18n.js";
 import { aircraft as spanishAircraft } from "../src/locales/es/aircraft.js";
 import { peers as spanishPeers } from "../src/locales/es/peers.js";
@@ -32,6 +36,12 @@ import {
   routePath,
 } from "../src/routes.js";
 import { siteUrl } from "../src/site.js";
+import {
+  aircraftPreview,
+  hangarPreview,
+  height as previewHeight,
+  width as previewWidth,
+} from "./previews/render.js";
 
 const dist = new URL("../dist/", import.meta.url);
 
@@ -315,8 +325,148 @@ const alternates = (route) => ({
   es: absolute({ ...route, language: "es" }),
 });
 
+// The link-preview image for each page (scripts/previews/render.js), written
+// to dist/og/<language>/<name>.png. An aircraft's gallery shares its image.
+const previewLabels = {
+  en: {
+    generation: "Generation",
+    firstFlight: "First flight",
+    service: "In service",
+    alt: (name) => `Airframe: ${name}, its outline and key dates`,
+    home: ["THE", "HANGAR"],
+    homeEyebrow: "Digital airframe archive",
+    homeStats: (aircraftCount, originCount) => [
+      [String(aircraftCount).padStart(2, "0"), "Aircraft files"],
+      [String(originCount).padStart(2, "0"), "Origins"],
+      ["CC", "Attributed photography"],
+    ],
+    compare: ["HEAD", "TO HEAD"],
+    compareEyebrow: "Interactive comparison",
+    compareStats: (aircraftCount) => [
+      ["3", "Aircraft at a time"],
+      [aircraftCount, "In the table"],
+    ],
+    timeline: ["FIFTY YEARS", "OF FIGHTERS"],
+    timelineEyebrow: "Timeline",
+    timelineStats: (milestones, aircraftCount) => [
+      [milestones, "Milestones"],
+      [aircraftCount, "Aircraft"],
+    ],
+    archive: ["VISUAL", "ARCHIVE"],
+    archiveEyebrow: "Photo archive",
+    archiveStats: (photos, aircraftCount) => [
+      [photos, "Photographs"],
+      [aircraftCount, "Aircraft"],
+    ],
+  },
+  es: {
+    generation: "Generación",
+    firstFlight: "Primer vuelo",
+    service: "En servicio",
+    alt: (name) => `Airframe: ${name}, su silueta y fechas clave`,
+    home: ["EL", "HANGAR"],
+    homeEyebrow: "Archivo digital de aeronaves",
+    homeStats: (aircraftCount, originCount) => [
+      [String(aircraftCount).padStart(2, "0"), "Fichas de aeronaves"],
+      [String(originCount).padStart(2, "0"), "Orígenes"],
+      ["CC", "Fotografía con atribución"],
+    ],
+    compare: ["CARA", "A CARA"],
+    compareEyebrow: "Comparación interactiva",
+    compareStats: (aircraftCount) => [
+      ["3", "Aviones a la vez"],
+      [aircraftCount, "En la tabla"],
+    ],
+    timeline: ["CINCUENTA AÑOS", "DE CAZAS"],
+    timelineEyebrow: "Cronología",
+    timelineStats: (milestones, aircraftCount) => [
+      [milestones, "Hitos"],
+      [aircraftCount, "Aviones"],
+    ],
+    archive: ["ARCHIVO", "VISUAL"],
+    archiveEyebrow: "Archivo fotográfico",
+    archiveStats: (photos, aircraftCount) => [
+      [photos, "Fotografías"],
+      [aircraftCount, "Aviones"],
+    ],
+  },
+};
+
+const silhouetteOf = (slug) =>
+  englishAircraft.find((entry) => entry.slug === slug).silhouette;
+const milestoneCount = aircraftSlugs.reduce(
+  (sum, slug) => sum + content[slug].en.milestones.length,
+  0,
+);
+const photoCount = Object.keys(captions).length;
+const originCount = new Set(
+  englishAircraft.filter((entry) => entry.available).map((entry) => entry.origin),
+).size;
+const previews = new Map();
+
+// The preview's file name and alt text, drawing the image the first time.
+function preview(route) {
+  const { language, aircraft: slug } = route;
+  const labels = previewLabels[language];
+  const name = slug ?? "home";
+  const file = `og/${language}/${name}.png`;
+  let alt;
+
+  if (aircraftSlugs.includes(slug)) {
+    const entry = entryFor(slug, language);
+
+    alt = labels.alt(`${entry.manufacturer} ${entry.designation} ${entry.name}`);
+
+    if (!previews.has(file)) {
+      previews.set(
+        file,
+        aircraftPreview({
+          language,
+          title: pageName(slug, language),
+          entry,
+          labels,
+        }),
+      );
+    }
+  } else {
+    const [top, bottom] = labels[name];
+    const stats = {
+      home: () => labels.homeStats(aircraftSlugs.length, originCount),
+      compare: () => labels.compareStats(aircraftSlugs.length),
+      timeline: () => labels.timelineStats(milestoneCount, aircraftSlugs.length),
+      archive: () => labels.archiveStats(photoCount, aircraftSlugs.length),
+    }[name]();
+    const silhouettes = {
+      home: ["j-20"],
+      compare: ["f-22", "j-20", "su-57"],
+      timeline: aircraftSlugs,
+      archive: aircraftSlugs.slice(0, 4),
+    }[name].map(silhouetteOf);
+
+    alt = `Airframe: ${top} ${bottom}`;
+
+    if (!previews.has(file)) {
+      previews.set(
+        file,
+        hangarPreview({
+          language,
+          kind: name,
+          top,
+          bottom,
+          eyebrow: labels[`${name}Eyebrow`],
+          stats,
+          silhouettes,
+        }),
+      );
+    }
+  }
+
+  return { url: siteUrl + file, alt };
+}
+
 function head(route, title, description) {
   const urls = alternates(route);
+  const image = preview(route);
   const url = urls[route.language];
   const t = text[route.language];
   const otherLocale = text[route.language === "es" ? "en" : "es"].locale;
@@ -331,7 +481,11 @@ function head(route, title, description) {
     <meta property="og:description" content="${escape(description)}" />
     <meta property="og:url" content="${escape(url)}" />
     <meta property="og:locale" content="${t.locale}" />
-    <meta property="og:locale:alternate" content="${otherLocale}" />`;
+    <meta property="og:locale:alternate" content="${otherLocale}" />
+    <meta property="og:image" content="${escape(image.url)}" />
+    <meta property="og:image:width" content="${previewWidth}" />
+    <meta property="og:image:height" content="${previewHeight}" />
+    <meta property="og:image:alt" content="${escape(image.alt)}" />`;
 }
 
 const template = readFileSync(new URL("index.html", dist), "utf8");
@@ -412,4 +566,10 @@ ${sitemapEntries}
 `,
 );
 
-console.log(`Prerendered ${allRoutes.length} pages, 404.html and sitemap.xml`);
+for (const [file, png] of previews) {
+  write(file, png);
+}
+
+console.log(
+  `Prerendered ${allRoutes.length} pages, ${previews.size} preview images, 404.html and sitemap.xml`,
+);
