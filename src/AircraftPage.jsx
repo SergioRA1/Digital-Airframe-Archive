@@ -29,7 +29,7 @@ const text = {
       ["compare", "Compare"],
       ["reference", "Reference"],
     ],
-    silhouette: (name) => `Stylized ${name} silhouette seen from above`,
+    silhouette: (name) => `Stylised ${name} silhouette seen from above`,
     enterArchive: "Enter archive",
     viewPhotography: "View photography",
     visualModel: "Visual model",

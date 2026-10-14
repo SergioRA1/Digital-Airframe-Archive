@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
+import { aircraft as spanishAircraft } from "./locales/es/aircraft.js";
+import {
+  localise,
+  useHref,
+  useLanguage,
+  useTerm,
+  useText,
+} from "./i18n.js";
 import {
   GridBackdrop,
   PageFooter,
@@ -31,29 +39,134 @@ const teaser = [
   ["F-15EX", "f15_ex"],
 ];
 
-const navigationItems = [
-  ["aircraft", "Aircraft"],
-  ["archive", "Archive"],
-  ["compare", "Compare"],
-  ["analysis", "Analysis"],
-];
-
 const sectionIds = ["top", "aircraft", "archive", "compare", "analysis"];
 
-const tools = [
-  {
-    href: "#/compare",
-    kicker: "Interactive comparison",
-    title: "Head to head",
-    text: "Pick up to three aircraft and compare speed, weight, range and size on animated charts, with a sortable table of all twelve.",
+const toolLinks = ["#/compare", "#/timeline"];
+
+const text = {
+  en: {
+    navigation: [
+      ["aircraft", "Aircraft"],
+      ["archive", "Archive"],
+      ["compare", "Compare"],
+      ["analysis", "Analysis"],
+    ],
+    tools: [
+      {
+        kicker: "Interactive comparison",
+        title: "Head to head",
+        text: "Pick up to three aircraft and compare speed, weight, range and size on animated charts, with a sortable table of all twelve.",
+      },
+      {
+        kicker: "Combined timeline",
+        title: "Fifty years of fighters",
+        text: "Every milestone from every file on one axis, filterable by origin and by how well each entry is sourced.",
+      },
+    ],
+    groups: [
+      {
+        title: "Fifth generation",
+        note: "Low-observable designs that carry weapons internally and fuse sensor data.",
+      },
+      {
+        title: "Fourth generation and 4.5",
+        note: "Agile, heavily upgraded fighters that remain the backbone of many air forces.",
+      },
+    ],
+    all: "All",
+    file: "File",
+    open: "Open",
+    silhouette: (designation) => `Stylised ${designation} silhouette`,
+    firstFlight: "First flight",
+    inService: "In service",
+    openFile: "Open file",
+    files: "files",
+    label: "Digital airframe archive",
+    heroTop: "THE",
+    heroBottom: "HANGAR",
+    intro:
+      "An independent digital exhibition of modern combat aircraft. Each file collects the design, public history, specifications and photography of one airframe.",
+    browse: "Browse aircraft",
+    aircraftFiles: "Aircraft files",
+    origins: "Origins",
+    photography: "Attributed photography",
+    aircraftLabel: "01 / Aircraft",
+    aircraftHeading: "Choose an airframe.",
+    aircraftIntro:
+      "Open a file to explore the aircraft in detail, or scroll on for a side-by-side comparison.",
+    filter: "Filter aircraft by origin",
+    archiveLabel: "02 / Visual archive",
+    archiveHeading: "Every photograph, in sequence.",
+    archiveIntro:
+      "Watch the whole collection as one continuous reel, from the J-20 to the F-15EX, or open a single aircraft file for its own gallery.",
+    playArchive: "Play the full archive",
+    preview: (label) => `${label} preview`,
+    compareHeading: "Side by side.",
+    analysisLabel: "04 / Analysis",
+    analysisHeading: "Explore the data.",
   },
-  {
-    href: "#/timeline",
-    kicker: "Combined timeline",
-    title: "Fifty years of fighters",
-    text: "Every milestone from every file on one axis, filterable by origin and by how well each entry is sourced.",
+  es: {
+    navigation: [
+      ["aircraft", "Aeronaves"],
+      ["archive", "Archivo"],
+      ["compare", "Comparar"],
+      ["analysis", "Análisis"],
+    ],
+    tools: [
+      {
+        kicker: "Comparación interactiva",
+        title: "Cara a cara",
+        text: "Se pueden elegir hasta tres aeronaves y comparar velocidad, peso, alcance y tamaño en gráficos animados, con una tabla ordenable de las doce.",
+      },
+      {
+        kicker: "Cronología combinada",
+        title: "Cincuenta años de cazas",
+        text: "Todos los hitos de todas las fichas en un único eje, con filtros por origen y por la calidad de las fuentes de cada entrada.",
+      },
+    ],
+    groups: [
+      {
+        title: "Quinta generación",
+        note: "Diseños de baja observabilidad que llevan el armamento en el interior y fusionan los datos de los sensores.",
+      },
+      {
+        title: "Cuarta generación y 4.5",
+        note: "Cazas ágiles y muy modernizados que siguen siendo la columna vertebral de muchas fuerzas aéreas.",
+      },
+    ],
+    all: "Todo",
+    file: "Ficha",
+    open: "Abrir",
+    silhouette: (designation) => `Silueta estilizada del ${designation}`,
+    firstFlight: "Primer vuelo",
+    inService: "En servicio",
+    openFile: "Abrir ficha",
+    files: "fichas",
+    label: "Archivo digital de células",
+    heroTop: "EL",
+    heroBottom: "HANGAR",
+    intro:
+      "Una exposición digital independiente de aviones de combate modernos. Cada ficha reúne el diseño, la historia pública, las especificaciones y la fotografía de una célula.",
+    browse: "Ver aeronaves",
+    aircraftFiles: "Fichas de aeronaves",
+    origins: "Orígenes",
+    photography: "Fotografía con atribución",
+    aircraftLabel: "01 / Aeronaves",
+    aircraftHeading: "Elige una célula.",
+    aircraftIntro:
+      "Abre una ficha para explorar la aeronave en detalle, o sigue bajando para ver una comparación lado a lado.",
+    filter: "Filtrar aeronaves por origen",
+    archiveLabel: "02 / Archivo visual",
+    archiveHeading: "Todas las fotografías, en secuencia.",
+    archiveIntro:
+      "Se puede ver toda la colección como un único carrete continuo, del J-20 al F-15EX, o abrir la ficha de una aeronave para ver su propia galería.",
+    playArchive: "Reproducir todo el archivo",
+    preview: (label) => `Vista previa del ${label}`,
+    compareHeading: "Lado a lado.",
+    analysisLabel: "04 / Análisis",
+    analysisHeading: "Explorar los datos.",
   },
-];
+};
 
 const availableAircraft = aircraft.filter((entry) => entry.available);
 const originCount = new Set(availableAircraft.map((entry) => entry.origin))
@@ -61,23 +174,19 @@ const originCount = new Set(availableAircraft.map((entry) => entry.origin))
 
 const origins = ["All", ...new Set(availableAircraft.map((e) => e.origin))];
 
-const groupDefinitions = [
-  {
-    title: "Fifth generation",
-    note: "Low-observable designs that carry weapons internally and fuse sensor data.",
-    match: (entry) => entry.generation === "5",
-  },
-  {
-    title: "Fourth generation and 4.5",
-    note: "Agile, heavily upgraded fighters that remain the backbone of many air forces.",
-    match: (entry) => entry.generation !== "5",
-  },
+const groupMatches = [
+  (entry) => entry.generation === "5",
+  (entry) => entry.generation !== "5",
 ];
 
 function AircraftCard({ entry, index, fileNumber }) {
+  const t = useText(text);
+  const href = useHref();
+  const translate = useTerm();
+
   return (
     <motion.a
-      href={`#/${entry.slug}`}
+      href={href(`#/${entry.slug}`)}
       initial={{
         opacity: 0,
         y: 40,
@@ -98,12 +207,12 @@ function AircraftCard({ entry, index, fileNumber }) {
     >
       <div className="flex items-center justify-between font-mono text-xs sm:text-[10px] uppercase tracking-[.22em]">
         <span className="text-white/50">
-          File / {String(fileNumber).padStart(2, "0")} · {entry.origin}
+          {t.file} / {String(fileNumber).padStart(2, "0")} · {translate(entry.origin)}
         </span>
 
         <span className="flex items-center gap-2 text-lime-300">
           <span className="h-1 w-1 rounded-full bg-lime-300" />
-          Open
+          {t.open}
         </span>
       </div>
 
@@ -111,7 +220,7 @@ function AircraftCard({ entry, index, fileNumber }) {
         viewBox="100 0 1000 470"
         className="mx-auto mt-8 w-full max-w-md transition-transform duration-700 group-hover:-translate-y-2"
         role="img"
-        aria-label={`Stylized ${entry.designation} silhouette`}
+        aria-label={t.silhouette(entry.designation)}
       >
         <path
           d={entry.silhouette}
@@ -140,17 +249,17 @@ function AircraftCard({ entry, index, fileNumber }) {
             <b className="block text-sm text-white/85">
               {entry.firstFlight}
             </b>
-            First flight
+            {t.firstFlight}
           </div>
 
           <div>
             <b className="block text-sm text-white/85">{entry.service}</b>
-            In service
+            {t.inService}
           </div>
         </div>
 
         <span className="flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition group-hover:text-lime-300">
-          Open file
+          {t.openFile}
           <ArrowRight
             size={15}
             className="transition-transform group-hover:translate-x-1"
@@ -164,15 +273,27 @@ function AircraftCard({ entry, index, fileNumber }) {
 }
 
 function Home({ introDelay = 0.1 }) {
+  const t = useText(text);
+  const language = useLanguage();
+  const href = useHref();
+  const translate = useTerm();
   const activeSection = useActiveSection(sectionIds);
   const [origin, setOrigin] = useState("All");
 
-  const groups = groupDefinitions
-    .map((group) => ({
+  const shown = useMemo(
+    () =>
+      (language === "es" ? localise(aircraft, spanishAircraft) : aircraft)
+        .filter((entry) => entry.available),
+    [language],
+  );
+
+  const groups = t.groups
+    .map((group, groupIndex) => ({
       ...group,
-      items: availableAircraft.filter(
+      items: shown.filter(
         (entry) =>
-          group.match(entry) && (origin === "All" || entry.origin === origin),
+          groupMatches[groupIndex](entry) &&
+          (origin === "All" || entry.origin === origin),
       ),
     }))
     .filter((group) => group.items.length > 0);
@@ -185,7 +306,7 @@ function Home({ introDelay = 0.1 }) {
 
       <PageHeader
         badge="AF"
-        items={navigationItems}
+        items={t.navigation}
         activeSection={activeSection}
         showHangarLink={false}
         search
@@ -211,18 +332,16 @@ function Home({ introDelay = 0.1 }) {
             }}
             className="relative mx-auto w-full max-w-[1500px]"
           >
-            <SectionLabel>Digital airframe archive</SectionLabel>
+            <SectionLabel>{t.label}</SectionLabel>
 
             <h1 className="text-[clamp(3.5rem,11vw,10rem)] font-black leading-[.8] tracking-[-.075em]">
-              THE
-              <span className="block text-white/30">HANGAR</span>
+              {t.heroTop}
+              <span className="block text-white/30">{t.heroBottom}</span>
             </h1>
 
             <div className="mt-10 grid max-w-4xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
               <p className="max-w-xl text-sm leading-7 text-white/60 md:text-base">
-                An independent digital exhibition of modern combat aircraft.
-                Each file collects the design, public history, specifications
-                and photography of one airframe.
+                {t.intro}
               </p>
 
               <button
@@ -230,7 +349,7 @@ function Home({ introDelay = 0.1 }) {
                 onClick={() => goToSection("aircraft")}
                 className="group flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
               >
-                Browse aircraft
+                {t.browse}
 
                 <ChevronRight
                   size={15}
@@ -244,19 +363,19 @@ function Home({ introDelay = 0.1 }) {
                 <span className="mr-3 text-lime-300">
                   {String(availableAircraft.length).padStart(2, "0")}
                 </span>
-                Aircraft files
+                {t.aircraftFiles}
               </div>
 
               <div>
                 <span className="mr-3 text-lime-300">
                   {String(originCount).padStart(2, "0")}
                 </span>
-                Origins
+                {t.origins}
               </div>
 
               <div>
                 <span className="mr-3 text-lime-300">CC</span>
-                Attributed photography
+                {t.photography}
               </div>
             </div>
           </motion.div>
@@ -269,23 +388,22 @@ function Home({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-14 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>01 / Aircraft</SectionLabel>
+                <SectionLabel>{t.aircraftLabel}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  Choose an airframe.
+                  {t.aircraftHeading}
                 </h2>
               </div>
 
               <p className="max-w-xl text-sm leading-7 text-white/50">
-                Open a file to explore the aircraft in detail, or scroll on
-                for a side-by-side comparison.
+                {t.aircraftIntro}
               </p>
             </div>
 
             <div
               className="mb-10 flex flex-wrap gap-2"
               role="group"
-              aria-label="Filter aircraft by origin"
+              aria-label={t.filter}
             >
               {origins.map((name) => (
                 <button
@@ -299,7 +417,7 @@ function Home({ introDelay = 0.1 }) {
                       : "border-white/15 text-white/60 hover:border-lime-300 hover:text-lime-300"
                   }`}
                 >
-                  {name}
+                  {name === "All" ? t.all : translate(name)}
                 </button>
               ))}
             </div>
@@ -312,7 +430,7 @@ function Home({ introDelay = 0.1 }) {
                   </h3>
 
                   <p className="font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
-                    {group.items.length} files · {group.note}
+                    {group.items.length} {t.files} · {group.note}
                   </p>
                 </div>
 
@@ -322,7 +440,7 @@ function Home({ introDelay = 0.1 }) {
                       key={entry.slug}
                       entry={entry}
                       index={index}
-                      fileNumber={availableAircraft.indexOf(entry) + 1}
+                      fileNumber={shown.indexOf(entry) + 1}
                     />
                   ))}
                 </div>
@@ -338,25 +456,23 @@ function Home({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>02 / Visual archive</SectionLabel>
+                <SectionLabel>{t.archiveLabel}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  Every photograph, in sequence.
+                  {t.archiveHeading}
                 </h2>
               </div>
 
               <div>
                 <p className="max-w-xl text-sm leading-7 text-white/50">
-                  Watch the whole collection as one continuous reel, from the
-                  J-20 to the F-15EX, or open a single aircraft file for its
-                  own gallery.
+                  {t.archiveIntro}
                 </p>
 
                 <a
-                  href="#/archive"
+                  href={href("#/archive")}
                   className="group mt-8 flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
                 >
-                  Play the full archive
+                  {t.playArchive}
 
                   <ArrowRight
                     size={15}
@@ -370,12 +486,12 @@ function Home({ introDelay = 0.1 }) {
               {teaser.map(([label, key]) => (
                 <a
                   key={key}
-                  href="#/archive"
+                  href={href("#/archive")}
                   className="group relative block aspect-[4/3] overflow-hidden bg-[#080b0c]"
                 >
                   <img
                     src={photos[key].src}
-                    alt={`${label} preview`}
+                    alt={t.preview(label)}
                     loading="lazy"
                     decoding="async"
                     className="h-full w-full object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-100"
@@ -392,7 +508,7 @@ function Home({ introDelay = 0.1 }) {
 
         <Comparison
           number="03"
-          heading="Side by side."
+          heading={t.compareHeading}
         />
 
         <section
@@ -401,18 +517,18 @@ function Home({ introDelay = 0.1 }) {
         >
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-12">
-              <SectionLabel>04 / Analysis</SectionLabel>
+              <SectionLabel>{t.analysisLabel}</SectionLabel>
 
               <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                Explore the data.
+                {t.analysisHeading}
               </h2>
             </div>
 
             <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
-              {tools.map((tool, index) => (
+              {t.tools.map((tool, index) => (
                 <motion.a
-                  key={tool.href}
-                  href={tool.href}
+                  key={toolLinks[index]}
+                  href={href(toolLinks[index])}
                   initial={{
                     opacity: 0,
                     y: 30,
@@ -444,7 +560,7 @@ function Home({ introDelay = 0.1 }) {
                   </p>
 
                   <span className="mt-auto flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition group-hover:text-lime-300">
-                    Open
+                    {t.open}
                     <ArrowRight
                       size={15}
                       className="transition-transform group-hover:translate-x-1"

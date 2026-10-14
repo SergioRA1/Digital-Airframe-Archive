@@ -10,7 +10,8 @@ import {
 } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
-import { figures, metrics } from "./figures.js";
+import { figuresByLanguage, metrics, metricsByLanguage } from "./figures.js";
+import { localise, term as translate, useLanguage, useHref, useTerm, useText } from "./i18n.js";
 import {
   GridBackdrop,
   PageFooter,
@@ -20,14 +21,90 @@ import {
   useActiveSection,
 } from "./Layout.jsx";
 import { peers } from "./data/peers.js";
+import { peers as spanishPeers } from "./locales/es/peers.js";
 
-const navigationItems = [
-  ["top", "Select"],
-  ["chart", "Chart"],
-  ["table", "Table"],
-];
+const text = {
+  en: {
+    navigationItems: [
+      ["top", "Select"],
+      ["chart", "Chart"],
+      ["table", "Table"],
+    ],
+    eyebrow: "Interactive comparison",
+    heroTop: "HEAD",
+    heroBottom: "TO HEAD",
+    intro:
+      "Pick up to three aircraft to compare their published performance. A fourth choice replaces the oldest one. The address updates as you choose, so any comparison can be shared.",
+    pickerLabel: "Choose aircraft to compare",
+    linkCopied: "Link copied",
+    copyLink: "Copy link to this comparison",
+    chartLabel: "01 / Chart",
+    chartHeading: "Measured against the field.",
+    chartIntro:
+      "Each bar runs from zero to the highest figure among all twelve aircraft. Faint ticks mark the other aircraft, and the rank counts only aircraft with a published figure.",
+    footnote:
+      "Figures from each aircraft's specifications · Ranges are plotted at their midpoint · \"Mach 2 class\" is plotted as Mach 2.0 · Published figures are not like-for-like, and combat radius depends heavily on the mission and load",
+    tableLabel: "02 / Table",
+    tableHeading: "All twelve, sorted your way.",
+    tableIntro:
+      "Select a column heading to sort, and again to reverse the order. Use the dot at the start of a row to add that aircraft to the chart.",
+    caption:
+      "Published figures for twelve fighters. Column headings sort the table.",
+    inChart: "In chart",
+    notPublished: "Not published",
+    tableNote: "— Not published · Unpublished figures sort last",
+    aircraft: "Aircraft",
+    generation: "Gen.",
+    origin: "Origin",
+    firstFlight: "First flight",
+    service: "In service",
+    remove: (name) => `Remove ${name} from the chart`,
+    add: (name) => `Add ${name} to the chart`,
+    footerLabel: "AIRFRAME / COMPARE",
+  },
+  es: {
+    navigationItems: [
+      ["top", "Elegir"],
+      ["chart", "Gráfico"],
+      ["table", "Tabla"],
+    ],
+    eyebrow: "Comparación interactiva",
+    heroTop: "CARA",
+    heroBottom: "A CARA",
+    intro:
+      "Elige hasta tres aviones para comparar sus prestaciones publicadas. Una cuarta elección sustituye a la más antigua. La dirección se actualiza con cada cambio, así que cualquier comparación puede compartirse.",
+    pickerLabel: "Elegir aviones para comparar",
+    linkCopied: "Enlace copiado",
+    copyLink: "Copiar enlace de esta comparación",
+    chartLabel: "01 / Gráfico",
+    chartHeading: "Frente al resto.",
+    chartIntro:
+      "Cada barra va de cero a la cifra más alta de los doce aviones. Las marcas tenues señalan a los demás aviones, y la posición solo cuenta los aviones con cifra publicada.",
+    footnote:
+      "Cifras tomadas de las especificaciones de cada avión · Los intervalos se representan por su punto medio · «Clase Mach 2» se representa como Mach 2,0 · Las cifras publicadas no son del todo comparables, y el radio de combate depende mucho de la misión y de la carga",
+    tableLabel: "02 / Tabla",
+    tableHeading: "Los doce, ordenados a tu gusto.",
+    tableIntro:
+      "Pulsa el título de una columna para ordenar, y otra vez para invertir el orden. Usa el punto al inicio de una fila para añadir ese avión al gráfico.",
+    caption:
+      "Cifras publicadas de doce cazas. Los títulos de columna ordenan la tabla.",
+    inChart: "En el gráfico",
+    notPublished: "No publicado",
+    tableNote: "— No publicado · Las cifras no publicadas van al final",
+    aircraft: "Avión",
+    generation: "Gen.",
+    origin: "Origen",
+    firstFlight: "Primer vuelo",
+    service: "En servicio",
+    remove: (name) => `Quitar ${name} del gráfico`,
+    add: (name) => `Añadir ${name} al gráfico`,
+    footerLabel: "AIRFRAME / COMPARAR",
+  },
+};
 
-const sectionIds = navigationItems.map(([sectionId]) => sectionId);
+const sectionIds = text.en.navigationItems.map(([sectionId]) => sectionId);
+
+const figures = figuresByLanguage.en;
 
 // One colour per selection slot. Lime matches the site accent.
 const seriesColours = ["#c7ff37", "#6fd3ff", "#ff8a5c"];
@@ -37,7 +114,10 @@ const defaultSelection = ["f-22", "j-20", "su-57"];
 // The selection lives in the URL (#/compare/f-22,j-20), so a comparison can
 // be shared as a link.
 function readSelection() {
-  const [, list = ""] = window.location.hash.replace(/^#\/?/, "").split("/");
+  const [, list = ""] = window.location.hash
+    .replace(/^#\/?/, "")
+    .replace(/^es\//, "")
+    .split("/");
   const slugs = [...new Set(list.split(","))]
     .filter((slug) => peers.some((peer) => peer.slug === slug))
     .slice(0, maxSelected);
@@ -67,57 +147,63 @@ const metricMaximum = Object.fromEntries(
   ]),
 );
 
-const columns = [
-  {
-    key: "name",
-    label: "Aircraft",
-    sortValue: (peer) => designations[peer.slug],
-  },
-  {
-    key: "generation",
-    label: "Gen.",
-    sortValue: (peer) => Number(peer.generation),
-  },
-  {
-    key: "origin",
-    label: "Origin",
-    sortValue: (peer) => peer.origin,
-  },
-  {
-    key: "firstFlight",
-    label: "First flight",
-    sortValue: (peer) => Number(peer.firstFlight),
-  },
-  {
-    key: "service",
-    label: "In service",
-    sortValue: (peer) => Number(peer.service),
-  },
-  ...metrics.map((metric) => ({
-    key: metric.key,
-    label: metric.label,
-    unit: metric.unit,
-    figure: true,
-    sortValue: (peer) => figures[peer.slug][metric.key]?.value ?? null,
-  })),
-];
+function buildColumns(t, shownMetrics) {
+  return [
+    {
+      key: "name",
+      label: t.aircraft,
+      sortValue: (peer) => designations[peer.slug],
+    },
+    {
+      key: "generation",
+      label: t.generation,
+      sortValue: (peer) => Number(peer.generation),
+    },
+    {
+      key: "origin",
+      label: t.origin,
+      sortValue: (peer) => peer.origin,
+    },
+    {
+      key: "firstFlight",
+      label: t.firstFlight,
+      sortValue: (peer) => Number(peer.firstFlight),
+    },
+    {
+      key: "service",
+      label: t.service,
+      sortValue: (peer) => Number(peer.service),
+    },
+    ...shownMetrics.map((metric) => ({
+      key: metric.key,
+      label: metric.label,
+      unit: metric.unit,
+      figure: true,
+      sortValue: (peer) => figures[peer.slug][metric.key]?.value ?? null,
+    })),
+  ];
+}
 
 function ConfidenceDot({ confidence }) {
+  const term = useTerm();
+
   return (
     <span
       className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${confidenceColours[confidence]}`}
-      title={confidence}
+      title={term(confidence)}
     />
   );
 }
 
 function ConfidenceLegend() {
+  const term = useTerm();
+
   return (
     <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
       {Object.keys(confidenceColours).map((confidence) => (
         <span key={confidence} className="flex items-center gap-2">
           <ConfidenceDot confidence={confidence} />
-          {confidence}
+          {term(confidence)}
         </span>
       ))}
     </div>
@@ -137,7 +223,7 @@ function rankOf(slug, metricKey) {
   };
 }
 
-function MetricChart({ metric, selected }) {
+function MetricChart({ metric, selected, shownFigures, notPublished }) {
   const maximum = metricMaximum[metric.key];
 
   return (
@@ -155,7 +241,7 @@ function MetricChart({ metric, selected }) {
       <div className="space-y-4">
         <AnimatePresence initial={false}>
           {selected.map((slug, index) => {
-            const entry = figures[slug][metric.key];
+            const entry = shownFigures[slug][metric.key];
             const colour = seriesColours[index];
             const { rank, total } = rankOf(slug, metric.key);
 
@@ -203,7 +289,7 @@ function MetricChart({ metric, selected }) {
                         key={peer.slug}
                         className="absolute top-2 h-3 w-px bg-white/25"
                         style={{ left: `${(value / maximum) * 100}%` }}
-                        title={`${designations[peer.slug]}: ${figures[peer.slug][metric.key].display}`}
+                        title={`${designations[peer.slug]}: ${shownFigures[peer.slug][metric.key].display}`}
                       />
                     );
                   })}
@@ -242,7 +328,7 @@ function MetricChart({ metric, selected }) {
                       </span>
                     </>
                   ) : (
-                    <span className="text-white/50">Not published</span>
+                    <span className="text-white/50">{notPublished}</span>
                   )}
                 </div>
               </motion.div>
@@ -263,6 +349,26 @@ function SortIcon({ active, direction }) {
 }
 
 function Compare({ introDelay = 0.1 }) {
+  const t = useText(text);
+  const language = useLanguage();
+  const href = useHref();
+  const shownFigures = figuresByLanguage[language];
+  const shownMetrics = metricsByLanguage[language];
+  const columns = useMemo(
+    () => buildColumns(t, shownMetrics),
+    [t, shownMetrics],
+  );
+  const shownPeers = useMemo(
+    () =>
+      (language === "es" ? localise(peers, spanishPeers) : peers).map(
+        (peer) => ({
+          ...peer,
+          origin: translate(peer.origin, language),
+        }),
+      ),
+    [language],
+  );
+  const navigationItems = t.navigationItems;
   const activeSection = useActiveSection(sectionIds);
   const [selected, setSelected] = useState(readSelection);
   const [copied, setCopied] = useState(false);
@@ -286,9 +392,13 @@ function Compare({ introDelay = 0.1 }) {
 
   // replaceState does not fire hashchange, so App keeps the scroll position.
   useEffect(() => {
-    window.history.replaceState(null, "", `#/compare/${selected.join(",")}`);
+    window.history.replaceState(
+      null,
+      "",
+      `${language === "es" ? "#/es" : "#"}/compare/${selected.join(",")}`,
+    );
     setCopied(false);
-  }, [selected]);
+  }, [selected, language]);
 
   // A pasted comparison link changes the hash without remounting the page.
   useEffect(() => {
@@ -320,13 +430,13 @@ function Compare({ introDelay = 0.1 }) {
 
   const rows = useMemo(() => {
     if (!sort.key) {
-      return peers;
+      return shownPeers;
     }
 
     const column = columns.find((entry) => entry.key === sort.key);
     const factor = sort.direction === "asc" ? 1 : -1;
 
-    return [...peers].sort((a, b) => {
+    return [...shownPeers].sort((a, b) => {
       const first = column.sortValue(a);
       const second = column.sortValue(b);
 
@@ -335,10 +445,10 @@ function Compare({ introDelay = 0.1 }) {
       if (second == null) return -1;
 
       return typeof first === "string"
-        ? first.localeCompare(second) * factor
+        ? first.localeCompare(second, language) * factor
         : (first - second) * factor;
     });
-  }, [sort]);
+  }, [sort, shownPeers, columns, language]);
 
   return (
     <div className="min-h-screen bg-[#050708] text-[#edf0e9] selection:bg-lime-300 selection:text-black">
@@ -372,23 +482,21 @@ function Compare({ introDelay = 0.1 }) {
             }}
             className="relative mx-auto max-w-[1500px]"
           >
-            <SectionLabel>Interactive comparison</SectionLabel>
+            <SectionLabel>{t.eyebrow}</SectionLabel>
 
             <h1 className="text-[clamp(3.2rem,10vw,9rem)] font-black leading-[.8] tracking-[-.075em]">
-              HEAD
-              <span className="block text-white/30">TO HEAD</span>
+              {t.heroTop}
+              <span className="block text-white/30">{t.heroBottom}</span>
             </h1>
 
             <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base">
-              Pick up to three aircraft to compare their published
-              performance. A fourth choice replaces the oldest one. The
-              address updates as you choose, so any comparison can be shared.
+              {t.intro}
             </p>
 
             <div
               className="mt-10 flex flex-wrap gap-2"
               role="group"
-              aria-label="Choose aircraft to compare"
+              aria-label={t.pickerLabel}
             >
               {peers.map((peer) => {
                 const slot = selected.indexOf(peer.slug);
@@ -427,7 +535,7 @@ function Compare({ introDelay = 0.1 }) {
             >
               {copied ? <Check size={13} /> : <Link size={13} />}
               <span aria-live="polite">
-                {copied ? "Link copied" : "Copy link to this comparison"}
+                {copied ? t.linkCopied : t.copyLink}
               </span>
             </button>
           </motion.div>
@@ -440,18 +548,16 @@ function Compare({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>01 / Chart</SectionLabel>
+                <SectionLabel>{t.chartLabel}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  Measured against the field.
+                  {t.chartHeading}
                 </h2>
               </div>
 
               <div>
                 <p className="max-w-xl text-sm leading-7 text-white/50">
-                  Each bar runs from zero to the highest figure among all
-                  twelve aircraft. Faint ticks mark the other aircraft, and
-                  the rank counts only aircraft with a published figure.
+                  {t.chartIntro}
                 </p>
 
                 <div className="mt-6">
@@ -461,20 +567,19 @@ function Compare({ introDelay = 0.1 }) {
             </div>
 
             <div className="border-t border-white/10">
-              {metrics.map((metric) => (
+              {shownMetrics.map((metric) => (
                 <MetricChart
                   key={metric.key}
                   metric={metric}
                   selected={selected}
+                  shownFigures={shownFigures}
+                  notPublished={t.notPublished}
                 />
               ))}
             </div>
 
             <p className="mt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
-              Figures from each aircraft's specifications · Ranges are
-              plotted at their midpoint · "Mach 2 class" is plotted as Mach
-              2.0 · Published figures are not like-for-like, and combat
-              radius depends heavily on the mission and load
+              {t.footnote}
             </p>
           </div>
         </section>
@@ -486,31 +591,28 @@ function Compare({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>02 / Table</SectionLabel>
+                <SectionLabel>{t.tableLabel}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  All twelve, sorted your way.
+                  {t.tableHeading}
                 </h2>
               </div>
 
               <p className="max-w-xl text-sm leading-7 text-white/50">
-                Select a column heading to sort, and again to reverse the
-                order. Use the dot at the start of a row to add that aircraft
-                to the chart.
+                {t.tableIntro}
               </p>
             </div>
 
             <div className="overflow-x-auto border border-white/10 bg-[#050708]/80">
               <table className="w-full min-w-[1180px] border-collapse text-left text-sm">
                 <caption className="sr-only">
-                  Published figures for twelve fighters. Column headings sort
-                  the table.
+                  {t.caption}
                 </caption>
 
                 <thead>
                   <tr className="border-b border-white/10 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
                     <th scope="col" className="w-12 p-4 font-normal">
-                      <span className="sr-only">In chart</span>
+                      <span className="sr-only">{t.inChart}</span>
                     </th>
 
                     {columns.map((column) => {
@@ -581,7 +683,7 @@ function Compare({ introDelay = 0.1 }) {
                             type="button"
                             onClick={() => toggle(peer.slug)}
                             aria-pressed={isSelected}
-                            aria-label={`${isSelected ? "Remove" : "Add"} ${designations[peer.slug]} ${isSelected ? "from" : "to"} the chart`}
+                            aria-label={(isSelected ? t.remove : t.add)(designations[peer.slug])}
                             className="grid h-7 w-7 place-items-center border border-white/15 transition hover:border-lime-300"
                           >
                             <span
@@ -600,7 +702,7 @@ function Compare({ introDelay = 0.1 }) {
                           className="whitespace-nowrap p-4 font-semibold text-white/85"
                         >
                           <a
-                            href={`#/${peer.slug}`}
+                            href={href(`#/${peer.slug}`)}
                             className="group inline-flex items-center gap-2 underline decoration-lime-300/50 underline-offset-4 transition hover:text-lime-300"
                           >
                             {designations[peer.slug]}
@@ -617,8 +719,8 @@ function Compare({ introDelay = 0.1 }) {
                         <td className="p-4">{peer.firstFlight}</td>
                         <td className="p-4">{peer.service}</td>
 
-                        {metrics.map((metric) => {
-                          const entry = figures[peer.slug][metric.key];
+                        {shownMetrics.map((metric) => {
+                          const entry = shownFigures[peer.slug][metric.key];
 
                           return (
                             <td
@@ -649,14 +751,14 @@ function Compare({ introDelay = 0.1 }) {
               <ConfidenceLegend />
 
               <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
-                — Not published · Unpublished figures sort last
+                {t.tableNote}
               </span>
             </div>
           </div>
         </section>
       </main>
 
-      <PageFooter label="AIRFRAME / COMPARE" />
+      <PageFooter label={t.footerLabel} />
     </div>
   );
 }

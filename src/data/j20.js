@@ -396,3 +396,186 @@ export const sectionText = {
   referenceNote:
     "Much about this aircraft is not officially published. Figures on this site are drawn from open sources and should be read as approximate.",
 };
+
+// Text for the bespoke J-20 page itself. Ids, icons, coordinates and scroll
+// targets stay in J20.jsx and are matched to these lists by position.
+export const page = {
+  navigation: [
+    "Overview",
+    "Airframe",
+    "Systems",
+    "Data",
+    "History",
+    "Variants",
+    "Compare",
+    "Reference",
+  ],
+  eyebrow: "Chengdu J-20",
+  intro:
+    "An independent digital exhibition exploring the visual identity, airframe geometry and public history of a modern stealth aircraft.",
+  enterArchive: "Enter archive",
+  viewPhotography: "View photography",
+  silhouetteLabel: "Stylised stealth aircraft silhouette",
+  visualModel: "Visual model / 001",
+  heroStats: [
+    { value: "05", label: "Generation" },
+    { value: "01", label: "Airframe" },
+    { value: "LIVE", label: "Exhibit" },
+  ],
+  scroll: "Scroll to explore",
+  overview: {
+    label: "01 / Overview",
+    heading: "Designed as a digital shadow in the sky.",
+    intro:
+      "This concept treats the aircraft as a museum object. Graphic overlays, restrained motion and layered information create an interactive visual story.",
+  },
+  chapters: [
+    {
+      number: "01",
+      label: "Identity",
+      detail: "Return to the opening aircraft presentation.",
+    },
+    {
+      number: "02",
+      label: "Airframe",
+      detail: "Explore the visual language behind the aircraft.",
+    },
+    {
+      number: "03",
+      label: "Systems",
+      detail: "Interactive cards present the digital architecture.",
+    },
+    {
+      number: "04",
+      label: "Specifications",
+      detail: "Reported dimensions and development milestones.",
+    },
+    {
+      number: "05",
+      label: "History",
+      detail: "Milestones from early design studies to today.",
+    },
+    {
+      number: "06",
+      label: "Variants",
+      detail: "Baseline, updated and twin-seat airframes.",
+    },
+    {
+      number: "07",
+      label: "Comparison",
+      detail: "The J-20 beside its fifth-generation peers.",
+    },
+    {
+      number: "08",
+      label: "Reference",
+      detail: "A glossary of terms and further reading.",
+    },
+  ],
+  airframe: {
+    label: "02 / Airframe",
+    heading: "Geometry with intent.",
+    intro:
+      "The visual model is deliberately stylised. Select a callout or a marker on the projection to read about the design features visible in public photographs.",
+    projection: "Top projection / illustrative",
+    axis: "Axis X / Stable",
+    select: "Select a marker",
+    feature: "Feature",
+    features: [
+      {
+        label: "Chined nose profile",
+        detail:
+          "A sharp chine runs from the nose along the forward fuselage, giving the faceted cross-section typical of low-observable designs.",
+      },
+      {
+        label: "Blended wing body",
+        detail:
+          "The fuselage merges smoothly into a large delta wing, providing internal volume for fuel and lift at high speed.",
+      },
+      {
+        label: "Canard configuration",
+        detail:
+          "All-moving foreplanes ahead of the wing add lift and pitch authority. Few low-observable designs use them.",
+      },
+      {
+        label: "Twin-tail arrangement",
+        detail:
+          "Two all-moving, outward-canted vertical tails, paired with small ventral fins beneath the rear fuselage.",
+      },
+      {
+        label: "Diverterless intakes",
+        detail:
+          "Each intake uses a fixed bump instead of moving ramps, which saves weight and helps hide the engine face.",
+      },
+      {
+        label: "Internal weapon bays",
+        detail:
+          "A main bay under the fuselage and two smaller side bays keep stores inside the airframe.",
+      },
+    ],
+  },
+  systems: {
+    label: "03 / Systems",
+    heading: "One integrated picture.",
+    status: "Interface simulation online",
+    items: [
+      {
+        id: "01",
+        title: "Low-observable form",
+        kicker: "AIRFRAME",
+        description:
+          "A visual exploration of planform alignment, internal geometry and an airframe shaped around reduced observability.",
+        reported:
+          "Internal weapon bays, diverterless intakes and sawtooth panel edges are the most visible low-observable features in public photographs.",
+        metric: "PROFILE",
+        value: "STEALTH",
+      },
+      {
+        id: "02",
+        title: "Sensor fusion",
+        kicker: "AWARENESS",
+        description:
+          "Simulated radar, infrared and navigation information are presented as one coherent visual layer.",
+        reported:
+          "Public reporting describes an AESA radar, a chin-mounted electro-optical targeting system and infrared apertures distributed around the airframe.",
+        metric: "TRACKS",
+        value: "FUSED",
+      },
+      {
+        id: "03",
+        title: "Connected battlespace",
+        kicker: "NETWORK",
+        description:
+          "Abstract data links visualize information moving between aircraft, command nodes and supporting assets.",
+        reported:
+          "The twin-seat J-20S is widely reported as intended for mission management and teaming with uncrewed aircraft.",
+        metric: "LINK",
+        value: "ACTIVE",
+      },
+      {
+        id: "04",
+        title: "High-energy flight",
+        kicker: "PERFORMANCE",
+        description:
+          "Animated telemetry gives the experience a sense of speed without presenting operational controls.",
+        reported:
+          "Later production aircraft are reported to use Chinese WS-10C engines, with the more powerful WS-15 in flight testing.",
+        metric: "STATE",
+        value: "NOMINAL",
+      },
+    ],
+  },
+  profile: {
+    label: "09 / Profile",
+    heading: "Explore the signal.",
+    intro:
+      "The radar-inspired module adds motion to the final chapter. The targets and telemetry are fictional interface elements created for visual storytelling.",
+    readouts: [
+      { label: "MODE", value: "EXHIBIT" },
+      { label: "SIGNAL", value: "CLEAR" },
+      { label: "TRACKS", value: "05" },
+      { label: "STATUS", value: "ONLINE" },
+    ],
+    archive: "Enter photographic archive",
+    next: "Next aircraft / F-22 Raptor",
+  },
+};

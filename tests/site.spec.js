@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
 
 import { aircraft } from "../src/aircraft.js";
+import { checkTranslations } from "../scripts/check-translations.js";
 import { outputPath, renderFigures } from "../scripts/generate-figures.js";
 
 const slugs = aircraft
@@ -251,7 +252,10 @@ test.describe("language", () => {
 
     await expect(page.locator('a[href="#/es/f-35/gallery"]').first()).toBeAttached();
     await expect(page.locator('a[href="#/es/su-57"]').first()).toBeAttached();
-    await expect(page.locator('a[href^="#/"]:not([href^="#/es"])')).toHaveCount(0);
+    // The language switch is the one link that leaves Spanish on purpose.
+    await expect(
+      page.locator('a[href^="#/"]:not([href^="#/es"]):not([lang="en"])'),
+    ).toHaveCount(0);
   });
 
   test("dates, confidence and groups are shown in Spanish", async ({ page }) => {
@@ -359,4 +363,20 @@ test("src/figures.js matches the aircraft specifications", () => {
     readFileSync(outputPath, "utf8"),
     "A specification changed: run `npm run figures` and commit src/figures.js.",
   ).toBe(renderFigures());
+});
+
+test("every English text has a Spanish translation", async () => {
+  const problems = (await checkTranslations()).flatMap((entry) =>
+    entry.notSetUp
+      ? [`${entry.name}: English module not found`]
+      : [
+          ...entry.missing.map((path) => `${entry.name}: missing ${path}`),
+          ...entry.extra.map((path) => `${entry.name}: not in English ${path}`),
+          ...entry.fixedTranslated.map(
+            (path) => `${entry.name}: fixed field translated ${path}`,
+          ),
+        ],
+  );
+
+  expect(problems, "Run `npm run translations` for details.").toEqual([]);
 });

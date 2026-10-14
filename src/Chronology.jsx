@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowUp, ArrowUpRight, Minus, Plus } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
 import { milestones as f22Milestones } from "./data/f22.js";
 import { milestones as j20Milestones } from "./data/j20.js";
+import { localise, useDate, useHref, useTerm, useText } from "./i18n.js";
 import {
   GridBackdrop,
   PageFooter,
@@ -24,13 +25,78 @@ import rafale from "./pages/rafale.js";
 import su57 from "./pages/su57.js";
 import typhoon from "./pages/typhoon.js";
 
-const navigationItems = [
-  ["top", "Filter"],
-  ["chart", "Chart"],
-  ["list", "List"],
-];
+const text = {
+  en: {
+    navigationItems: [
+      ["top", "Filter"],
+      ["chart", "Chart"],
+      ["list", "List"],
+    ],
+    eyebrow: "Combined timeline",
+    heroTop: "FIFTY YEARS",
+    heroBottom: "OF FIGHTERS",
+    intro:
+      "Every milestone from all twelve aircraft files on one axis, from the F-16's first prototypes to the latest deliveries. Filter by origin or by how well a milestone is sourced.",
+    origin: "Origin",
+    confidence: "Confidence",
+    shown: (count, total) => `of ${total} milestones shown`,
+    chartLabel: "01 / Chart",
+    chartHeading: "Twelve programmes, one axis.",
+    chartIntro:
+      "Each line runs from an aircraft's first recorded milestone to its latest. Point at a dot, or select it, to read the entry.",
+    chartAria: (count, from, to) =>
+      `Timeline chart of ${count} milestones for twelve aircraft, from ${from} to ${to}. The same entries are listed below.`,
+    openFile: (name) => `Open the ${name} file`,
+    listLabel: "02 / List",
+    listHeading: "Every entry, in order.",
+    listIntro:
+      "The same milestones as a table, using the filters above. Select a row to mark it on the chart.",
+    newest: "Newest first",
+    oldest: "Oldest first",
+    caption: "Milestones for all aircraft, filtered by origin and confidence",
+    headings: ["Date", "Aircraft", "Milestone", "Confidence"],
+    empty: "{t.empty}",
+    showFewer: "Show fewer",
+    showAll: (count) => `Show all ${count} milestones`,
+    footerLabel: "AIRFRAME / TIMELINE",
+  },
+  es: {
+    navigationItems: [
+      ["top", "Filtros"],
+      ["chart", "Gráfico"],
+      ["list", "Lista"],
+    ],
+    eyebrow: "Cronología conjunta",
+    heroTop: "CINCUENTA AÑOS",
+    heroBottom: "DE CAZAS",
+    intro:
+      "Todos los hitos de los doce aviones en un solo eje, desde los primeros prototipos del F-16 hasta las últimas entregas. Filtra por origen o por la fiabilidad de la fuente de cada hito.",
+    origin: "Origen",
+    confidence: "Fiabilidad",
+    shown: (count, total) => `de ${total} hitos mostrados`,
+    chartLabel: "01 / Gráfico",
+    chartHeading: "Doce programas, un solo eje.",
+    chartIntro:
+      "Cada línea va del primer hito registrado de un avión al más reciente. Pasa el cursor sobre un punto, o selecciónalo, para leer la entrada.",
+    chartAria: (count, from, to) =>
+      `Gráfico cronológico de ${count} hitos de doce aviones, de ${from} a ${to}. Las mismas entradas se enumeran debajo.`,
+    openFile: (name) => `Abrir la ficha del ${name}`,
+    listLabel: "02 / Lista",
+    listHeading: "Cada entrada, por orden.",
+    listIntro:
+      "Los mismos hitos en forma de tabla, con los filtros de arriba. Selecciona una fila para marcarla en el gráfico.",
+    newest: "Más recientes primero",
+    oldest: "Más antiguos primero",
+    caption: "Hitos de todos los aviones, filtrados por origen y fiabilidad",
+    headings: ["Fecha", "Avión", "Hito", "Fiabilidad"],
+    empty: "Ningún hito coincide con estos filtros.",
+    showFewer: "Mostrar menos",
+    showAll: (count) => `Mostrar los ${count} hitos`,
+    footerLabel: "AIRFRAME / CRONOLOGÍA",
+  },
+};
 
-const sectionIds = navigationItems.map(([sectionId]) => sectionId);
+const sectionIds = text.en.navigationItems.map(([sectionId]) => sectionId);
 
 const sources = {
   "j-20": j20Milestones,
@@ -88,6 +154,7 @@ const events = aircraft
     sources[entry.slug].map((milestone, index) => ({
       ...milestone,
       id: `${entry.slug}-${index}`,
+      index,
       slug: entry.slug,
       designation: entry.designation,
       origin: entry.origin,
@@ -157,6 +224,8 @@ const ticks = Array.from(
 // Unlike the aircraft pages, estimates get their own colour here so the chart
 // can tell them apart from reported entries.
 function ConfidenceLabel({ confidence }) {
+  const term = useTerm();
+
   return (
     <span
       className="flex items-center gap-2 whitespace-nowrap font-mono text-xs sm:text-[10px] uppercase tracking-[.2em]"
@@ -166,12 +235,14 @@ function ConfidenceLabel({ confidence }) {
         className="h-1.5 w-1.5 rounded-full"
         style={{ backgroundColor: confidenceFill[confidence] }}
       />
-      {confidence}
+      {term(confidence)}
     </span>
   );
 }
 
 function FilterGroup({ label, options, value, onChange }) {
+  const term = useTerm();
+
   return (
     <div>
       <div className="mb-3 font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-white/50">
@@ -191,7 +262,7 @@ function FilterGroup({ label, options, value, onChange }) {
                 : "border-white/15 text-white/60 hover:border-lime-300 hover:text-lime-300"
             }`}
           >
-            {option}
+            {option === "All" ? term("ALL") : term(option)}
           </button>
         ))}
       </div>
@@ -199,7 +270,12 @@ function FilterGroup({ label, options, value, onChange }) {
   );
 }
 
-function Chronology({ introDelay = 0.1 }) {
+function Chronology({ introDelay = 0.1, translation }) {
+  const t = useText(text);
+  const href = useHref();
+  const term = useTerm();
+  const date = useDate();
+  const navigationItems = t.navigationItems;
   const activeSection = useActiveSection(sectionIds);
   const [origin, setOrigin] = useState("All");
   const [confidence, setConfidence] = useState("All");
@@ -210,6 +286,22 @@ function Chronology({ introDelay = 0.1 }) {
   const matches = (event) =>
     (origin === "All" || event.origin === origin) &&
     (confidence === "All" || event.confidence === confidence);
+
+  // Spanish text is laid over each aircraft's milestones by position.
+  const shownText = useMemo(() => {
+    if (!translation) {
+      return null;
+    }
+
+    return Object.fromEntries(
+      Object.entries(sources).map(([slug, list]) => [
+        slug,
+        localise(list, translation.milestones?.[slug]),
+      ]),
+    );
+  }, [translation]);
+  const shown = (event) =>
+    shownText ? shownText[event.slug][event.index] : event;
 
   const filtered = events.filter(matches);
   const ordered = newestFirst ? [...filtered].reverse() : filtered;
@@ -249,29 +341,27 @@ function Chronology({ introDelay = 0.1 }) {
             }}
             className="relative mx-auto max-w-[1500px]"
           >
-            <SectionLabel>Combined timeline</SectionLabel>
+            <SectionLabel>{t.eyebrow}</SectionLabel>
 
             <h1 className="text-[clamp(3.2rem,10vw,9rem)] font-black leading-[.8] tracking-[-.075em]">
-              FIFTY YEARS
-              <span className="block text-white/30">OF FIGHTERS</span>
+              {t.heroTop}
+              <span className="block text-white/30">{t.heroBottom}</span>
             </h1>
 
             <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base">
-              Every milestone from all twelve aircraft files on one axis,
-              from the F-16's first prototypes to the latest deliveries.
-              Filter by origin or by how well a milestone is sourced.
+              {t.intro}
             </p>
 
             <div className="mt-10 grid gap-8 md:grid-cols-2">
               <FilterGroup
-                label="Origin"
+                label={t.origin}
                 options={origins}
                 value={origin}
                 onChange={setOrigin}
               />
 
               <FilterGroup
-                label="Confidence"
+                label={t.confidence}
                 options={confidences}
                 value={confidence}
                 onChange={setConfidence}
@@ -282,7 +372,7 @@ function Chronology({ introDelay = 0.1 }) {
               <span className="mr-3 text-lime-300">
                 {String(filtered.length).padStart(3, "0")}
               </span>
-              of {events.length} milestones shown
+              {t.shown(filtered.length, events.length)}
             </div>
           </motion.div>
         </section>
@@ -294,16 +384,15 @@ function Chronology({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>01 / Chart</SectionLabel>
+                <SectionLabel>{t.chartLabel}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  Twelve programmes, one axis.
+                  {t.chartHeading}
                 </h2>
               </div>
 
               <p className="max-w-xl text-sm leading-7 text-white/50">
-                Each line runs from an aircraft's first recorded milestone to
-                its latest. Point at a dot, or select it, to read the entry.
+                {t.chartIntro}
               </p>
             </div>
 
@@ -312,7 +401,7 @@ function Chronology({ introDelay = 0.1 }) {
                 viewBox={`0 0 ${chart.width} ${chartHeight}`}
                 className="min-w-[900px]"
                 role="img"
-                aria-label={`Timeline chart of ${events.length} milestones for twelve aircraft, from ${firstYear} to ${lastYear}. The same entries are listed below.`}
+                aria-label={t.chartAria(events.length, firstYear, lastYear)}
               >
                 {ticks.map((year) => (
                   <g key={year}>
@@ -349,7 +438,7 @@ function Chronology({ introDelay = 0.1 }) {
                         duration: 0.4,
                       }}
                     >
-                      <a href={`#/${lane.slug}`}>
+                      <a href={href(`#/${lane.slug}`)}>
                         <text
                           x={16}
                           y={y + 4}
@@ -481,25 +570,25 @@ function Chronology({ introDelay = 0.1 }) {
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <span className="font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
-                        {active.date} · {active.designation}
+                        {date(active.date)} · {active.designation}
                       </span>
 
                       <ConfidenceLabel confidence={active.confidence} />
                     </div>
 
                     <h3 className="mt-3 text-xl font-semibold md:text-2xl">
-                      {active.title}
+                      {shown(active).title}
                     </h3>
 
                     <p className="mt-3 max-w-2xl text-sm leading-6 text-white/60">
-                      {active.detail}
+                      {shown(active).detail}
                     </p>
 
                     <a
-                      href={`#/${active.slug}`}
+                      href={href(`#/${active.slug}`)}
                       className="group mt-5 inline-flex items-center gap-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300"
                     >
-                      Open the {active.designation} file
+                      {t.openFile(active.designation)}
                       <ArrowUpRight
                         size={13}
                         className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -516,7 +605,7 @@ function Chronology({ introDelay = 0.1 }) {
                       className="h-2 w-2 rounded-full"
                       style={{ backgroundColor: confidenceFill[name] }}
                     />
-                    {name}
+                    {term(name)}
                   </span>
                 ))}
               </div>
@@ -531,17 +620,16 @@ function Chronology({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>02 / List</SectionLabel>
+                <SectionLabel>{t.listLabel}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  Every entry, in order.
+                  {t.listHeading}
                 </h2>
               </div>
 
               <div>
                 <p className="max-w-xl text-sm leading-7 text-white/50">
-                  The same milestones as a table, using the filters above.
-                  Select a row to mark it on the chart.
+                  {t.listIntro}
                 </p>
 
                 <button
@@ -550,7 +638,7 @@ function Chronology({ introDelay = 0.1 }) {
                   className="mt-6 flex items-center gap-3 border border-white/15 px-4 py-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/70 transition hover:border-lime-300 hover:text-lime-300"
                 >
                   {newestFirst ? <ArrowDown size={12} /> : <ArrowUp size={12} />}
-                  {newestFirst ? "Newest first" : "Oldest first"}
+                  {newestFirst ? t.newest : t.oldest}
                 </button>
               </div>
             </div>
@@ -558,13 +646,12 @@ function Chronology({ introDelay = 0.1 }) {
             <div className="overflow-x-auto border border-white/10 bg-[#050708]/80">
               <table className="w-full min-w-[860px] border-collapse text-left text-sm">
                 <caption className="sr-only">
-                  Milestones for all aircraft, filtered by origin and
-                  confidence
+                  {t.caption}
                 </caption>
 
                 <thead>
                   <tr className="border-b border-white/10 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
-                    {["Date", "Aircraft", "Milestone", "Confidence"].map(
+                    {t.headings.map(
                       (heading) => (
                         <th
                           key={heading}
@@ -604,7 +691,7 @@ function Chronology({ introDelay = 0.1 }) {
                         }`}
                       >
                         <td className="whitespace-nowrap p-5 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-lime-300">
-                          {event.date}
+                          {date(event.date)}
                         </td>
 
                         <th
@@ -612,7 +699,7 @@ function Chronology({ introDelay = 0.1 }) {
                           className="whitespace-nowrap p-5 font-semibold text-white/85"
                         >
                           <a
-                            href={`#/${event.slug}`}
+                            href={href(`#/${event.slug}`)}
                             onClick={(clickEvent) => clickEvent.stopPropagation()}
                             className="underline decoration-lime-300/50 underline-offset-4 transition hover:text-lime-300"
                           >
@@ -622,11 +709,11 @@ function Chronology({ introDelay = 0.1 }) {
 
                         <td className="p-5">
                           <div className="font-semibold text-white/85">
-                            {event.title}
+                            {shown(event).title}
                           </div>
 
                           <p className="mt-1 max-w-2xl text-xs leading-5 text-white/55">
-                            {event.detail}
+                            {shown(event).detail}
                           </p>
                         </td>
 
@@ -654,16 +741,14 @@ function Chronology({ introDelay = 0.1 }) {
                 className="mt-6 flex items-center gap-3 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-white/75 transition hover:text-lime-300"
               >
                 {showAll ? <Minus size={14} /> : <Plus size={14} />}
-                {showAll
-                  ? "Show fewer"
-                  : `Show all ${ordered.length} milestones`}
+                {showAll ? t.showFewer : t.showAll(ordered.length)}
               </button>
             )}
           </div>
         </section>
       </main>
 
-      <PageFooter label="AIRFRAME / TIMELINE" />
+      <PageFooter label={t.footerLabel} />
     </div>
   );
 }

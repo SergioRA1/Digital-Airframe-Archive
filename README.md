@@ -15,6 +15,7 @@ An interactive digital exhibition of twelve modern combat aircraft, built as a s
 - **Interactive comparison**: pick up to three aircraft and compare speed, weight, combat radius, ceiling and size on animated bar charts, with a sortable table of all twelve. The selection is kept in the address, so a comparison such as `#/compare/f-22,j-20,typhoon` can be shared as a link.
 - **Combined timeline**: every milestone from every aircraft on one chart and in one list, filterable by origin and by confidence.
 - **Photo galleries**: a gallery for each aircraft and a combined archive. Every photo is freely licensed and credited with its photographer, licence and source.
+- **English and Spanish**: every page is available in Spanish at `#/es/...`, with a switch in the header. Spanish text is laid over the English data, so figures and links are never duplicated, and a test fails if any English text has no translation.
 - **Hangar index**: a home page that lists every aircraft, with search by designation, name, manufacturer or origin.
 - **Two hand-built pages**: the J-20 and F-22 pages have custom visuals, such as a radar display and aircraft drawings. The other ten are rendered from data by one shared template.
 
@@ -67,6 +68,9 @@ src/
   Gallery.jsx       galleries and the combined archive
   photos.js         photo URLs and credits
   usage.js          capabilities and use for each aircraft
+  i18n.js           language helpers: links, terms, dates, localise()
+  data/             English text for the J-20, F-22, galleries and comparison table
+  locales/es/       Spanish text, mirroring the English modules
 ```
 
 To add an aircraft, create a data module in `src/pages/` and register it in the shared files. The full checklist is in [`CLAUDE.md`](CLAUDE.md).

@@ -230,6 +230,7 @@ export function Variants({
   silhouette,
 }) {
   const t = useText(text);
+  const translate = useTerm();
 
   return (
     <section
@@ -303,7 +304,7 @@ export function Variants({
                         className="transition hover:text-lime-300"
                       >
                         {t.photo}: {variant.photo.photographer} ·{" "}
-                        {variant.photo.licence}
+                        {translate(variant.photo.licence)}
                       </a>
                     </>
                   ) : (

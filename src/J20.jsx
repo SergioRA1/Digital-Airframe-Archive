@@ -15,6 +15,7 @@ import { aircraft } from "./aircraft.js";
 import {
   glossary,
   milestones,
+  page as pageText,
   sectionText,
   sources,
   specifications,
@@ -30,6 +31,7 @@ import {
   useActiveSection,
 } from "./Layout.jsx";
 import { Comparison } from "./Comparison.jsx";
+import { localise, useHref } from "./i18n.js";
 import {
   Reference,
   Specifications,
@@ -37,183 +39,49 @@ import {
   Variants,
 } from "./Sections.jsx";
 
-const systems = [
-  {
-    id: "01",
-    icon: Eye,
-    title: "Low-observable form",
-    kicker: "AIRFRAME",
-    description:
-      "A visual exploration of planform alignment, internal geometry and an airframe shaped around reduced observability.",
-    reported:
-      "Internal weapon bays, diverterless intakes and sawtooth panel edges are the most visible low-observable features in public photographs.",
-    metric: "PROFILE",
-    value: "STEALTH",
-  },
-  {
-    id: "02",
-    icon: Radar,
-    title: "Sensor fusion",
-    kicker: "AWARENESS",
-    description:
-      "Simulated radar, infrared and navigation information are presented as one coherent visual layer.",
-    reported:
-      "Public reporting describes an AESA radar, a chin-mounted electro-optical targeting system and infrared apertures distributed around the airframe.",
-    metric: "TRACKS",
-    value: "FUSED",
-  },
-  {
-    id: "03",
-    icon: Radio,
-    title: "Connected battlespace",
-    kicker: "NETWORK",
-    description:
-      "Abstract data links visualize information moving between aircraft, command nodes and supporting assets.",
-    reported:
-      "The twin-seat J-20S is widely reported as intended for mission management and teaming with uncrewed aircraft.",
-    metric: "LINK",
-    value: "ACTIVE",
-  },
-  {
-    id: "04",
-    icon: Gauge,
-    title: "High-energy flight",
-    kicker: "PERFORMANCE",
-    description:
-      "Animated telemetry gives the experience a sense of speed without presenting operational controls.",
-    reported:
-      "Later production aircraft are reported to use Chinese WS-10C engines, with the more powerful WS-15 in flight testing.",
-    metric: "STATE",
-    value: "NOMINAL",
-  },
+const systemIcons = [Eye, Radar, Radio, Gauge];
+
+const chapterTargets = [
+  "top",
+  "airframe",
+  "systems",
+  "specifications",
+  "history",
+  "variants",
+  "compare",
+  "reference",
 ];
 
-const chapters = [
-  {
-    number: "01",
-    label: "Identity",
-    detail: "Return to the opening aircraft presentation.",
-    target: "top",
-  },
-  {
-    number: "02",
-    label: "Airframe",
-    detail: "Explore the visual language behind the aircraft.",
-    target: "airframe",
-  },
-  {
-    number: "03",
-    label: "Systems",
-    detail: "Interactive cards present the digital architecture.",
-    target: "systems",
-  },
-  {
-    number: "04",
-    label: "Specifications",
-    detail: "Reported dimensions and development milestones.",
-    target: "specifications",
-  },
-  {
-    number: "05",
-    label: "History",
-    detail: "Milestones from early design studies to today.",
-    target: "history",
-  },
-  {
-    number: "06",
-    label: "Variants",
-    detail: "Baseline, updated and twin-seat airframes.",
-    target: "variants",
-  },
-  {
-    number: "07",
-    label: "Comparison",
-    detail: "The J-20 beside its fifth-generation peers.",
-    target: "compare",
-  },
-  {
-    number: "08",
-    label: "Reference",
-    detail: "A glossary of terms and further reading.",
-    target: "reference",
-  },
-];
-
-const airframeFeatures = [
-  {
-    letter: "A",
-    label: "Chined nose profile",
-    x: 608,
-    y: 86,
-    detail:
-      "A sharp chine runs from the nose along the forward fuselage, giving the faceted cross-section typical of low-observable designs.",
-  },
-  {
-    letter: "B",
-    label: "Blended wing body",
-    x: 738,
-    y: 338,
-    detail:
-      "The fuselage merges smoothly into a large delta wing, providing internal volume for fuel and lift at high speed.",
-  },
-  {
-    letter: "C",
-    label: "Canard configuration",
-    x: 672,
-    y: 220,
-    detail:
-      "All-moving foreplanes ahead of the wing add lift and pitch authority. Few low-observable designs use them.",
-  },
-  {
-    letter: "D",
-    label: "Twin-tail arrangement",
-    x: 704,
-    y: 440,
-    detail:
-      "Two all-moving, outward-canted vertical tails, paired with small ventral fins beneath the rear fuselage.",
-  },
-  {
-    letter: "E",
-    label: "Diverterless intakes",
-    x: 584,
-    y: 246,
-    detail:
-      "Each intake uses a fixed bump instead of moving ramps, which saves weight and helps hide the engine face.",
-  },
-  {
-    letter: "F",
-    label: "Internal weapon bays",
-    x: 608,
-    y: 318,
-    detail:
-      "A main bay under the fuselage and two smaller side bays keep stores inside the airframe.",
-  },
+const featureMarkers = [
+  { letter: "A", x: 608, y: 86 },
+  { letter: "B", x: 738, y: 338 },
+  { letter: "C", x: 672, y: 220 },
+  { letter: "D", x: 704, y: 440 },
+  { letter: "E", x: 584, y: 246 },
+  { letter: "F", x: 608, y: 318 },
 ];
 
 const silhouette = aircraft.find((entry) => entry.slug === "j-20").silhouette;
 
-const navigationItems = [
-  ["overview", "Overview"],
-  ["airframe", "Airframe"],
-  ["systems", "Systems"],
-  ["specifications", "Data"],
-  ["history", "History"],
-  ["variants", "Variants"],
-  ["compare", "Compare"],
-  ["reference", "Reference"],
+const navigationIds = [
+  "overview",
+  "airframe",
+  "systems",
+  "specifications",
+  "history",
+  "variants",
+  "compare",
+  "reference",
 ];
 
-const sectionIds = [
-  "top",
-  "profile",
-  ...navigationItems.map(([sectionId]) => sectionId),
-];
+const sectionIds = ["top", "profile", ...navigationIds];
 
 function Aircraft({
   compact = false,
   features = [],
   activeFeature,
   onSelectFeature,
+  label,
 }) {
   return (
     <motion.div
@@ -252,7 +120,7 @@ function Aircraft({
         viewBox="0 0 1200 500"
         className="relative w-full overflow-visible drop-shadow-[0_35px_28px_rgba(0,0,0,.65)]"
         role="img"
-        aria-label="Stylized stealth aircraft silhouette"
+        aria-label={label}
       >
         <defs>
           <linearGradient
@@ -462,13 +330,42 @@ function RadarDisplay() {
   );
 }
 
-function J20({ introDelay = 0.1 }) {
+function J20({ introDelay = 0.1, translation }) {
   const [activeFeature, setActiveFeature] = useState("A");
   const [selectedChapter, setSelectedChapter] = useState(0);
   const activeSection = useActiveSection(sectionIds);
+  const href = useHref();
+
+  const content = useMemo(
+    () =>
+      localise(
+        {
+          page: pageText,
+          specifications,
+          milestones,
+          variants,
+          glossary,
+          sources,
+          sectionText,
+        },
+        translation,
+      ),
+    [translation],
+  );
+  const { page } = content;
+  const text = content.sectionText;
+
+  const navigationItems = navigationIds.map((id, index) => [
+    id,
+    page.navigation[index],
+  ]);
+  const airframeFeatures = featureMarkers.map((marker, index) => ({
+    ...marker,
+    ...page.airframe.features[index],
+  }));
 
   const openGallery = () => {
-    window.location.hash = "/j-20/gallery";
+    window.location.hash = href("#/j-20/gallery").slice(1);
   };
 
   return (
@@ -505,16 +402,14 @@ function J20({ introDelay = 0.1 }) {
               }}
               className="relative z-10"
             >
-              <SectionLabel>Chengdu J-20</SectionLabel>
+              <SectionLabel>{page.eyebrow}</SectionLabel>
 
               <h1 className="text-[clamp(4.5rem,13vw,11rem)] font-black leading-[.73] tracking-[-.08em]">
                 J<span className="text-lime-300">-</span>20
               </h1>
 
               <p className="mt-7 max-w-md text-sm leading-7 text-white/55 md:text-base">
-                An independent digital exhibition exploring the visual
-                identity, airframe geometry and public history of a modern
-                stealth aircraft.
+                {page.intro}
               </p>
 
               <div className="mt-9 flex flex-wrap gap-3">
@@ -523,7 +418,7 @@ function J20({ introDelay = 0.1 }) {
                   onClick={() => goToSection("overview")}
                   className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
                 >
-                  Enter archive
+                  {page.enterArchive}
 
                   <ChevronRight
                     size={15}
@@ -536,37 +431,35 @@ function J20({ introDelay = 0.1 }) {
                   onClick={openGallery}
                   className="flex items-center gap-4 border border-white/20 px-6 py-4 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/75 transition hover:border-lime-300 hover:text-lime-300"
                 >
-                  View photography
+                  {page.viewPhotography}
                   <Camera size={15} />
                 </button>
               </div>
             </motion.div>
 
             <div className="relative lg:-ml-20">
-              <Aircraft />
+              <Aircraft label={page.silhouetteLabel} />
 
-              <div className="absolute right-[12%] top-[18%] hidden font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
-                <span className="text-lime-300">●</span> Visual model / 001
+              <div className="absolute left-[12%] top-[18%] hidden whitespace-nowrap font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
+                <span className="text-lime-300">●</span> {page.visualModel}
               </div>
             </div>
           </div>
 
           <div className="mx-auto mt-8 flex w-full max-w-[1500px] items-end justify-between border-t border-white/10 pt-5">
             <div className="grid grid-cols-3 gap-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50 md:gap-16">
-              <div>
-                <b className="block text-xs text-white/80">05</b>
-                Generation
-              </div>
-
-              <div>
-                <b className="block text-xs text-white/80">01</b>
-                Airframe
-              </div>
-
-              <div>
-                <b className="block text-xs text-lime-300">LIVE</b>
-                Exhibit
-              </div>
+              {page.heroStats.map((stat, index) => (
+                <div key={stat.label}>
+                  <b
+                    className={`block text-xs ${
+                      index === 2 ? "text-lime-300" : "text-white/80"
+                    }`}
+                  >
+                    {stat.value}
+                  </b>
+                  {stat.label}
+                </div>
+              ))}
             </div>
 
             <button
@@ -574,7 +467,7 @@ function J20({ introDelay = 0.1 }) {
               onClick={() => goToSection("overview")}
               className="hidden items-center gap-3 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300 md:flex"
             >
-              Scroll to explore
+              {page.scroll}
 
               <motion.span
                 animate={{
@@ -598,22 +491,20 @@ function J20({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="grid gap-14 lg:grid-cols-[1.05fr_.95fr] lg:items-end">
               <div>
-                <SectionLabel>01 / Overview</SectionLabel>
+                <SectionLabel>{page.overview.label}</SectionLabel>
 
                 <h2 className="max-w-4xl text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-7xl">
-                  Designed as a digital shadow in the sky.
+                  {page.overview.heading}
                 </h2>
               </div>
 
               <p className="max-w-xl text-sm leading-7 text-white/50 md:text-base">
-                This concept treats the aircraft as a museum object. Graphic
-                overlays, restrained motion and layered information create an
-                interactive visual story.
+                {page.overview.intro}
               </p>
             </div>
 
             <div className="mt-20 grid border-y border-white/10 md:grid-cols-4">
-              {chapters.map((chapter, index) => {
+              {page.chapters.map((chapter, index) => {
                 const selected = selectedChapter === index;
 
                 return (
@@ -622,10 +513,10 @@ function J20({ introDelay = 0.1 }) {
                     type="button"
                     onClick={() => {
                       setSelectedChapter(index);
-                      goToSection(chapter.target);
+                      goToSection(chapterTargets[index]);
                     }}
                     className={`group min-h-52 border-b border-white/10 p-6 text-left transition duration-300 md:border-r ${
-                      index < chapters.length - 4 ? "" : "md:border-b-0"
+                      index < page.chapters.length - 4 ? "" : "md:border-b-0"
                     } ${
                       selected
                         ? "bg-lime-300 text-black"
@@ -681,16 +572,14 @@ function J20({ introDelay = 0.1 }) {
           <div className="relative mx-auto max-w-[1500px]">
             <div className="grid items-center gap-16 lg:grid-cols-[.8fr_1.2fr]">
               <div>
-                <SectionLabel>02 / Airframe</SectionLabel>
+                <SectionLabel>{page.airframe.label}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  Geometry with intent.
+                  {page.airframe.heading}
                 </h2>
 
                 <p className="mt-7 max-w-md text-sm leading-7 text-white/50">
-                  The visual model is deliberately stylized. Select a callout
-                  or a marker on the projection to read about the design
-                  features visible in public photographs.
+                  {page.airframe.intro}
                 </p>
 
                 <div className="mt-10 border-t border-white/10">
@@ -748,7 +637,7 @@ function J20({ introDelay = 0.1 }) {
 
               <div className="relative border border-white/10 bg-black/20 p-4 md:p-10">
                 <div className="absolute left-4 top-4 z-10 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
-                  Top projection / illustrative
+                  {page.airframe.projection}
                 </div>
 
                 <Aircraft
@@ -756,13 +645,14 @@ function J20({ introDelay = 0.1 }) {
                   features={airframeFeatures}
                   activeFeature={activeFeature}
                   onSelectFeature={setActiveFeature}
+                  label={page.silhouetteLabel}
                 />
 
                 <div className="grid grid-cols-3 border-t border-white/10 pt-5 font-mono text-xs sm:text-[10px] uppercase tracking-[.15em] text-white/50">
-                  <span>Axis X / Stable</span>
-                  <span className="text-center">Select a marker</span>
+                  <span>{page.airframe.axis}</span>
+                  <span className="text-center">{page.airframe.select}</span>
                   <span className="text-right text-lime-300">
-                    Feature / {activeFeature}
+                    {page.airframe.feature} / {activeFeature}
                   </span>
                 </div>
               </div>
@@ -777,22 +667,22 @@ function J20({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end">
               <div>
-                <SectionLabel>03 / Systems</SectionLabel>
+                <SectionLabel>{page.systems.label}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  One integrated picture.
+                  {page.systems.heading}
                 </h2>
               </div>
 
               <div className="flex items-center gap-3 font-mono text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/50">
                 <Activity size={14} className="text-lime-300" />
-                Interface simulation online
+                {page.systems.status}
               </div>
             </div>
 
             <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
-              {systems.map((system) => {
-                const Icon = system.icon;
+              {page.systems.items.map((system, index) => {
+                const Icon = systemIcons[index];
 
                 return (
                   <article
@@ -837,35 +727,35 @@ function J20({ introDelay = 0.1 }) {
         </section>
 
         <Specifications
-          specifications={specifications}
-          heading={sectionText.specHeading}
-          intro={sectionText.specIntro}
-          notice={sectionText.specNotice}
+          specifications={content.specifications}
+          heading={text.specHeading}
+          intro={text.specIntro}
+          notice={text.specNotice}
         />
 
         <Timeline
           slug="j-20"
-          heading={sectionText.historyHeading}
-          intro={sectionText.historyIntro}
-          items={milestones}
+          heading={text.historyHeading}
+          intro={text.historyIntro}
+          items={content.milestones}
         />
 
         <Variants
-          heading={sectionText.variantsHeading}
-          intro={sectionText.variantsIntro}
-          items={variants}
+          heading={text.variantsHeading}
+          intro={text.variantsIntro}
+          items={content.variants}
           silhouette={silhouette}
         />
 
         <Comparison
           current="j-20"
-          intro={sectionText.compareIntro}
+          intro={text.compareIntro}
         />
 
         <Reference
-          entries={glossary}
-          links={sources}
-          note={sectionText.referenceNote}
+          entries={content.glossary}
+          links={content.sources}
+          note={text.referenceNote}
         />
 
         <section
@@ -874,26 +764,19 @@ function J20({ introDelay = 0.1 }) {
         >
           <div className="mx-auto grid max-w-[1500px] gap-16 lg:grid-cols-[1fr_.8fr] lg:items-center">
             <div>
-              <SectionLabel>09 / Profile</SectionLabel>
+              <SectionLabel>{page.profile.label}</SectionLabel>
 
               <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                Explore the signal.
+                {page.profile.heading}
               </h2>
 
               <p className="mt-7 max-w-lg text-sm leading-7 text-white/50">
-                The radar-inspired module adds motion to the final chapter. The
-                targets and telemetry are fictional interface elements created
-                for visual storytelling.
+                {page.profile.intro}
               </p>
 
               <div className="mt-12 grid grid-cols-2 gap-px bg-white/10 sm:grid-cols-4">
-                {[
-                  ["MODE", "EXHIBIT"],
-                  ["SIGNAL", "CLEAR"],
-                  ["TRACKS", "05"],
-                  ["STATUS", "ONLINE"],
-                ].map(([label, value]) => (
-                  <div key={label} className="bg-[#090c0d] p-5">
+                {page.profile.readouts.map(({ label, value }) => (
+                  <div key={value} className="bg-[#090c0d] p-5">
                     <div className="font-mono text-xs sm:text-[10px] tracking-[.2em] text-white/50">
                       {label}
                     </div>
@@ -910,7 +793,7 @@ function J20({ introDelay = 0.1 }) {
                 onClick={openGallery}
                 className="group mt-10 flex items-center gap-4 border border-white/20 px-6 py-4 text-xs sm:text-[11px] uppercase tracking-[.2em] transition hover:border-lime-300 hover:text-lime-300"
               >
-                Enter photographic archive
+                {page.profile.archive}
 
                 <ChevronRight
                   size={15}
@@ -919,10 +802,10 @@ function J20({ introDelay = 0.1 }) {
               </button>
 
               <a
-                href="#/f-22"
+                href={href("#/f-22")}
                 className="group mt-4 flex w-fit items-center gap-4 font-mono text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300"
               >
-                Next aircraft / F-22 Raptor
+                {page.profile.next}
 
                 <ChevronRight
                   size={15}

@@ -11,8 +11,16 @@ import {
 } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
-import { milestones, specifications } from "./data/f22.js";
-import { photos } from "./photos.js";
+import {
+  content,
+  designFeatures,
+  glossary,
+  milestones,
+  sources,
+  specifications,
+  variants,
+} from "./data/f22.js";
+import { localise, useHref } from "./i18n.js";
 import {
   GridBackdrop,
   PageFooter,
@@ -30,165 +38,22 @@ import {
   Variants,
 } from "./Sections.jsx";
 
-const designFeatures = [
-  {
-    id: "01",
-    icon: Eye,
-    kicker: "SIGNATURE",
-    title: "Aligned edges",
-    description:
-      "Wing, tail and panel edges share a small set of angles, and weapons are carried in internal bays, to keep radar returns low from the front and sides.",
-    metric: "WEAPON CARRIAGE",
-    value: "INTERNAL",
-  },
-  {
-    id: "02",
-    icon: Gauge,
-    kicker: "PROPULSION",
-    title: "Supercruise",
-    description:
-      "Two F119 engines allow sustained supersonic flight without afterburner. The Air Force cites speeds above Mach 1.5 in this regime.",
-    metric: "WITHOUT AFTERBURNER",
-    value: "MACH 1.5+",
-  },
-  {
-    id: "03",
-    icon: Flame,
-    kicker: "CONTROL",
-    title: "Thrust vectoring",
-    description:
-      "Flat, two-dimensional nozzles deflect engine thrust up and down, adding pitch authority at low speed and high angles of attack.",
-    metric: "NOZZLE TRAVEL",
-    value: "± 20°",
-  },
-  {
-    id: "04",
-    icon: Radar,
-    kicker: "AWARENESS",
-    title: "Integrated avionics",
-    description:
-      "The AN/APG-77 AESA radar and passive AN/ALR-94 receivers feed one fused picture to a single pilot, rather than separate displays per sensor.",
-    metric: "RADAR",
-    value: "AN/APG-77",
-  },
-];
+const featureIcons = [Eye, Gauge, Flame, Radar];
 
 const silhouette = aircraft.find((entry) => entry.slug === "f-22").silhouette;
-
-const variants = [
-  {
-    code: "YF-22",
-    name: "Prototype",
-    seats: "1",
-    status: "2 BUILT",
-    photo: photos.f22_yf22,
-    caption: "A YF-22 prototype in a test flight",
-    summary:
-      "The demonstrator that won the Advanced Tactical Fighter competition against the Northrop YF-23. The production aircraft was substantially reshaped afterwards.",
-    points: [
-      "First flight in September 1990",
-      "Flown with two competing engine designs",
-      "Selected in April 1991",
-    ],
-  },
-  {
-    code: "F-22A",
-    name: "Production single-seat",
-    seats: "1",
-    status: "IN SERVICE",
-    photo: photos.f22_a,
-    caption: "An F-22A over Kadena Air Base, Japan, 2009",
-    summary:
-      "The only production version. It was briefly designated F/A-22 in the early 2000s to emphasise its ground-attack role.",
-    points: [
-      "187 production aircraft",
-      "In service since 2005",
-      "Upgraded in increments since delivery",
-    ],
-  },
-  {
-    code: "F-22B",
-    name: "Planned two-seat",
-    seats: "2",
-    status: "CANCELLED",
-    caption: "Never built, so there is no photograph",
-    summary:
-      "A two-seat trainer planned alongside the F-22A and cancelled in the 1990s to save cost. Pilots train in simulators and the single-seat aircraft.",
-    points: [
-      "None built",
-      "Cancelled before production",
-      "No two-seat Raptor has flown",
-    ],
-  },
-];
-
-const glossary = [
-  {
-    term: "Fifth generation",
-    definition:
-      "An informal label for fighters that combine low observability, internal weapon carriage, advanced sensors and a high degree of data fusion. The F-22 is usually named as the first.",
-  },
-  {
-    term: "Advanced Tactical Fighter (ATF)",
-    definition:
-      "The 1980s U.S. Air Force programme to replace the F-15. It produced two competing prototypes, the YF-22 and the YF-23.",
-  },
-  {
-    term: "Low observable (LO)",
-    definition:
-      "Design measures that reduce how easily an aircraft is detected — shaping, aligned edges, internal weapon bays and surface materials. Often called stealth.",
-  },
-  {
-    term: "Supercruise",
-    definition:
-      "Sustained supersonic flight without afterburner, which saves fuel and reduces the aircraft's infrared signature compared with afterburning flight.",
-  },
-  {
-    term: "Thrust vectoring",
-    definition:
-      "Redirecting engine exhaust to help steer the aircraft. The F-22's nozzles move in pitch only.",
-  },
-  {
-    term: "AESA radar",
-    definition:
-      "Active electronically scanned array. A radar whose beam is steered electronically by many small transmit/receive modules rather than by a moving dish.",
-  },
-];
-
-const sources = [
-  {
-    label: "U.S. Air Force — F-22 Raptor fact sheet",
-    href: "https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104506/f-22-raptor/",
-    note: "Official description and published figures",
-  },
-  {
-    label: "Wikipedia — Lockheed Martin F-22 Raptor",
-    href: "https://en.wikipedia.org/wiki/Lockheed_Martin_F-22_Raptor",
-    note: "General reference and citations",
-  },
-  {
-    label: "Wikimedia Commons — F-22 media",
-    href: "https://commons.wikimedia.org/wiki/Category:Lockheed_Martin_F-22_Raptor",
-    note: "Public-domain and freely licensed photographs",
-  },
-];
-
-const navigationItems = [
-  ["design", "Design"],
-  ["specifications", "Data"],
-  ["history", "History"],
-  ["variants", "Variants"],
-  ["compare", "Compare"],
-  ["reference", "Reference"],
-];
 
 const sectionIds = [
   "top",
   "archive",
-  ...navigationItems.map(([sectionId]) => sectionId),
+  "design",
+  "specifications",
+  "history",
+  "variants",
+  "compare",
+  "reference",
 ];
 
-function Aircraft() {
+function Aircraft({ label }) {
   return (
     <motion.div
       initial={{
@@ -224,7 +89,7 @@ function Aircraft() {
         viewBox="200 0 816 480"
         className="relative w-full overflow-visible drop-shadow-[0_35px_28px_rgba(0,0,0,.65)]"
         role="img"
-        aria-label="Stylized F-22 silhouette seen from above"
+        aria-label={label}
       >
         <defs>
           <linearGradient id="raptor-body" x1="0" y1="0" x2="1" y2="1">
@@ -291,8 +156,24 @@ function Aircraft() {
   );
 }
 
-function F22({ introDelay = 0.1 }) {
+function F22({ introDelay = 0.1, translation }) {
   const activeSection = useActiveSection(sectionIds);
+  const href = useHref();
+  const page = localise(
+    {
+      content,
+      designFeatures,
+      glossary,
+      milestones,
+      sources,
+      specifications,
+      variants,
+    },
+    translation,
+  );
+  const t = page.content;
+  const navigationItems = Object.entries(t.navigation);
+  const galleryHref = href("#/f-22/gallery");
 
   return (
     <div className="min-h-screen bg-[#050708] text-[#edf0e9] selection:bg-lime-300 selection:text-black">
@@ -304,7 +185,7 @@ function F22({ introDelay = 0.1 }) {
         badge="22"
         items={navigationItems}
         activeSection={activeSection}
-        galleryHref="#/f-22/gallery"
+        galleryHref={galleryHref}
       />
 
       <main>
@@ -328,16 +209,14 @@ function F22({ introDelay = 0.1 }) {
               }}
               className="relative z-10"
             >
-              <SectionLabel>Lockheed Martin F-22 Raptor</SectionLabel>
+              <SectionLabel>{t.eyebrow}</SectionLabel>
 
               <h1 className="text-[clamp(4.5rem,13vw,11rem)] font-black leading-[.73] tracking-[-.08em]">
                 F<span className="text-lime-300">-</span>22
               </h1>
 
               <p className="mt-7 max-w-md text-sm leading-7 text-white/55 md:text-base">
-                The first operational fifth-generation fighter: an air
-                dominance aircraft built around stealth, supercruise and
-                sensor fusion, and flown only by the U.S. Air Force.
+                {t.tagline}
               </p>
 
               <div className="mt-9 flex flex-wrap gap-3">
@@ -346,7 +225,7 @@ function F22({ introDelay = 0.1 }) {
                   onClick={() => goToSection("design")}
                   className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
                 >
-                  Enter archive
+                  {t.enterArchive}
 
                   <ChevronRight
                     size={15}
@@ -355,40 +234,39 @@ function F22({ introDelay = 0.1 }) {
                 </button>
 
                 <a
-                  href="#/f-22/gallery"
+                  href={galleryHref}
                   className="flex items-center gap-4 border border-white/20 px-6 py-4 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/75 transition hover:border-lime-300 hover:text-lime-300"
                 >
-                  View photography
+                  {t.viewPhotography}
                   <Camera size={15} />
                 </a>
               </div>
             </motion.div>
 
             <div className="relative">
-              <Aircraft />
+              <Aircraft label={t.silhouetteLabel} />
 
               <div className="absolute right-[6%] top-[8%] hidden font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50 md:block">
-                <span className="text-lime-300">●</span> Visual model / 002
+                <span className="text-lime-300">●</span> {t.visualModel} /{" "}
+                {t.model}
               </div>
             </div>
           </div>
 
           <div className="mx-auto mt-8 flex w-full max-w-[1500px] items-end justify-between border-t border-white/10 pt-5">
             <div className="grid grid-cols-3 gap-8 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50 md:gap-16">
-              <div>
-                <b className="block text-xs text-white/80">05</b>
-                Generation
-              </div>
-
-              <div>
-                <b className="block text-xs text-white/80">195</b>
-                Built
-              </div>
-
-              <div>
-                <b className="block text-xs text-lime-300">1997</b>
-                First flight
-              </div>
+              {t.heroStats.map(([value, label], index) => (
+                <div key={label}>
+                  <b
+                    className={`block text-xs ${
+                      index === 2 ? "text-lime-300" : "text-white/80"
+                    }`}
+                  >
+                    {value}
+                  </b>
+                  {label}
+                </div>
+              ))}
             </div>
 
             <button
@@ -396,7 +274,7 @@ function F22({ introDelay = 0.1 }) {
               onClick={() => goToSection("design")}
               className="hidden items-center gap-3 text-xs sm:text-[11px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300 md:flex"
             >
-              Scroll to explore
+              {t.scroll}
 
               <motion.span
                 animate={{
@@ -420,23 +298,21 @@ function F22({ introDelay = 0.1 }) {
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-16 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
               <div>
-                <SectionLabel>01 / Design</SectionLabel>
+                <SectionLabel>01 / {t.designLabel}</SectionLabel>
 
                 <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  First look, first shot.
+                  {t.designHeading}
                 </h2>
               </div>
 
               <p className="max-w-xl text-sm leading-7 text-white/50">
-                The F-22 was designed to find and engage other aircraft
-                before being detected itself. Four ideas carry most of that
-                design.
+                {t.designIntro}
               </p>
             </div>
 
             <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
-              {designFeatures.map((feature) => {
-                const Icon = feature.icon;
+              {page.designFeatures.map((feature, index) => {
+                const Icon = featureIcons[index];
 
                 return (
                   <article
@@ -477,40 +353,36 @@ function F22({ introDelay = 0.1 }) {
         </section>
 
         <Specifications
-          specifications={specifications}
+          specifications={page.specifications}
           number="02"
-          heading="The published profile."
-          intro="Figures published by the U.S. Air Force, rounded for display. Performance beyond what is officially stated is not included."
-          notice="Values follow the public U.S. Air Force fact sheet and standard references. They are included for educational context, not as technical documentation."
+          heading={t.specHeading}
+          intro={t.specIntro}
+          notice={t.specNotice}
         />
 
         <Timeline
           slug="f-22"
           number="03"
-          heading="From requirement to Raptor."
-          intro="The programme in fourteen dates, from the requirement that started it to combat over Iran."
-          items={milestones}
+          heading={t.historyHeading}
+          intro={t.historyIntro}
+          items={page.milestones}
         />
 
         <Variants
           number="04"
-          heading="One production form."
-          intro="Only one version of the F-22 was built in quantity. A two-seat trainer was planned and dropped, so it is shown as a silhouette."
-          items={variants}
+          heading={t.variantsHeading}
+          intro={t.variantsIntro}
+          items={page.variants}
           silhouette={silhouette}
         />
 
-        <Comparison
-          number="05"
-          current="f-22"
-          intro="Published dimensions and dates for the F-22 alongside eleven other aircraft. It was the first fifth-generation fighter to fly and to enter service."
-        />
+        <Comparison number="05" current="f-22" intro={t.compareIntro} />
 
         <Reference
           number="06"
-          entries={glossary}
-          links={sources}
-          note="Figures on this page follow official publications where available. Anything not officially published has been left out."
+          entries={page.glossary}
+          links={page.sources}
+          note={t.referenceNote}
         />
 
         <section
@@ -519,16 +391,16 @@ function F22({ introDelay = 0.1 }) {
         >
           <div className="mx-auto grid max-w-[1500px] gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
             <a
-              href="#/f-22/gallery"
+              href={galleryHref}
               className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] md:p-12"
             >
               <span>
                 <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
-                  Photographic archive
+                  {t.photoArchive}
                 </span>
 
                 <span className="mt-4 block text-3xl font-semibold tracking-[-.04em] transition group-hover:text-lime-300 md:text-4xl">
-                  F-22 in frame
+                  {t.inFrame}
                 </span>
               </span>
 
@@ -539,16 +411,16 @@ function F22({ introDelay = 0.1 }) {
             </a>
 
             <a
-              href="#/f-35"
+              href={href("#/f-35")}
               className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] md:p-12"
             >
               <span>
                 <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
-                  Next aircraft
+                  {t.nextAircraft}
                 </span>
 
                 <span className="mt-4 block text-3xl font-semibold tracking-[-.04em] transition group-hover:text-lime-300 md:text-4xl">
-                  Lockheed Martin F-35
+                  {t.nextLabel}
                 </span>
               </span>
 

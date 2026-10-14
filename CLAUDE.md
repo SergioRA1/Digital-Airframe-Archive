@@ -16,6 +16,7 @@ npm run preview   # serve the built dist/
 npm run lint      # ESLint (eslint.config.js): recommended, React and hooks rules
 npm test          # Playwright browser tests in tests/, against a fresh production build
 npm run figures   # regenerate src/figures.js after changing a specification
+npm run translations   # list English text that has no Spanish translation
 npx playwright test -g "menu"   # run only the tests whose name matches
 ```
 
@@ -51,7 +52,7 @@ Check a change with `npm run lint` and `npm test`, which must both pass, and by 
 - A boot overlay runs for about 1.5s on first load. Pages accept an `introDelay` prop so their entrance animations start after it.
 
 ### Two kinds of aircraft pages
-1. **Bespoke pages**: `J20.jsx` and `F22.jsx`. These are hand-built components with their own visuals, such as the radar display and custom aircraft SVG. Their `specifications` and `milestones` live in `src/data/j20.js` and `src/data/f22.js`, so the comparison and timeline don't load the page components.
+1. **Bespoke pages**: `J20.jsx` and `F22.jsx`. These are hand-built components with their own visuals, such as the radar display and custom aircraft SVG. All their English text lives in `src/data/j20.js` and `src/data/f22.js` (so the comparison and timeline can read specifications and milestones without loading the page components, and the translation checker can see every string). The components keep only icons, layout values and section ids, matched to the data by position.
 2. **Data-driven pages**: every other aircraft. Each one is a plain data module in `src/pages/<slug>.js`, rendered by the shared `AircraftPage.jsx` template through the `dataPage()` helper in `App.jsx`. **Add new aircraft this way.**
 
 A data module default-exports one object with these keys: `slug, badge, footerLabel, eyebrow, title (array of 1–2 parts, e.g. ["F","35"]), model, tagline, heroStats, silhouette, detail {spine, canopy, exhaust}, next {href, label}, designHeading, designIntro, designFeatures, specHeading, specIntro, specNotice, specifications, historyHeading, historyIntro, milestones, variantsHeading, variantsIntro, variants, compareIntro, glossary, sources, referenceNote`. Copy an existing module such as `src/pages/f35.js` as the template. Icons in `designFeatures` are lucide-react components imported into the data module.
@@ -59,27 +60,38 @@ A data module default-exports one object with these keys: `slug, badge, footerLa
 ### Shared modules
 - `src/aircraft.js`: master list of aircraft for the Home page. Each entry has a slug, generation, designation, origin, dates, summary, an SVG `silhouette` path in an 816×480 viewBox starting at x=200, and `available`. Data modules reuse the silhouette with `aircraft.find(e => e.slug === "<slug>").silhouette`. Never duplicate the path.
 - `src/Layout.jsx`: page chrome: `PageHeader`, `PageFooter`, `GridBackdrop`, `ScrollProgress`, `goToSection()` and the `useActiveSection()` hook.
-- `src/Sections.jsx`: shared content sections for aircraft pages: `Specifications`, `Timeline`, `Variants`, `Reference`. Their default props hold the J-20 content.
+- `src/Sections.jsx`: shared content sections for aircraft pages: `Specifications`, `Timeline`, `Variants`, `Reference`. They take all their text as props; the J-20 page passes its content from `src/data/j20.js`.
 - `src/Comparison.jsx`: the cross-aircraft `Comparison` table and the `peers` array that drives it (each row links to the aircraft by `slug`). It is separate from `Sections.jsx` so the hangar page can show the table without loading the aircraft-page sections, `usage.js` and the J-20 defaults. `SectionLabel` lives in `Layout.jsx` for the same reason.
 - `src/figures.js`: numeric performance figures (speed, weight, radius, ceiling, size) keyed by slug, used by `#/compare`. **Generated, never edit by hand.** `scripts/generate-figures.js` reads each aircraft's `specifications` rows by label (`MAXIMUM SPEED`, `MAX TAKEOFF WEIGHT`, `COMBAT RADIUS`, `SERVICE CEILING`, `LENGTH`, `WINGSPAN`) and parses the chart value from the row's `value` text (ranges plot at their midpoint, `MACH 2 CLASS` as 2). A missing row means not published. After changing a specification, run `npm run figures` and commit the result; a test fails if `figures.js` is out of date. It is generated rather than computed in the browser so `#/compare` doesn't download every aircraft's text.
 - `Chronology.jsx` reads milestones directly: J-20 and F-22 from `src/data/`, and the rest from each data module. A new aircraft must be imported there too.
 - `src/usage.js`: the "Capabilities / Use and operations / Limits and caveats" panel for each aircraft, keyed by slug. `Timeline` shows it automatically.
 - `src/photos.js`: photos keyed by a short id (`<aircraft>_<x>`). Each one has `src` (1280px wide), `full` (1920px wide), `photographer`, `licence` and `source` (the photo's page on its original site).
-- `src/Gallery.jsx`: the per-aircraft image arrays and the exported `galleries` map keyed by slug. `#/archive` merges all galleries.
-  - The first entries in the J-20, F-22, F-35 and Su-57 arrays are older inline objects. Write every new image as `entry(id, number, title, subtitle, description, photos.<key>)`, using the helper at the top of the file, and add the photo itself to `photos.js`.
+- `src/Gallery.jsx`: the per-aircraft image arrays and the exported `galleries` map keyed by slug (`{ years, images }`). It holds no text: captions live in `src/data/gallery.js` (`captions` keyed by image id, `galleryText` keyed by slug with `name`, `fullName`, `label`, `intro`) and the fixed UI text is in the `text` table in `Gallery.jsx`. `#/archive` merges all galleries.
+  - To add a photo: add it to `src/photos.js`; append `entry("<prefix>-g<N>", "<NN>", photos.<key>)` to that aircraft's array in `Gallery.jsx`; add `{ title, subtitle, description }` under the same id in `captions` in `src/data/gallery.js`; and add the Spanish caption under the same id in `src/locales/es/gallery.js`. The translation test fails if the Spanish caption is missing.
   - Gallery ids follow `<prefix>-g<N>` (e.g. `"typhoon-g8"`), and `number` is the zero-padded position (`"08"`). Keep both sequential.
   - Each `galleries` entry has a `years` range (e.g. `"2009–2024"`). Widen it when a new photo falls outside it.
+
+### Languages (English and Spanish)
+- The site is written in English. Spanish pages live at `#/es/...` (e.g. `#/es/f-35/gallery`). `readRoute()` in `App.jsx` reads the language from the hash, sets `<html lang>` and the page title, and provides it through `LanguageContext`. The header has an EN/ES switch that opens the same page in the other language.
+- `src/i18n.js` holds the helpers: `useLanguage()`, `useText(table)` for a component's `{ en: {...}, es: {...} }` UI strings, `useHref()` / `localHref()` for internal links, `useTerm()` for values stored in English because code relies on them (confidence levels, specification groups, origins), `useDate()` for milestone dates, and `localise(english, spanish)`.
+- Spanish content never copies the English data. Each Spanish module under `src/locales/es/` mirrors one English module's shape (objects by key, arrays by position) and holds only text. `localise()` lays it over the English, so numbers, icons, links, photos, dates and enum values always come from the English. Spanish modules load only on Spanish pages: data pages find `src/locales/es/pages/<name>.js` by file name, and other lazy pages receive theirs as a `translation` prop (see `localised()` in `App.jsx`).
+- Every internal link must go through `useHref()` (or `localHref()` for `window.location.hash = ...`), or a Spanish visitor drops back to English. A test fails if a Spanish page has an English link.
+- Dates, confidence levels, specification groups and origins stay in English in the data: the timeline parses dates and the filters compare the English values. Show them with `useDate()` / `useTerm()`. A new specification group or origin needs a Spanish entry in `terms` in `i18n.js`.
+- `npm run translations` (`scripts/check-translations.js`) lists English text with no Spanish string, Spanish entries with no English counterpart, and fixed fields (codes, links, credits, dates) that were translated. A test fails on any of these. A string that stays the same in Spanish (a designation, a company name) is still written in the Spanish module, so a deliberate copy can be told from a missing one.
+- When you change or add English text, change the Spanish module in the same commit. After changing a specification, run `npm run figures` too: `figures.js` holds the Spanish display text for the compare page.
+- Spanish style: Spain Spanish, neutral and impersonal, short plain sentences, faithful to the English (keep every "reported" hedge: "según informes"). Decimal comma and thousands point (`15,7`, `≈ 31.800`, `MACH 1,6`). Month abbreviations `ENE FEB MAR ABR MAY JUN JUL AGO SEP OCT NOV DIC`. `EE. UU.`, Spanish quotes « ». Follow `src/locales/es/pages/f35.js` for terminology.
 
 ### Adding an aircraft (checklist)
 Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 1. Add an entry to `src/aircraft.js`.
 2. Create `src/pages/<slug>.js`.
 3. Register the route in the `pages` map in `src/App.jsx`.
-4. Add photos to `src/photos.js` and a gallery to `galleries` in `src/Gallery.jsx`.
+4. Add photos to `src/photos.js`, a gallery to `galleries` in `src/Gallery.jsx`, its captions and `galleryText` entry to `src/data/gallery.js`, and their Spanish to `src/locales/es/gallery.js`.
 5. Add usage text to `src/usage.js`.
 6. Add a row to `peers` in `src/Comparison.jsx`, import its data module into `specificationSources` in `scripts/generate-figures.js` and `sources` in `src/Chronology.jsx`, then run `npm run figures`. Use the standard specification labels above so the comparison charts pick up its figures.
 7. Update the `next` chain. Pages link in a loop: J-20 → F-22 → F-35 → Su-57 → F-16 → Typhoon → Rafale → Gripen → J-35 → J-16 → J-15 → F-15EX → J-20. Re-point the previous page's `next` to the new aircraft and give the new one the old target.
-8. Update any hard-coded counts in copy, such as "twelve aircraft" in `App.jsx` comments or "twelve fighters" in the `Comparison` intro.
+8. Add its Spanish module `src/locales/es/pages/<name>.js`, its slug to `slugs` in `src/locales/es/timeline.js`, its name to `pageNames` in `scripts/check-translations.js`, and Spanish rows to `src/locales/es/aircraft.js`, `peers.js` and `usage.js`. `npm run translations` must pass.
+9. Update any hard-coded counts in copy, such as "twelve aircraft" in `App.jsx` comments or "twelve fighters" in the `Comparison` intro.
 
 ## Standards
 
@@ -101,7 +113,7 @@ Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 - Credits are written in English and in a consistent form, e.g. `"Tech. Sgt. John McRell, U.S. Air Force"`, `"Joint Staff Office, Japan Ministry of Defense"`, `"China News Service"`. Drop suffixes such as "from <city>" or "(Website)".
 - Prefer photos where the aircraft is the subject. Skip portraits of private people posing in front of jets.
 - Stock sites often mislabel military aircraft. Before adding a photo, check from the image itself that it shows the right type and variant.
-- The credits text in `src/Gallery.jsx` ("These photographs are loaded from Wikimedia Commons…") names only Commons. Make it source-neutral when the first photo from another site is added. Do the same for the comment at the top of `src/photos.js`.
+- The credits text in the `text` table in `src/Gallery.jsx` ("These photographs are loaded from Wikimedia Commons…", in English and Spanish) names only Commons. Make it source-neutral when the first photo from another site is added. Do the same for the comment at the top of `src/photos.js`.
 
 ### Code style
 - Two-space indentation, double quotes, semicolons.

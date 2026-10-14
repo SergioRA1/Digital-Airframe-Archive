@@ -141,6 +141,34 @@ export function ScrollProgress() {
   );
 }
 
+// Opens the same page in the other language. Shared by PageHeader and the
+// gallery header.
+export function LanguageSwitch() {
+  const t = useText(text);
+  const language = useLanguage();
+  const otherLanguage = language === "es" ? "en" : "es";
+
+  return (
+    // Read the hash on click: the compare page updates it without a re-render.
+    <a
+      href={switchLanguageHref(window.location.hash, otherLanguage)}
+      onClick={(event) => {
+        event.preventDefault();
+        window.location.hash = switchLanguageHref(
+          window.location.hash,
+          otherLanguage,
+        );
+      }}
+      lang={otherLanguage}
+      aria-label={t.switchLanguage}
+      title={t.switchLanguage}
+      className="grid h-10 min-w-10 place-items-center border border-white/10 bg-white/[.03] px-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
+    >
+      {otherLanguage}
+    </a>
+  );
+}
+
 export function PageHeader({
   badge,
   items,
@@ -152,8 +180,6 @@ export function PageHeader({
   const t = useText(text);
   const href = useHref();
   const translate = useTerm();
-  const language = useLanguage();
-  const otherLanguage = language === "es" ? "en" : "es";
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pendingSection = useRef(null);
@@ -220,7 +246,7 @@ export function PageHeader({
             {badge}
           </div>
 
-          <div>
+          <div className="whitespace-nowrap">
             <div className="text-xs font-semibold tracking-[.24em]">
               AIRFRAME
             </div>
@@ -266,24 +292,7 @@ export function PageHeader({
         </nav>
 
         <div className="flex items-center gap-2">
-          {/* Read the hash on click: the compare page updates it without a
-              re-render. */}
-          <a
-            href={switchLanguageHref(window.location.hash, otherLanguage)}
-            onClick={(event) => {
-              event.preventDefault();
-              window.location.hash = switchLanguageHref(
-                window.location.hash,
-                otherLanguage,
-              );
-            }}
-            lang={otherLanguage}
-            aria-label={t.switchLanguage}
-            title={t.switchLanguage}
-            className="grid h-10 min-w-10 place-items-center border border-white/10 bg-white/[.03] px-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
-          >
-            {otherLanguage}
-          </a>
+          <LanguageSwitch />
 
           {showHangarLink && (
             <a
@@ -292,7 +301,11 @@ export function PageHeader({
               className="flex h-10 items-center gap-2 border border-white/10 bg-white/[.03] px-3 text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
             >
               <LayoutGrid size={14} />
-              <span className="hidden sm:inline">{t.allAircraft}</span>
+              {/* Long navigation leaves room for the label only on the widest
+                  screens; the link keeps its aria-label. */}
+              <span className={wide ? "hidden 2xl:inline" : "hidden sm:inline"}>
+                {t.allAircraft}
+              </span>
             </a>
           )}
 
