@@ -340,7 +340,7 @@ const su57 = {
       date: "FEB 2026",
       title: "Seen in Algeria",
       detail:
-        "Video filmed in Algeria shows Su-57s in flight, the first public sign of the type in a foreign air force. Neither government has published details.",
+        "Video filmed in Algeria shows Su-57s in flight, the first public sign of the type in a foreign air force. Neither Russia nor Algeria has published details.",
       confidence: "REPORTED",
     },
   ],

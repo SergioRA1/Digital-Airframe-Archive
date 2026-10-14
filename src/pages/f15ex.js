@@ -278,11 +278,11 @@ const f15ex = {
       confidence: "CONFIRMED",
     },
     {
-      date: "2019",
+      date: "APR 2020",
       title: "F-15QA flies",
       detail:
-        "The first F-15QA, built for Qatar, makes its first flight. It introduces fly-by-wire controls to the two-seat F-15 family.",
-      confidence: "REPORTED",
+        "The first F-15QA, built for Qatar, makes its first flight from St. Louis. It introduces fly-by-wire controls to the two-seat F-15 family.",
+      confidence: "CONFIRMED",
     },
     {
       date: "2020",

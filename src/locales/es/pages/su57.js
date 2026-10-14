@@ -262,7 +262,7 @@ export default {
     {
       title: "Visto en Argelia",
       detail:
-        "Un vídeo grabado en Argelia muestra Su-57 en vuelo, la primera señal pública del modelo en una fuerza aérea extranjera. Ninguno de los dos gobiernos ha publicado detalles.",
+        "Un vídeo grabado en Argelia muestra Su-57 en vuelo, la primera señal pública del modelo en una fuerza aérea extranjera. Ni Rusia ni Argelia han publicado detalles.",
     },
   ],
 

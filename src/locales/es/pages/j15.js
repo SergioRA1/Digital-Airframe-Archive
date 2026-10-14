@@ -191,7 +191,7 @@ export default {
     {
       title: "Portaaviones Shandong",
       detail:
-        "El segundo portaaviones, el Shandong, entra en servicio y opera J-15 en mayor número.",
+        "Entra en servicio el segundo portaaviones, el Shandong, el primero construido en China. Como el Liaoning, opera el J-15.",
     },
     {
       title: "Visto en el mar",

@@ -30,10 +30,10 @@ export const aircraft = [
   {
     name: "Eurofighter",
     summary:
-      "Un caza bimotor de ala en delta y plano canard construido por un consorcio europeo de cuatro naciones y utilizado por nueve fuerzas aéreas.",
+      "Un caza bimotor de ala en delta y plano canard construido por un consorcio europeo de cuatro naciones y utilizado en Europa y Oriente Medio.",
   },
   {
-    name: "Dassault",
+    name: "Ráfaga",
     summary:
       "El caza bimotor polivalente de Francia, fabricado en versiones para la fuerza aérea y para portaaviones a partir de un mismo diseño.",
   },
@@ -48,7 +48,7 @@ export const aircraft = [
       "Un caza furtivo bimotor surgido del demostrador FC-31, del que ahora se informa en versiones terrestre y embarcada.",
   },
   {
-    name: "Flanker derivative",
+    name: "Derivado del Flanker",
     summary:
       "Un caza polivalente grande, biplaza y bimotor, desarrollado a partir de la familia Su-27 y utilizado en gran número por la Fuerza Aérea del EPL.",
   },

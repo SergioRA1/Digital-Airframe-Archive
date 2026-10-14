@@ -265,7 +265,7 @@ export const milestones = [
     date: "FEB–MAR 2026",
     title: "Operation Epic Fury",
     detail:
-      "F-22s deploy to Israel and fly in the U.S.-Israeli campaign against Iran, mainly to keep Iranian aircraft away from strike packages.",
+      "F-22s are reported to deploy to Israel and to fly in the U.S.-Israeli campaign against Iran, clearing the way for strike aircraft.",
     confidence: "REPORTED",
   },
 ];

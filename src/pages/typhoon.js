@@ -13,7 +13,7 @@ const typhoon = {
   title: ["Typhoon"],
   model: "006",
   tagline:
-    "A twin-engine canard-delta fighter built by a four-nation European consortium: fast, agile and flown by nine air forces.",
+    "A twin-engine canard-delta fighter built by a four-nation European consortium: fast, agile and flown in Europe and the Middle East.",
   heroStats: [
     ["4.5", "Generation"],
     ["02", "Engines"],
@@ -351,7 +351,7 @@ const typhoon = {
       points: [
         "Named FGR4 in Royal Air Force service",
         "Ground-attack ability added after entry into service",
-        "Flown by nine air forces",
+        "Flown in Europe and the Middle East",
       ],
     },
     {

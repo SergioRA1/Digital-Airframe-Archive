@@ -373,7 +373,7 @@ export default {
     {
       title: "Operación Epic Fury",
       detail:
-        "Los F-22 se despliegan en Israel y participan en la campaña estadounidense-israelí contra Irán, sobre todo para mantener a los aviones iraníes lejos de las formaciones de ataque.",
+        "Según informes, los F-22 se despliegan en Israel y participan en la campaña estadounidense-israelí contra Irán, abriendo paso a los aviones de ataque.",
     },
   ],
 };

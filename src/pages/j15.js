@@ -250,7 +250,7 @@ const j15 = {
       date: "2019",
       title: "Shandong carrier",
       detail:
-        "The second carrier, Shandong, enters service and operates J-15 aircraft in larger numbers.",
+        "The second carrier, Shandong, the first built in China, enters service. Like Liaoning, it flies the J-15.",
       confidence: "CONFIRMED",
     },
     {

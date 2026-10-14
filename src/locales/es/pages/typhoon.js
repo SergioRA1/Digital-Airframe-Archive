@@ -4,7 +4,7 @@
 export default {
   eyebrow: "Eurofighter Typhoon",
   tagline:
-    "Un caza bimotor de ala en delta con canard construido por un consorcio europeo de cuatro naciones: rápido, ágil y operado por nueve fuerzas aéreas.",
+    "Un caza bimotor de ala en delta con canard construido por un consorcio europeo de cuatro naciones: rápido, ágil y utilizado en Europa y Oriente Medio.",
   heroStats: [
     ["4,5", "Generación"],
     ["02", "Motores"],
@@ -270,7 +270,7 @@ export default {
       points: [
         "Designado FGR4 en la Real Fuerza Aérea",
         "Capacidad de ataque a tierra añadida tras la entrada en servicio",
-        "Operado por nueve fuerzas aéreas",
+        "Utilizado en Europa y Oriente Medio",
       ],
     },
     {

@@ -84,7 +84,7 @@ export const aircraft = [
     firstFlight: "1994",
     service: "2003",
     summary:
-      "A twin-engine canard-delta fighter built by a four-nation European consortium and flown by nine air forces.",
+      "A twin-engine canard-delta fighter built by a four-nation European consortium and flown in Europe and the Middle East.",
     silhouette:
       "M608 40 L622 120 L636 175 L704 168 L708 186 L646 205 L660 240 L844 392 L844 410 L700 428 L664 438 L640 452 L608 456 L576 452 L552 438 L516 428 L372 410 L372 392 L556 240 L570 205 L508 186 L512 168 L580 175 L594 120 Z",
     available: true,
@@ -93,7 +93,7 @@ export const aircraft = [
     slug: "rafale",
     generation: "4.5",
     designation: "Rafale",
-    name: "Dassault",
+    name: "Gust",
     manufacturer: "Dassault Aviation",
     origin: "France",
     firstFlight: "1986",

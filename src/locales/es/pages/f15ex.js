@@ -216,7 +216,7 @@ export default {
     {
       title: "Vuela el F-15QA",
       detail:
-        "El primer F-15QA, construido para Catar, realiza su primer vuelo. Introduce los mandos de vuelo electrónicos en la familia F-15 biplaza.",
+        "El primer F-15QA, construido para Catar, realiza su primer vuelo desde San Luis. Introduce los mandos de vuelo electrónicos en la familia F-15 biplaza.",
     },
     {
       title: "La Fuerza Aérea encarga el F-15EX",
