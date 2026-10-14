@@ -89,6 +89,11 @@ test.describe("every route renders", () => {
     "f-15ex/gallery/",
   ];
 
+  // Spanish runs longer, so check every page in both languages.
+  phoneRoutes.push(
+    ...phoneRoutes.map((route) => (route === "./" ? "es/" : `es/${route}`)),
+  );
+
   for (const route of phoneRoutes) {
     test(`${route} keeps its text on screen on a phone`, async ({ page }) => {
       await page.setViewportSize({
@@ -140,6 +145,19 @@ test.describe("every route renders", () => {
       });
 
       expect(offscreen).toEqual([]);
+
+      // Header controls hold icons rather than text, so check them too.
+      const clippedControls = await page.evaluate(() =>
+        [...document.querySelectorAll("header a, header button")]
+          .filter((element) => {
+            const box = element.getBoundingClientRect();
+
+            return box.width > 0 && (box.right > window.innerWidth || box.left < 0);
+          })
+          .map((element) => element.getAttribute("aria-label") ?? element.textContent.trim()),
+      );
+
+      expect(clippedControls).toEqual([]);
     });
   }
 
@@ -311,10 +329,11 @@ test.describe("language", () => {
       page.locator(`a[href="${basePath}es/f-35/gallery/"]`).first(),
     ).toBeAttached();
     await expect(page.locator(`a[href="${basePath}es/su-57/"]`).first()).toBeAttached();
-    // The language switch is the one link that leaves Spanish on purpose.
+    // The language switch and the language suggestion (marked lang="en")
+    // are the links that leave Spanish on purpose.
     await expect(
       page.locator(
-        `a[href^="${basePath}"]:not([href^="${basePath}es/"]):not([lang="en"])`,
+        `a[href^="${basePath}"]:not([href^="${basePath}es/"]):not([lang="en"], [lang="en"] *)`,
       ),
     ).toHaveCount(0);
     // Nothing still links in the old "#/..." form.
@@ -327,6 +346,74 @@ test.describe("language", () => {
     await expect(page.getByText("15 DIC 2006").first()).toBeAttached();
     await expect(page.getByText("CONFIRMADO").first()).toBeAttached();
     await expect(page.getByRole("button", { name: "DIMENSIONES" })).toBeAttached();
+  });
+});
+
+test.describe("language suggestion, Spanish browser", () => {
+  test.use({ locale: "es-ES" });
+
+  const notice = (page) => page.getByRole("complementary", { name: "Idioma" });
+
+  test("an English page offers Spanish, and following it is remembered", async ({
+    page,
+  }) => {
+    await open(page, "f-35/");
+
+    await notice(page).getByRole("link", { name: "Leer en español" }).click();
+    await expect(page).toHaveURL(new RegExp(`${basePath}es/f-35/$`));
+    await expect(notice(page)).toHaveCount(0);
+
+    await open(page, "f-35/");
+    await page.waitForTimeout(500);
+    await expect(notice(page)).toHaveCount(0);
+  });
+
+  test("closing it is remembered", async ({ page }) => {
+    await open(page, "./");
+
+    await notice(page).getByRole("button", { name: "Cerrar" }).click();
+    await expect(notice(page)).toHaveCount(0);
+
+    await open(page, "timeline/");
+    await page.waitForTimeout(500);
+    await expect(notice(page)).toHaveCount(0);
+  });
+
+  test("a Spanish page offers nothing", async ({ page }) => {
+    await open(page, "es/");
+    await page.waitForTimeout(500);
+
+    await expect(page.locator("aside[lang]")).toHaveCount(0);
+  });
+});
+
+test.describe("language suggestion, English browser", () => {
+  test.use({ locale: "en-GB" });
+
+  test("an English page offers nothing", async ({ page }) => {
+    await open(page, "./");
+    await page.waitForTimeout(500);
+
+    await expect(page.locator("aside[lang]")).toHaveCount(0);
+  });
+
+  test("a Spanish page offers English, and the header switch counts as a choice", async ({
+    page,
+  }) => {
+    await open(page, "es/f-35/");
+
+    const notice = page.getByRole("complementary", { name: "Language" });
+
+    await expect(notice.getByRole("link", { name: "Read in English" })).toHaveAttribute(
+      "href",
+      `${basePath}f-35/`,
+    );
+
+    // Choosing Spanish in the header means the visitor wants Spanish.
+    await page.getByRole("link", { name: "View in English" }).click();
+    await page.getByRole("link", { name: "Ver en español" }).click();
+    await expect(page).toHaveURL(new RegExp(`${basePath}es/f-35/$`));
+    await expect(notice).toHaveCount(0);
   });
 });
 

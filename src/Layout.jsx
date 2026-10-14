@@ -17,6 +17,7 @@ import {
   useTerm,
   useText,
 } from "./i18n.js";
+import { rememberLanguageChoice } from "./LanguageSuggestion.jsx";
 import { navigate } from "./routes.js";
 
 const text = {
@@ -156,6 +157,7 @@ export function LanguageSwitch() {
       href={switchLanguageHref(window.location, otherLanguage)}
       onClick={(event) => {
         event.preventDefault();
+        rememberLanguageChoice(otherLanguage);
         navigate(switchLanguageHref(window.location, otherLanguage));
       }}
       lang={otherLanguage}
@@ -230,7 +232,7 @@ export function PageHeader({
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#050708]/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between gap-6 px-5 md:px-10">
+      <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between gap-3 px-5 sm:gap-6 md:px-10">
         <button
           type="button"
           onClick={() =>

@@ -15,7 +15,7 @@ An interactive digital exhibition of twelve modern combat aircraft, built as a s
 - **Interactive comparison**: pick up to three aircraft and compare speed, weight, combat radius, ceiling and size on animated bar charts, with a sortable table of all twelve. The selection is kept in the address, so a comparison such as `compare/?aircraft=f-22,j-20,typhoon` can be shared as a link.
 - **Combined timeline**: every milestone from every aircraft on one chart and in one list, filterable by origin and by confidence.
 - **Photo galleries**: a gallery for each aircraft and a combined archive. Every photo is freely licensed and credited with its photographer, licence and source.
-- **English and Spanish**: every page is available in Spanish under `es/`, with a switch in the header. Spanish text is laid over the English data, so figures and links are never duplicated, and a test fails if any English text has no translation.
+- **English and Spanish**: every page is available in Spanish under `es/`, with a switch in the header, and visitors whose browser prefers the other language are offered it. Spanish text is laid over the English data, so figures and links are never duplicated, and a test fails if any English text has no translation.
 - **Hangar index**: a home page that lists every aircraft, with search by designation, name, manufacturer or origin.
 - **Two hand-built pages**: the J-20 and F-22 pages have custom visuals, such as a radar display and aircraft drawings. The other ten are rendered from data by one shared template.
 

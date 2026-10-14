@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Home from "./Home.jsx";
+import { LanguageSuggestion } from "./LanguageSuggestion.jsx";
 import { LanguageContext, localHref, localise } from "./i18n.js";
 import {
   basePath,
@@ -282,6 +283,8 @@ function App() {
       <Suspense fallback={<div className="min-h-screen bg-[#050708]" />}>
         {content}
       </Suspense>
+
+      <LanguageSuggestion show={!booting} />
     </LanguageContext.Provider>
   );
 }
