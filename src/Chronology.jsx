@@ -346,7 +346,7 @@ function Chronology({ introDelay = 0.1, translation }) {
 
             <h1 className="text-[clamp(3.2rem,10vw,9rem)] font-black leading-[.8] tracking-[-.075em]">
               {t.heroTop}
-              <span className="block text-white/30">{t.heroBottom}</span>
+              <span className="block text-white/40">{t.heroBottom}</span>
             </h1>
 
             <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base">
@@ -401,7 +401,7 @@ function Chronology({ introDelay = 0.1, translation }) {
               <svg
                 viewBox={`0 0 ${chart.width} ${chartHeight}`}
                 className="min-w-[900px]"
-                role="img"
+                role="group"
                 aria-label={t.chartAria(events.length, firstYear, lastYear)}
               >
                 {ticks.map((year) => (

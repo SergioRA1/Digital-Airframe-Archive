@@ -756,9 +756,12 @@ function GalleryCard({ image, index, name, onOpen }) {
         once: true,
         amount: 0.15,
       }}
+      // Stagger only the first few cards: each card animates as it scrolls
+      // into view, so a delay that grew with its position left cards far
+      // down the archive invisible for seconds.
       transition={{
         duration: 0.8,
-        delay: index * 0.08,
+        delay: Math.min(index, 3) * 0.08,
       }}
       className={`group grid overflow-hidden border border-white/10 bg-[#080b0c] ${
         imageOnRight

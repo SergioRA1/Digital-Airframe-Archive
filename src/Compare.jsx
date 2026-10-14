@@ -490,7 +490,7 @@ function Compare({ introDelay = 0.1 }) {
 
             <h1 className="text-[clamp(3.2rem,10vw,9rem)] font-black leading-[.8] tracking-[-.075em]">
               {t.heroTop}
-              <span className="block text-white/30">{t.heroBottom}</span>
+              <span className="block text-white/40">{t.heroBottom}</span>
             </h1>
 
             <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base">
@@ -645,7 +645,7 @@ function Compare({ introDelay = 0.1 }) {
                             <span className="text-left">
                               {column.label}
                               {column.unit && (
-                                <span className="block text-white/35">
+                                <span className="block text-white/50">
                                   {column.unit}
                                 </span>
                               )}

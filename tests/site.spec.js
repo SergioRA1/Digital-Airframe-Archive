@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 import { readdirSync, readFileSync } from "node:fs";
@@ -55,6 +56,22 @@ async function open(page, path) {
   return errors;
 }
 
+// Scrolls to the bottom and back so every scroll-triggered entrance plays.
+// Each step waits for two drawn frames: with many tests running at once a
+// fixed pause can be shorter than a frame, and an element scrolled past
+// between frames never sees itself in view.
+async function scrollThrough(page) {
+  await page.evaluate(async () => {
+    const frame = () =>
+      new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    for (let y = 0; y < document.body.scrollHeight; y += 400) {
+      window.scrollTo(0, y);
+      await frame();
+    }
+  });
+}
+
 // True once the section's top edge sits just under the 80px fixed header.
 async function sectionAtTop(page, sectionId) {
   const top = await page
@@ -107,13 +124,7 @@ test.describe("every route renders", () => {
       });
       await open(page, route);
 
-      // Scroll through once so every scroll-triggered entrance has played.
-      await page.evaluate(async () => {
-        for (let y = 0; y < document.body.scrollHeight; y += 400) {
-          window.scrollTo(0, y);
-          await new Promise((resolve) => setTimeout(resolve, 30));
-        }
-      });
+      await scrollThrough(page);
       await page.waitForTimeout(300);
 
       // Visible text that runs past the screen edge, ignoring anything inside
@@ -166,6 +177,95 @@ test.describe("every route renders", () => {
     await open(page, "not-an-aircraft/");
 
     await expect(page.locator("#aircraft")).toBeAttached();
+  });
+});
+
+// Accessibility rules from axe-core (WCAG 2.1 A and AA): contrast, names
+// for buttons and links, heading and landmark structure, and so on.
+test.describe("accessibility", () => {
+  // The rule ids and elements that fail, so a failure says what to fix.
+  const violations = async (page) => {
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+
+    return results.violations.flatMap((violation) =>
+      violation.nodes.map(
+        (node) =>
+          `${violation.id}: ${node.target.join(" ")} ${node.html.slice(0, 120)} ${
+            node.any[0]?.message ?? ""
+          }`,
+      ),
+    );
+  };
+
+  // Elements fade in as they scroll into view, and text caught mid-fade
+  // fails the contrast rule. Scroll through once, bring any element still
+  // faded (framer-motion sets its opacity inline) into view, then check
+  // until the page settles.
+  const check = async (page) => {
+    await scrollThrough(page);
+    await page.evaluate(async () => {
+      const frame = () =>
+        new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const faded = [...document.querySelectorAll("[style*='opacity']")].filter(
+        (element) => Number(element.style.opacity) < 1,
+      );
+
+      for (const element of faded) {
+        element.scrollIntoView({ block: "center" });
+        await frame();
+      }
+    });
+
+    await expect
+      .poll(() => violations(page), {
+        intervals: [1000, 2000, 3000],
+        timeout: 20000,
+      })
+      .toEqual([]);
+  };
+
+  // Each language's pages run one at a time, side by side: these pages load
+  // every photo, and running them all at once can exhaust memory and crash
+  // the browser.
+  for (const language of ["en", "es"]) {
+    test.describe(language, () => {
+      test.describe.configure({ mode: "default" });
+
+      for (const route of allRoutes.filter((each) => each.language === language)) {
+        const path = address(route);
+
+        test(path, async ({ page }) => {
+          await page.emulateMedia({
+            reducedMotion: "reduce",
+          });
+          await open(page, path);
+          await check(page);
+        });
+      }
+    });
+  }
+
+  test("the open menu", async ({ page }) => {
+    await page.setViewportSize({
+      width: 390,
+      height: 844,
+    });
+    await open(page, "f-35/");
+    await page.getByRole("button", { name: "Open menu" }).click();
+    await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+    await page.waitForTimeout(600);
+
+    await expect.poll(() => violations(page), { timeout: 10000 }).toEqual([]);
+  });
+
+  test("the gallery viewer", async ({ page }) => {
+    await open(page, "f-35/gallery/");
+    await page.locator("main button[aria-label]").first().click();
+    await page.waitForTimeout(800);
+
+    await expect.poll(() => violations(page), { timeout: 10000 }).toEqual([]);
   });
 });
 

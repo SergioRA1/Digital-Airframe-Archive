@@ -338,7 +338,7 @@ function Home({ introDelay = 0.1 }) {
 
             <h1 className="text-[clamp(3.5rem,11vw,10rem)] font-black leading-[.8] tracking-[-.075em]">
               {t.heroTop}
-              <span className="block text-white/30">{t.heroBottom}</span>
+              <span className="block text-white/40">{t.heroBottom}</span>
             </h1>
 
             <div className="mt-10 grid max-w-4xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
