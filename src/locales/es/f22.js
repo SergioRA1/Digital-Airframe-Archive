@@ -1,6 +1,8 @@
 // Spanish text for src/data/f22.js, laid over the English with localise().
 // Same shape as the English exports, text only.
 
+import { counts } from "../../counts.js";
+
 export default {
   content: {
     navigation: {
@@ -41,7 +43,7 @@ export default {
     variantsIntro:
       "Solo se construyó en cantidad una versión del F-22. Se planificó un entrenador biplaza que se abandonó, por lo que se muestra como silueta.",
     compareIntro:
-      "Dimensiones y fechas publicadas del F-22 junto a otros once aviones. Fue el primer caza de quinta generación en volar y en entrar en servicio.",
+      `Dimensiones y fechas publicadas del F-22 junto a otros ${counts.es.others} aviones. Fue el primer caza de quinta generación en volar y en entrar en servicio.`,
     referenceNote:
       "Las cifras de esta página siguen las publicaciones oficiales cuando existen. Se ha omitido todo lo que no se ha publicado oficialmente.",
     photoArchive: "Archivo fotográfico",

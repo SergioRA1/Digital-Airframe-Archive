@@ -1,6 +1,8 @@
 // Spanish text for src/pages/typhoon.js, laid over the English with localise().
 // Same shape as the English module, text only.
 
+import { counts } from "../../../counts.js";
+
 export default {
   eyebrow: "Eurofighter Typhoon",
   tagline:
@@ -289,7 +291,7 @@ export default {
   ],
 
   compareIntro:
-    "Dimensiones y fechas publicadas del Typhoon junto a otros once aviones. Es uno de los tres cazas europeos de ala en delta con canard de la tabla.",
+    `Dimensiones y fechas publicadas del Typhoon junto a otros ${counts.es.others} aviones. Es uno de los tres cazas europeos de ala en delta con canard de la tabla.`,
 
   glossary: [
     {

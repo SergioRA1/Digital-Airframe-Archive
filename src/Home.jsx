@@ -22,6 +22,7 @@ import {
 } from "./Layout.jsx";
 import { photos } from "./photos.js";
 import { Comparison } from "./Comparison.jsx";
+import { counts } from "./counts.js";
 
 // One representative frame per aircraft for the archive teaser.
 const teaser = [
@@ -55,7 +56,7 @@ const text = {
       {
         kicker: "Interactive comparison",
         title: "Head to head",
-        text: "Pick up to three aircraft and compare speed, weight, range and size on animated charts, with a sortable table of all twelve.",
+        text: `Pick up to three aircraft and compare speed, weight, range and size on animated charts, with a sortable table of all ${counts.en.all}.`,
       },
       {
         kicker: "Combined timeline",
@@ -116,7 +117,7 @@ const text = {
       {
         kicker: "Comparación interactiva",
         title: "Cara a cara",
-        text: "Se pueden elegir hasta tres aeronaves y comparar velocidad, peso, alcance y tamaño en gráficos animados, con una tabla ordenable de las doce.",
+        text: `Se pueden elegir hasta tres aeronaves y comparar velocidad, peso, alcance y tamaño en gráficos animados, con una tabla ordenable de las ${counts.es.all}.`,
       },
       {
         kicker: "Cronología combinada",

@@ -1,6 +1,8 @@
 // Spanish text for src/pages/f16.js, laid over the English with localise().
 // Same shape as the English module, text only.
 
+import { counts } from "../../../counts.js";
+
 export default {
   eyebrow: "General Dynamics / Lockheed Martin F-16",
   tagline:
@@ -312,7 +314,7 @@ export default {
   ],
 
   compareIntro:
-    "Dimensiones y fechas publicadas del F-16C junto a otros once aviones. Es el diseño más antiguo de la tabla, con su primer vuelo en 1974.",
+    `Dimensiones y fechas publicadas del F-16C junto a otros ${counts.es.others} aviones. Es el diseño más antiguo de la tabla, con su primer vuelo en 1974.`,
 
   glossary: [
     {

@@ -2,6 +2,7 @@ import { Anchor, Layers, Radar, Shield } from "lucide-react";
 
 import { aircraft } from "../aircraft.js";
 import { photos } from "../photos.js";
+import { counts } from "../counts.js";
 
 const silhouette = aircraft.find((entry) => entry.slug === "rafale").silhouette;
 
@@ -399,7 +400,7 @@ const rafale = {
   ],
 
   compareIntro:
-    "Published dimensions and dates for the Rafale alongside eleven other aircraft. It is one of three European canard-delta fighters here, with the Typhoon and Gripen.",
+    `Published dimensions and dates for the Rafale alongside ${counts.en.others} other aircraft. It is one of three European canard-delta fighters here, with the Typhoon and Gripen.`,
 
   glossary: [
     {

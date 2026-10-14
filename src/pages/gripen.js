@@ -2,6 +2,7 @@ import { MapPin, Radar, Radio, Wind } from "lucide-react";
 
 import { aircraft } from "../aircraft.js";
 import { photos } from "../photos.js";
+import { counts } from "../counts.js";
 
 const silhouette = aircraft.find((entry) => entry.slug === "gripen").silhouette;
 
@@ -386,7 +387,7 @@ const gripen = {
   ],
 
   compareIntro:
-    "Published dimensions and dates for the Gripen C/D alongside eleven other aircraft. It is the smallest aircraft in the table, and one of three single-engine designs.",
+    `Published dimensions and dates for the Gripen C/D alongside ${counts.en.others} other aircraft. It is the smallest aircraft in the table, and one of three single-engine designs.`,
 
   glossary: [
     {

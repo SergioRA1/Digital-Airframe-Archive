@@ -1,6 +1,8 @@
 // Spanish text for src/pages/su57.js, laid over the English with localise().
 // Same shape as the English module, text only.
 
+import { counts } from "../../../counts.js";
+
 export default {
   eyebrow: "Sukhoi Su-57 · NATO «Felon»",
   tagline:
@@ -309,7 +311,7 @@ export default {
   ],
 
   compareIntro:
-    "Dimensiones y fechas publicadas del Su-57 junto a otros once aviones. El Su-57 tiene una de las alas más anchas de la tabla; sus cifras de rendimiento son estimaciones públicas.",
+    `Dimensiones y fechas publicadas del Su-57 junto a otros ${counts.es.others} aviones. El Su-57 tiene una de las alas más anchas de la tabla; sus cifras de rendimiento son estimaciones públicas.`,
 
   glossary: [
     {

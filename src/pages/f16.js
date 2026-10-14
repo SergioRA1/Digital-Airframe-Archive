@@ -2,6 +2,7 @@ import { Activity, Eye, Gauge, Wind } from "lucide-react";
 
 import { aircraft } from "../aircraft.js";
 import { photos } from "../photos.js";
+import { counts } from "../counts.js";
 
 const silhouette = aircraft.find((entry) => entry.slug === "f-16").silhouette;
 
@@ -404,7 +405,7 @@ const f16 = {
   ],
 
   compareIntro:
-    "Published dimensions and dates for the F-16C alongside eleven other aircraft. It is the oldest design in the table, first flying in 1974.",
+    `Published dimensions and dates for the F-16C alongside ${counts.en.others} other aircraft. It is the oldest design in the table, first flying in 1974.`,
 
   glossary: [
     {

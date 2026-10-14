@@ -3,7 +3,9 @@ import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
 
 import { aircraft } from "../src/aircraft.js";
-import { checkTranslations } from "../scripts/check-translations.js";
+import { checkTranslations, pairs } from "../scripts/check-translations.js";
+import { countWord } from "../src/counts.js";
+import { peers } from "../src/data/peers.js";
 import { outputPath, renderFigures } from "../scripts/generate-figures.js";
 
 const slugs = aircraft
@@ -379,4 +381,57 @@ test("every English text has a Spanish translation", async () => {
   );
 
   expect(problems, "Run `npm run translations` for details.").toEqual([]);
+});
+
+// Counts of aircraft come from src/counts.js. These cover the two kinds of
+// count that can't: the comparison rows, and each page's "in N dates".
+test("the comparison table lists every aircraft in the hangar", () => {
+  expect(peers.map((row) => row.slug).sort()).toEqual(
+    aircraft
+      .filter((entry) => entry.available)
+      .map((entry) => entry.slug)
+      .sort(),
+  );
+});
+
+test("\"the programme in N dates\" matches each page's milestones", async () => {
+  const strings = (value) =>
+    typeof value === "string"
+      ? [value]
+      : value && typeof value === "object"
+        ? Object.values(value).flatMap(strings)
+        : [];
+  const findMilestones = (value) =>
+    Array.isArray(value?.milestones)
+      ? value.milestones
+      : value && typeof value === "object"
+        ? Object.values(value).map(findMilestones).find(Boolean)
+        : undefined;
+  const problems = [];
+
+  for (const pair of pairs) {
+    const english = await pair.english();
+    const milestones = findMilestones(english);
+
+    if (!milestones) {
+      continue;
+    }
+
+    for (const [language, module] of [
+      ["en", english],
+      ["es", await pair.spanish()],
+    ]) {
+      for (const text of strings(module)) {
+        const match = text.match(/\b(?:in|en) (\S+) (?:dates|fechas)\b/);
+
+        if (match && match[1] !== countWord(milestones.length, language)) {
+          problems.push(
+            `${pair.name} (${language}): "${match[0]}", but it has ${milestones.length} milestones`,
+          );
+        }
+      }
+    }
+  }
+
+  expect(problems).toEqual([]);
 });

@@ -24,6 +24,7 @@ import j35 from "./pages/j35.js";
 import rafale from "./pages/rafale.js";
 import su57 from "./pages/su57.js";
 import typhoon from "./pages/typhoon.js";
+import { counts } from "./counts.js";
 
 const text = {
   en: {
@@ -36,16 +37,16 @@ const text = {
     heroTop: "FIFTY YEARS",
     heroBottom: "OF FIGHTERS",
     intro:
-      "Every milestone from all twelve aircraft files on one axis, from the F-16's first prototypes to the latest deliveries. Filter by origin or by how well a milestone is sourced.",
+      `Every milestone from all ${counts.en.all} aircraft files on one axis, from the F-16's first prototypes to the latest deliveries. Filter by origin or by how well a milestone is sourced.`,
     origin: "Origin",
     confidence: "Confidence",
     shown: (count, total) => `of ${total} milestones shown`,
     chartLabel: "01 / Chart",
-    chartHeading: "Twelve programmes, one axis.",
+    chartHeading: `${counts.en.All} programmes, one axis.`,
     chartIntro:
       "Each line runs from an aircraft's first recorded milestone to its latest. Point at a dot, or select it, to read the entry.",
     chartAria: (count, from, to) =>
-      `Timeline chart of ${count} milestones for twelve aircraft, from ${from} to ${to}. The same entries are listed below.`,
+      `Timeline chart of ${count} milestones for ${counts.en.all} aircraft, from ${from} to ${to}. The same entries are listed below.`,
     openFile: (name) => `Open the ${name} file`,
     listLabel: "02 / List",
     listHeading: "Every entry, in order.",
@@ -70,16 +71,16 @@ const text = {
     heroTop: "CINCUENTA AÑOS",
     heroBottom: "DE CAZAS",
     intro:
-      "Todos los hitos de los doce aviones en un solo eje, desde los primeros prototipos del F-16 hasta las últimas entregas. Filtra por origen o por la fiabilidad de la fuente de cada hito.",
+      `Todos los hitos de los ${counts.es.all} aviones en un solo eje, desde los primeros prototipos del F-16 hasta las últimas entregas. Filtra por origen o por la fiabilidad de la fuente de cada hito.`,
     origin: "Origen",
     confidence: "Fiabilidad",
     shown: (count, total) => `de ${total} hitos mostrados`,
     chartLabel: "01 / Gráfico",
-    chartHeading: "Doce programas, un solo eje.",
+    chartHeading: `${counts.es.All} programas, un solo eje.`,
     chartIntro:
       "Cada línea va del primer hito registrado de un avión al más reciente. Pasa el cursor sobre un punto, o selecciónalo, para leer la entrada.",
     chartAria: (count, from, to) =>
-      `Gráfico cronológico de ${count} hitos de doce aviones, de ${from} a ${to}. Las mismas entradas se enumeran debajo.`,
+      `Gráfico cronológico de ${count} hitos de ${counts.es.all} aviones, de ${from} a ${to}. Las mismas entradas se enumeran debajo.`,
     openFile: (name) => `Abrir la ficha del ${name}`,
     listLabel: "02 / Lista",
     listHeading: "Cada entrada, por orden.",

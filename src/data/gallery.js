@@ -2,6 +2,8 @@
 // version in src/locales/es/gallery.js mirrors these exports. Ids, numbers,
 // photos and year ranges stay in Gallery.jsx.
 
+import { counts } from "../counts.js";
+
 // Every photograph's caption, keyed by the id used in Gallery.jsx.
 export const captions = {
   // Chengdu J-20
@@ -787,6 +789,6 @@ export const galleryText = {
     fullName: "Airframe archive",
     label: "Airframe / All",
     intro:
-      "Every photograph in the hangar, one after the other. Scroll through all twelve aircraft in order, or open any frame to move through the whole reel in the full-screen viewer.",
+      `Every photograph in the hangar, one after the other. Scroll through all ${counts.en.all} aircraft in order, or open any frame to move through the whole reel in the full-screen viewer.`,
   },
 };

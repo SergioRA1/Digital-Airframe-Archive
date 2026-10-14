@@ -1,6 +1,8 @@
 // Spanish text for src/pages/rafale.js, laid over the English with localise().
 // Same shape as the English module, text only.
 
+import { counts } from "../../../counts.js";
+
 export default {
   eyebrow: "Dassault Rafale",
   tagline:
@@ -307,7 +309,7 @@ export default {
   ],
 
   compareIntro:
-    "Dimensiones y fechas publicadas del Rafale junto a otros once aviones. Es uno de los tres cazas europeos de ala en delta con canard de la tabla, con el Typhoon y el Gripen.",
+    `Dimensiones y fechas publicadas del Rafale junto a otros ${counts.es.others} aviones. Es uno de los tres cazas europeos de ala en delta con canard de la tabla, con el Typhoon y el Gripen.`,
 
   glossary: [
     {

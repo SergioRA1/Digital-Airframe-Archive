@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 
 import { SectionLabel } from "./Layout.jsx";
+import { counts } from "./counts.js";
 import { peers } from "./data/peers.js";
 import { peers as spanishPeers } from "./locales/es/peers.js";
 import {
@@ -16,9 +17,8 @@ const text = {
     label: "Comparison",
     heading: "Among its peers.",
     intro:
-      "Published dimensions and dates for twelve fighters from the fourth and fifth generations. Select an underlined aircraft to open its file.",
-    caption:
-      "Comparison of twelve fighters, from most to least capable: F-22A, F-35A, J-20, J-35A, Su-57, F-15EX, Typhoon, Rafale C, J-16, J-15T, F-16C and Gripen C/D",
+      `Published dimensions and dates for ${counts.en.all} fighters from the fourth and fifth generations. Select an underlined aircraft to open its file.`,
+    caption: `Comparison of ${counts.en.all} fighters, from most to least capable`,
     columns: [
       "Aircraft",
       "Gen.",
@@ -36,9 +36,8 @@ const text = {
     label: "Comparación",
     heading: "Entre sus pares.",
     intro:
-      "Dimensiones y fechas publicadas de doce cazas de cuarta y quinta generación. Cada aeronave subrayada abre su ficha.",
-    caption:
-      "Comparación de doce cazas, del más al menos capaz: F-22A, F-35A, J-20, J-35A, Su-57, F-15EX, Typhoon, Rafale C, J-16, J-15T, F-16C y Gripen C/D",
+      `Dimensiones y fechas publicadas de ${counts.es.all} cazas de cuarta y quinta generación. Cada aeronave subrayada abre su ficha.`,
+    caption: `Comparación de ${counts.es.all} cazas, del más al menos capaz`,
     columns: [
       "Aeronave",
       "Gen.",
@@ -53,6 +52,12 @@ const text = {
     note: "Las filas van del más al menos capaz, una estimación editorial · Cifras publicadas redondeadas · Las fechas de servicio se refieren a las primeras unidades operativas · Las etiquetas de generación son informales, y 4.5 señala los diseños de cuarta generación modernizados · Las aeronaves subrayadas tienen página propia",
   },
 };
+
+// "A, B and C" in British English, "A, B y C" in Spanish.
+const listFormat = (language) =>
+  new Intl.ListFormat(language === "es" ? "es" : "en-GB", {
+    type: "conjunction",
+  });
 
 // The cross-aircraft table, kept out of Sections.jsx so the hangar page can
 // show it without loading every aircraft page's shared sections.
@@ -91,7 +96,7 @@ export function Comparison({
         <div className="overflow-x-auto border border-white/10 bg-[#050708]/80">
           <table className="w-full min-w-[980px] border-collapse text-left text-sm">
             <caption className="sr-only">
-              {t.caption}
+              {t.caption}: {listFormat(language).format(rows.map((row) => row.name))}
             </caption>
 
             <thead>

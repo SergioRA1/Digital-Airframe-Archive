@@ -2,6 +2,7 @@ import { Flame, Layers, Radar, Wind } from "lucide-react";
 
 import { aircraft } from "../aircraft.js";
 import { photos } from "../photos.js";
+import { counts } from "../counts.js";
 
 const silhouette = aircraft.find((entry) => entry.slug === "su-57").silhouette;
 
@@ -397,7 +398,7 @@ const su57 = {
   ],
 
   compareIntro:
-    "Published dimensions and dates for the Su-57 alongside eleven other aircraft. The Su-57 has one of the widest wings in the table; its performance figures are public estimates.",
+    `Published dimensions and dates for the Su-57 alongside ${counts.en.others} other aircraft. The Su-57 has one of the widest wings in the table; its performance figures are public estimates.`,
 
   glossary: [
     {

@@ -5,7 +5,7 @@ import Home from "./Home.jsx";
 import { LanguageContext, localHref, localise } from "./i18n.js";
 
 // Each page loads on demand, so the hangar page ships without the data for
-// all twelve aircraft. A page with Spanish text in its own module gets a
+// every aircraft. A page with Spanish text in its own module gets a
 // second, Spanish variant that loads that module too and passes it in as
 // `translation`, so English visitors never download it.
 const localised = (load, loadSpanish) => {

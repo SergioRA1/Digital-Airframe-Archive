@@ -1,6 +1,8 @@
 // Spanish text for src/data/j20.js, laid over the English with localise().
 // Same shape as the English exports, text only.
 
+import { counts } from "../../counts.js";
+
 export default {
   page: {
     navigation: [
@@ -487,7 +489,7 @@ export default {
     variantsIntro:
       "La familia del J-20 tal como la describen las fuentes públicas. Las designaciones no se aplican de forma coherente entre publicaciones, así que conviene tomar los nombres como etiquetas provisionales. Donde no existe ninguna fotografía con licencia libre, se muestra una silueta.",
     compareIntro:
-      "Dimensiones y fechas publicadas del J-20 junto a otros once aviones. El J-20 es uno de los aviones más largos de la tabla; sus cifras son estimaciones públicas.",
+      `Dimensiones y fechas publicadas del J-20 junto a otros ${counts.es.others} aviones. El J-20 es uno de los aviones más largos de la tabla; sus cifras son estimaciones públicas.`,
     referenceNote:
       "Buena parte de lo que se sabe de este avión no se publica oficialmente. Las cifras de este sitio proceden de fuentes abiertas y deben leerse como aproximadas.",
   },

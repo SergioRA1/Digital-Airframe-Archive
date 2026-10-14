@@ -1,6 +1,8 @@
 // Spanish text for src/pages/gripen.js, laid over the English with localise().
 // Same shape as the English module, text only.
 
+import { counts } from "../../../counts.js";
+
 export default {
   eyebrow: "Saab JAS 39 Gripen",
   tagline:
@@ -298,7 +300,7 @@ export default {
   ],
 
   compareIntro:
-    "Dimensiones y fechas publicadas del Gripen C/D junto a otros once aviones. Es el avión más pequeño de la tabla y uno de los tres diseños monomotor.",
+    `Dimensiones y fechas publicadas del Gripen C/D junto a otros ${counts.es.others} aviones. Es el avión más pequeño de la tabla y uno de los tres diseños monomotor.`,
 
   glossary: [
     {

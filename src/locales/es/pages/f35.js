@@ -1,6 +1,8 @@
 // Spanish text for src/pages/f35.js, laid over the English with localise().
 // Same shape as the English module, text only.
 
+import { counts } from "../../../counts.js";
+
 export default {
   eyebrow: "Lockheed Martin F-35 Lightning II",
   tagline:
@@ -318,7 +320,7 @@ export default {
   ],
 
   compareIntro:
-    "Dimensiones y fechas publicadas del F-35A junto a otros once aviones. Es el único diseño monomotor de quinta generación de la tabla; el F-16 y el Gripen son diseños monomotor de cuarta generación.",
+    `Dimensiones y fechas publicadas del F-35A junto a otros ${counts.es.others} aviones. Es el único diseño monomotor de quinta generación de la tabla; el F-16 y el Gripen son diseños monomotor de cuarta generación.`,
 
   glossary: [
     {

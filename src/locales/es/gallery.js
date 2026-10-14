@@ -1,5 +1,7 @@
 // Spanish text for the photo galleries. Mirrors src/data/gallery.js.
 
+import { counts } from "../../counts.js";
+
 const captions = {
   // Chengdu J-20
   "airshow-2016": {
@@ -783,7 +785,7 @@ const galleryText = {
     fullName: "Archivo Airframe",
     label: "Airframe / Todo",
     intro:
-      "Todas las fotografías del hangar, una tras otra. Se pueden recorrer los doce aviones por orden o abrir cualquier imagen para moverse por todo el carrete en el visor a pantalla completa.",
+      `Todas las fotografías del hangar, una tras otra. Se pueden recorrer los ${counts.es.all} aviones por orden o abrir cualquier imagen para moverse por todo el carrete en el visor a pantalla completa.`,
   },
 };
 

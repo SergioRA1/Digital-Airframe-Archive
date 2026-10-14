@@ -22,6 +22,7 @@ import {
 } from "./Layout.jsx";
 import { peers } from "./data/peers.js";
 import { peers as spanishPeers } from "./locales/es/peers.js";
+import { counts } from "./counts.js";
 
 const text = {
   en: {
@@ -41,15 +42,15 @@ const text = {
     chartLabel: "01 / Chart",
     chartHeading: "Measured against the field.",
     chartIntro:
-      "Each bar runs from zero to the highest figure among all twelve aircraft. Faint ticks mark the other aircraft, and the rank counts only aircraft with a published figure.",
+      `Each bar runs from zero to the highest figure among all ${counts.en.all} aircraft. Faint ticks mark the other aircraft, and the rank counts only aircraft with a published figure.`,
     footnote:
       "Figures from each aircraft's specifications · Ranges are plotted at their midpoint · \"Mach 2 class\" is plotted as Mach 2.0 · Published figures are not like-for-like, and combat radius depends heavily on the mission and load",
     tableLabel: "02 / Table",
-    tableHeading: "All twelve, sorted your way.",
+    tableHeading: `All ${counts.en.all}, sorted your way.`,
     tableIntro:
       "Select a column heading to sort, and again to reverse the order. Use the dot at the start of a row to add that aircraft to the chart.",
     caption:
-      "Published figures for twelve fighters. Column headings sort the table.",
+      `Published figures for ${counts.en.all} fighters. Column headings sort the table.`,
     inChart: "In chart",
     notPublished: "Not published",
     tableNote: "— Not published · Unpublished figures sort last",
@@ -79,15 +80,15 @@ const text = {
     chartLabel: "01 / Gráfico",
     chartHeading: "Frente al resto.",
     chartIntro:
-      "Cada barra va de cero a la cifra más alta de los doce aviones. Las marcas tenues señalan a los demás aviones, y la posición solo cuenta los aviones con cifra publicada.",
+      `Cada barra va de cero a la cifra más alta de los ${counts.es.all} aviones. Las marcas tenues señalan a los demás aviones, y la posición solo cuenta los aviones con cifra publicada.`,
     footnote:
       "Cifras tomadas de las especificaciones de cada avión · Los intervalos se representan por su punto medio · «Clase Mach 2» se representa como Mach 2,0 · Las cifras publicadas no son del todo comparables, y el radio de combate depende mucho de la misión y de la carga",
     tableLabel: "02 / Tabla",
-    tableHeading: "Los doce, ordenados a tu gusto.",
+    tableHeading: `Los ${counts.es.all}, ordenados a tu gusto.`,
     tableIntro:
       "Pulsa el título de una columna para ordenar, y otra vez para invertir el orden. Usa el punto al inicio de una fila para añadir ese avión al gráfico.",
     caption:
-      "Cifras publicadas de doce cazas. Los títulos de columna ordenan la tabla.",
+      `Cifras publicadas de ${counts.es.all} cazas. Los títulos de columna ordenan la tabla.`,
     inChart: "En el gráfico",
     notPublished: "No publicado",
     tableNote: "— No publicado · Las cifras no publicadas van al final",

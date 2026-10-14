@@ -3,6 +3,7 @@
 // without loading the page component.
 
 import { photos } from "../photos.js";
+import { counts } from "../counts.js";
 
 export const specifications = [
   {
@@ -392,7 +393,7 @@ export const sectionText = {
   variantsIntro:
     "The J-20 family as it is described in public sources. Designations are not applied consistently between publications, so treat the names as working labels. Where no freely licensed photograph exists, a silhouette is shown instead.",
   compareIntro:
-    "Published dimensions and dates for the J-20 alongside eleven other aircraft. The J-20 is one of the longest aircraft in the table; its figures are public estimates.",
+    `Published dimensions and dates for the J-20 alongside ${counts.en.others} other aircraft. The J-20 is one of the longest aircraft in the table; its figures are public estimates.`,
   referenceNote:
     "Much about this aircraft is not officially published. Figures on this site are drawn from open sources and should be read as approximate.",
 };

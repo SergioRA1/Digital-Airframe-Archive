@@ -2,6 +2,7 @@ import { Eye, Layers, Monitor, Radar } from "lucide-react";
 
 import { aircraft } from "../aircraft.js";
 import { photos } from "../photos.js";
+import { counts } from "../counts.js";
 
 const silhouette = aircraft.find((entry) => entry.slug === "f-35").silhouette;
 
@@ -415,7 +416,7 @@ const f35 = {
   ],
 
   compareIntro:
-    "Published dimensions and dates for the F-35A alongside eleven other aircraft. It is the only single-engine fifth-generation design in the table; the F-16 and Gripen are single-engine fourth-generation designs.",
+    `Published dimensions and dates for the F-35A alongside ${counts.en.others} other aircraft. It is the only single-engine fifth-generation design in the table; the F-16 and Gripen are single-engine fourth-generation designs.`,
 
   glossary: [
     {

@@ -4,6 +4,7 @@
 // The rest of the page's text lives here too so that it can be translated.
 
 import { photos } from "../photos.js";
+import { counts } from "../counts.js";
 
 export const specifications = [
   {
@@ -309,7 +310,7 @@ export const content = {
   variantsIntro:
     "Only one version of the F-22 was built in quantity. A two-seat trainer was planned and dropped, so it is shown as a silhouette.",
   compareIntro:
-    "Published dimensions and dates for the F-22 alongside eleven other aircraft. It was the first fifth-generation fighter to fly and to enter service.",
+    `Published dimensions and dates for the F-22 alongside ${counts.en.others} other aircraft. It was the first fifth-generation fighter to fly and to enter service.`,
   referenceNote:
     "Figures on this page follow official publications where available. Anything not officially published has been left out.",
   photoArchive: "Photographic archive",
