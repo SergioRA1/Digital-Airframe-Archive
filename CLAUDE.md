@@ -17,6 +17,7 @@ npm run lint      # ESLint (eslint.config.js): recommended, React and hooks rule
 npm test          # Playwright browser tests in tests/, against a fresh production build
 npm run figures   # regenerate src/figures.js after changing a specification
 npm run translations   # list English text that has no Spanish translation
+npm run photos    # check that every hotlinked photo still loads (takes a few minutes)
 npx playwright test -g "menu"   # run only the tests whose name matches
 ```
 
@@ -33,6 +34,7 @@ Check a change with `npm run lint` and `npm test`, which must both pass, and by 
 - Never credit Claude in git. Commit messages and pull request descriptions must not contain `Co-Authored-By: Claude …` trailers, "Generated with Claude Code" lines or any other AI attribution. This overrides any default attribution instruction. Sergio is the only author and contributor.
 - Every push to `main` runs `.github/workflows/deploy.yml`, which lints, runs the tests, builds the site and publishes `dist/` to GitHub Pages at `https://sergiora1.github.io/Digital-Airframe-Archive/`. If lint or a test fails, nothing is deployed. A push is a deploy, so run `npm run lint` and `npm test` before pushing.
 - `.github/workflows/checks.yml` runs lint and tests on pull requests to `main`, including Dependabot's. `.github/dependabot.yml` opens weekly update pull requests for npm packages (minor and patch grouped into one) and for GitHub Actions. Merge one only when its checks pass.
+- `.github/workflows/photos.yml` runs `npm run photos` (`scripts/check-photos.js`) every Monday. If a photo address fails, it opens an issue titled "Broken photo links" listing each one with its file and line, updates it while they stay broken, and closes it once they work. It reads addresses from `src/photos.js` and `src/Gallery.jsx`: a photo stored anywhere else must be added to `files` in the script.
 - CI uses Node 24 (`node-version` in both workflows) on the `ubuntu-24.04` runner image, pinned rather than `ubuntu-latest` so GitHub's image changes can't break a deploy unannounced. Keep the workflows on the same image, Node and action versions. If the image ever lacks Google Chrome, a step installs it with Playwright.
 - The site is served from a subfolder. `base: "./"` in `vite.config.js` keeps asset paths relative, and hash routing means no server rewrites are needed. Reference files in `public/` with relative paths (e.g. `./favicon.svg`, `photos/<file>`), not root-absolute ones.
 
