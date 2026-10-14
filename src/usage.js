@@ -218,4 +218,76 @@ export const usage = {
       },
     ],
   },
+  "kf-21": {
+    summary:
+      "South Korea's first home-developed fighter, built to replace its ageing F-4 and F-5 fleets and to give the country an aircraft it can upgrade and export on its own terms.",
+    sections: [
+      {
+        title: "Capabilities",
+        text: "Block I is an air-superiority fighter with a Korean AESA radar, infrared search and track, and long-range Meteor and short-range IRIS-T missiles. Its shape reduces its radar signature, and its missiles are carried partly recessed under the fuselage. Block II is planned to add air-to-ground and anti-ship weapons.",
+      },
+      {
+        title: "Use and operations",
+        text: "The first production aircraft joined the Republic of Korea Air Force's 156th Fighter Squadron in September 2026, and full operational capability is expected in 2027. Forty Block I aircraft are on order. Indonesia is a development partner, and several other countries have shown interest in exports.",
+      },
+      {
+        title: "Limits and caveats",
+        text: "Block I has no internal weapons bay, so it is not a full stealth aircraft, and its air-to-ground capability comes later. Many performance figures have not been published, and the aircraft has no operational record yet.",
+      },
+    ],
+  },
+  "su-35": {
+    summary:
+      "Russia's most modern Flanker and its most numerous new fighter, also exported to China and Algeria and reportedly ordered by Iran.",
+    sections: [
+      {
+        title: "Capabilities",
+        text: "The Su-35S combines thrust-vectoring engines, a large Irbis-E radar, an infrared search and track sensor and twelve weapon stations. It carries long-range air-to-air missiles as well as guided bombs and anti-ship and anti-radiation missiles, and has long range on internal fuel.",
+      },
+      {
+        title: "Use and operations",
+        text: "It has flown combat missions over Syria since 2016 and in the war against Ukraine since 2022, where several have been lost. Russian Su-35s regularly intercept foreign patrol aircraft near Russia's borders.",
+      },
+      {
+        title: "Limits and caveats",
+        text: "It is a large aircraft with a big radar signature, and its radar is a passive array rather than the newer active type. Performance figures come from the manufacturer, and sanctions are reported to have slowed production and upgrades.",
+      },
+    ],
+  },
+  "fa-18": {
+    summary:
+      "The backbone of U.S. Navy carrier air wings since the early 2000s, also flown by Australia and Kuwait, and the basis of the EA-18G Growler.",
+    sections: [
+      {
+        title: "Capabilities",
+        text: "The Super Hornet carries air-to-air missiles, guided bombs and stand-off weapons on eleven stations, and can refuel other aircraft from a pod. Later aircraft have the APG-79 AESA radar, and Block III adds a large touchscreen cockpit, better data links and a longer airframe life.",
+      },
+      {
+        title: "Use and operations",
+        text: "It has flown from carriers in operations over Iraq, Afghanistan, Syria and the Red Sea. It equips most U.S. Navy strike fighter squadrons, with the F-35C now joining it in the carrier air wings, and the Growler version is the Navy's electronic-attack aircraft.",
+      },
+      {
+        title: "Limits and caveats",
+        text: "It is not a stealth aircraft, and its range from a carrier is limited without tankers. Production of new aircraft is planned to end in 2027, and the Navy's next fighter, F/A-XX, is still in development.",
+      },
+    ],
+  },
+  "f-2": {
+    summary:
+      "A Japanese fighter built to defend the country's sea approaches, developed jointly with the United States and planned to be replaced by GCAP from around 2035.",
+    sections: [
+      {
+        title: "Capabilities",
+        text: "The F-2 carries up to four anti-ship missiles, including the supersonic ASM-3, as well as air-to-air missiles such as the AAM-4 and guided bombs. Its AESA radar was the first on a production fighter, and its large composite wing gives it good range for its size.",
+      },
+      {
+        title: "Use and operations",
+        text: "It equips several Japan Air Self-Defense Force squadrons and trains with allies in exercises such as Cope North in Guam and Pitch Black in Australia. It also takes part in scrambles to intercept aircraft approaching Japanese airspace.",
+      },
+      {
+        title: "Limits and caveats",
+        text: "Only 98 were built and the production line closed in 2011, so losses cannot be replaced and spare parts are limited. It is a fourth-generation design without stealth, and many of its performance figures are not officially published.",
+      },
+    ],
+  },
 };

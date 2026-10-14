@@ -692,6 +692,233 @@ const captions = {
     subtitle: "Base de la Guardia Nacional Aérea de Portland · 2024",
     description:
       "Las tripulaciones se preparan para el despegue en la cabina biplaza del F-15EX durante la ceremonia de presentación.",
+  },  "kf21-g1": {
+    title: "Exhibición en vuelo",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "Un KF-21 de la Fuerza Aérea de la República de Corea realiza una exhibición en vuelo en la Exposición Internacional Aeroespacial y de Defensa de Seúl.",
+  },
+  "kf21-g2": {
+    title: "Ascenso pronunciado",
+    subtitle: "Base aérea de Seúl · 2023",
+    description:
+      "Un KF-21 inicia un ascenso pronunciado durante una exhibición aérea en Seoul ADEX.",
+  },
+  "kf21-g3": {
+    title: "Vista lateral en vuelo",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "Un KF-21 en vuelo, en el que se aprecian su morro con aristas y sus dos derivas inclinadas.",
+  },
+  "kf21-g4": {
+    title: "Tercer prototipo",
+    subtitle: "Salón aeronáutico de Sacheon · 2022",
+    description:
+      "El tercer prototipo del KF-21 expuesto al público en el salón aeronáutico de Sacheon en octubre de 2022.",
+  },
+  "kf21-g5": {
+    title: "Perfil lateral",
+    subtitle: "Salón aeronáutico de Sacheon · 2022",
+    description:
+      "El perfil lateral de un prototipo del KF-21 expuesto en Sacheon, en el que se ve la forma del morro y de la cúpula.",
+  },
+  "kf21-g6": {
+    title: "En la plataforma",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "Un prototipo del KF-21 en exposición estática en Seoul ADEX 2023, con la cúpula abierta.",
+  },
+  "kf21-g7": {
+    title: "De frente",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "Un KF-21 visto de frente en Seoul ADEX, guiado por un miembro del personal de tierra.",
+  },
+  "kf21-g8": {
+    title: "Prototipo biplaza",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "El sexto prototipo, uno de los dos biplazas construidos para los ensayos.",
+  },
+  "su35-g1": {
+    title: "Interceptado cerca de Japón",
+    subtitle: "Mar de Japón · 2024",
+    description:
+      "Un Su-35S ruso fotografiado por la Fuerza Aérea de Autodefensa de Japón mientras vuela del mar de China Oriental hacia el mar de Japón.",
+  },
+  "su35-g2": {
+    title: "Interceptación cercana",
+    subtitle: "Mar Mediterráneo · 2020",
+    description:
+      "Un Su-35 ruso vuela muy cerca de un P-8A Poseidon de la Armada de EE. UU. sobre el Mediterráneo, en una interceptación que la Armada calificó de insegura.",
+  },
+  "su35-g3": {
+    title: "Despegue en el MAKS",
+    subtitle: "Zhukovski · 2013",
+    description:
+      "Un Su-35S despega ante el público en el salón aeronáutico MAKS, cerca de Moscú.",
+  },
+  "su35-g4": {
+    title: "En la pista",
+    subtitle: "MAKS · 2015",
+    description:
+      "Un Su-35S rueda por la pista en el salón aeronáutico MAKS.",
+  },
+  "su35-g5": {
+    title: "Ascenso vertical",
+    subtitle: "MAKS · 2015",
+    description:
+      "Un Su-35S asciende con fuerte inclinación durante su exhibición en vuelo en el MAKS 2015.",
+  },
+  "su35-g6": {
+    title: "Exhibición de un prototipo",
+    subtitle: "MAKS · 2009",
+    description:
+      "Uno de los primeros prototipos modernizados del Su-35, con camuflaje, vuela en el MAKS 2009.",
+  },
+  "su35-g7": {
+    title: "A contraluz",
+    subtitle: "Rusia · 2016",
+    description:
+      "Un Su-35S recortado contra el sol con el tren de aterrizaje desplegado.",
+  },
+  "su35-g8": {
+    title: "Con un Tu-95MS",
+    subtitle: "Russian Knights · 2022",
+    description:
+      "Cazas Su-35S de la patrulla acrobática Russian Knights vuelan en formación con un bombardero Tu-95MS.",
+  },
+  "su35-g9": {
+    title: "Exposición estática",
+    subtitle: "Zhukovski · 2012",
+    description:
+      "Un Su-35S de la Fuerza Aérea Rusa en exposición estática en Zhukovski.",
+  },
+  "su35-g10": {
+    title: "Exhibición en vuelo",
+    subtitle: "MAKS · 2013",
+    description:
+      "Un Su-35S durante su exhibición en vuelo en el MAKS 2013.",
+  },
+  "fa18-g1": {
+    title: "Apontaje",
+    subtitle: "USS Nimitz · 2023",
+    description:
+      "Un F/A-18E de los Blue Diamonds del VFA-146 engancha el cable en la cubierta del USS Nimitz, en el mar de Filipinas.",
+  },
+  "fa18-g2": {
+    title: "Reabastecimiento",
+    subtitle: "Mar de Filipinas · 2014",
+    description:
+      "Un F/A-18E del VFA-195 reposta de un KC-135 Stratotanker de la Fuerza Aérea de EE. UU.",
+  },
+  "fa18-g3": {
+    title: "Pasada a alta velocidad",
+    subtitle: "USS Carl Vinson · 2011",
+    description:
+      "Un F/A-18E del VFA-81 realiza una pasada a alta velocidad sobre el USS Carl Vinson durante una demostración de poder aéreo.",
+  },
+  "fa18-g4": {
+    title: "Cono de vapor",
+    subtitle: "USS Kitty Hawk · 2007",
+    description:
+      "Un F/A-18F atraviesa una nube de condensación a velocidad transónica durante una demostración de poder aéreo.",
+  },
+  "fa18-g5": {
+    title: "Maniobras",
+    subtitle: "Mar Arábigo · 2012",
+    description:
+      "Un F/A-18F del VFA-103 maniobra durante una demostración de poder aéreo desde el USS Dwight D. Eisenhower.",
+  },
+  "fa18-g6": {
+    title: "Lanzamiento con catapulta",
+    subtitle: "USS Ronald Reagan · 2013",
+    description:
+      "Un F/A-18E del VFA-137 despega de la cubierta del USS Ronald Reagan en el Pacífico.",
+  },
+  "fa18-g7": {
+    title: "Real Fuerza Aérea Australiana",
+    subtitle: "Brisbane · 2019",
+    description:
+      "Un F/A-18F de la Real Fuerza Aérea Australiana realiza acrobacias sobre Brisbane mientras ensaya para el festival Riverfire.",
+  },
+  "fa18-g8": {
+    title: "Sobre el HMS Queen Elizabeth",
+    subtitle: "Océano Atlántico · 2017",
+    description:
+      "Un F/A-18E del VFA-31 y un F/A-18F del VFA-213 sobrevuelan el portaaviones británico HMS Queen Elizabeth.",
+  },
+  "fa18-g9": {
+    title: "Condensación sobre las alas",
+    subtitle: "NAS Oceana · 2004",
+    description:
+      "Un F/A-18F del VFA-122 hace un viraje cerrado en un festival aéreo y forma condensación sobre las alas.",
+  },
+  "fa18-g10": {
+    title: "Growler sobre Polonia",
+    subtitle: "Norte de Polonia · 2022",
+    description:
+      "Un EA-18G Growler del VAQ-134 de la Armada de EE. UU. patrulla sobre Polonia mientras está desplegado en Alemania para la OTAN.",
+  },
+  "f2-g1": {
+    title: "Formación sobre Guam",
+    subtitle: "Cope North · 2023",
+    description:
+      "Un F-2 de la Fuerza Aérea de Autodefensa de Japón vuela en formación con aviones de la Fuerza Aérea de EE. UU. cerca de Guam.",
+  },
+  "f2-g2": {
+    title: "Aterrizaje en Andersen",
+    subtitle: "Guam · 2024",
+    description:
+      "Un F-2 aterriza en la base aérea de Andersen durante el ejercicio Cope North 24.",
+  },
+  "f2-g3": {
+    title: "En la línea de vuelo",
+    subtitle: "Guam · 2023",
+    description:
+      "Varios F-2 estacionados en la línea de vuelo de la base aérea de Andersen durante Cope North 2023.",
+  },
+  "f2-g4": {
+    title: "Despegue con poscombustión",
+    subtitle: "Guam · 2010",
+    description:
+      "El F-2A 523 del 6.º Escuadrón despega de la base aérea de Andersen con la poscombustión encendida.",
+  },
+  "f2-g5": {
+    title: "Tras el tsunami",
+    subtitle: "Matsushima · 2011",
+    description:
+      "F-2 dañados en la base aérea de Matsushima una semana después del tsunami de marzo de 2011.",
+  },
+  "f2-g6": {
+    title: "Exhibición de reabastecimiento",
+    subtitle: "Komaki · 2018",
+    description:
+      "Un F-2A sigue a un avión cisterna KC-767 en una exhibición simulada de reabastecimiento en vuelo en la base aérea de Komaki.",
+  },
+  "f2-g7": {
+    title: "Exhibición en vuelo",
+    subtitle: "Komatsu · 2018",
+    description:
+      "El F-2A 13-8514 en una exhibición en vuelo en la base aérea de Komatsu.",
+  },
+  "f2-g8": {
+    title: "Biplaza en viraje",
+    subtitle: "Gifu · 2019",
+    description:
+      "El F-2B 03-8105 vira durante una exhibición en vuelo en la base aérea de Gifu.",
+  },
+  "f2-g9": {
+    title: "Elephant walk",
+    subtitle: "8.º Escuadrón · 2021",
+    description:
+      "Varios F-2 del 8.º Escuadrón se alinean en la pista en un elephant walk para celebrar el 60.º aniversario del escuadrón.",
+  },
+  "f2-g10": {
+    title: "Pareja sobre el mar",
+    subtitle: "Fuerza Aérea de Autodefensa de Japón",
+    description:
+      "Dos F-2 vuelan bajo sobre el mar, el entorno para el que se diseñó el avión.",
   },
 };
 
@@ -779,6 +1006,34 @@ const galleryText = {
     label: "Airframe / F-15EX",
     intro:
       "Una colección de fotografías de dominio público del F-15EX Eagle II, desde la primera llegada a Eglin hasta su servicio con unidades de la Guardia Nacional Aérea y en el Pacífico.",
+  },
+  "kf-21": {
+    name: "KF-21",
+    fullName: "KAI KF-21 Boramae",
+    label: "Airframe / KF-21",
+    intro:
+      "Una colección de fotografías de dominio público y con licencia libre del KF-21, desde los prototipos expuestos en Sacheon hasta las exhibiciones en vuelo en Seoul ADEX.",
+  },
+  "su-35": {
+    name: "Su-35",
+    fullName: "Sukhoi Su-35S",
+    label: "Airframe / Su-35",
+    intro:
+      "Una colección de fotografías con licencia libre del Su-35S, desde las exhibiciones en salones aeronáuticos cerca de Moscú hasta interceptaciones fotografiadas por tripulaciones japonesas y estadounidenses.",
+  },
+  "fa-18": {
+    name: "Super Hornet",
+    fullName: "Boeing F/A-18E/F Super Hornet",
+    label: "Airframe / F/A-18E/F",
+    intro:
+      "Una colección de fotografías, en su mayoría de dominio público, del Super Hornet, desde las cubiertas de los portaaviones y las demostraciones de poder aéreo hasta la Real Fuerza Aérea Australiana y el EA-18G Growler.",
+  },
+  "f-2": {
+    name: "F-2",
+    fullName: "Mitsubishi F-2",
+    label: "Airframe / F-2",
+    intro:
+      "Una colección de fotografías de dominio público y con licencia libre del F-2, desde ejercicios sobre Guam hasta exhibiciones en vuelo en bases aéreas japonesas.",
   },
   archive: {
     name: "Archivo",

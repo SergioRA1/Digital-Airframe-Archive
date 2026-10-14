@@ -387,7 +387,7 @@ const gripen = {
   ],
 
   compareIntro:
-    `Published dimensions and dates for the Gripen C/D alongside ${counts.en.others} other aircraft. It is the smallest aircraft in the table, and one of three single-engine designs.`,
+    `Published dimensions and dates for the Gripen C/D alongside ${counts.en.others} other aircraft. It is the smallest aircraft in the table, and one of its few single-engine designs.`,
 
   glossary: [
     {

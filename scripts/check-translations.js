@@ -64,6 +64,10 @@ const pageNames = [
   "j16",
   "j15",
   "f15ex",
+  "kf21",
+  "su35",
+  "fa18",
+  "f2",
 ];
 
 // An absent module counts as an empty translation, so missing work shows up

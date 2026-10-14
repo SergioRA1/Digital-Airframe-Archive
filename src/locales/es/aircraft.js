@@ -62,4 +62,24 @@ export const aircraft = [
     summary:
       "El F-15 más reciente: un caza biplaza con mandos fly-by-wire y mejoras digitales, diseñado para llevar una carga de armamento muy grande.",
   },
+  {
+    name: "Boramae",
+    summary:
+      "El caza bimotor de Corea del Sur, con una forma que reduce su firma radar, construido como Block I para el combate aéreo y con versiones posteriores previstas.",
+  },
+  {
+    name: "Flanker-E",
+    summary:
+      "El Flanker más desarrollado: un gran caza bimotor con motores de empuje vectorial y un radar de barrido electrónico pasivo de largo alcance.",
+  },
+  {
+    name: "Super Hornet",
+    summary:
+      "El caza polivalente embarcado de la Armada de EE. UU., un rediseño más grande del Hornet que también dio origen al EA-18G Growler.",
+  },
+  {
+    name: "Viper Zero",
+    summary:
+      "El caza monomotor de Japón, desarrollado a partir del F-16 con un ala de materiales compuestos más grande y el primer radar AESA de un caza de serie.",
+  },
 ];

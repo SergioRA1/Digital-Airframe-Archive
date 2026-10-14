@@ -488,6 +488,56 @@ const f15exImages = [
   entry("f15ex-g10", "10", photos.f15_g10),
 ];
 
+const kf21Images = [
+  entry("kf21-g1", "01", photos.kf21_g1),
+  entry("kf21-g2", "02", photos.kf21_g2),
+  entry("kf21-g3", "03", photos.kf21_g3),
+  entry("kf21-g4", "04", photos.kf21_g4),
+  entry("kf21-g5", "05", photos.kf21_g5),
+  entry("kf21-g6", "06", photos.kf21_g6),
+  entry("kf21-g7", "07", photos.kf21_g7),
+  entry("kf21-g8", "08", photos.kf21_g8),
+];
+
+const su35Images = [
+  entry("su35-g1", "01", photos.su35_g1),
+  entry("su35-g2", "02", photos.su35_g2),
+  entry("su35-g3", "03", photos.su35_g3),
+  entry("su35-g4", "04", photos.su35_g4),
+  entry("su35-g5", "05", photos.su35_g5),
+  entry("su35-g6", "06", photos.su35_g6),
+  entry("su35-g7", "07", photos.su35_g7),
+  entry("su35-g8", "08", photos.su35_g8),
+  entry("su35-g9", "09", photos.su35_g9),
+  entry("su35-g10", "10", photos.su35_g10),
+];
+
+const fa18Images = [
+  entry("fa18-g1", "01", photos.fa18_g1),
+  entry("fa18-g2", "02", photos.fa18_g2),
+  entry("fa18-g3", "03", photos.fa18_g3),
+  entry("fa18-g4", "04", photos.fa18_g4),
+  entry("fa18-g5", "05", photos.fa18_g5),
+  entry("fa18-g6", "06", photos.fa18_g6),
+  entry("fa18-g7", "07", photos.fa18_g7),
+  entry("fa18-g8", "08", photos.fa18_g8),
+  entry("fa18-g9", "09", photos.fa18_g9),
+  entry("fa18-g10", "10", photos.fa18_g10),
+];
+
+const f2Images = [
+  entry("f2-g1", "01", photos.f2_g1),
+  entry("f2-g2", "02", photos.f2_g2),
+  entry("f2-g3", "03", photos.f2_g3),
+  entry("f2-g4", "04", photos.f2_g4),
+  entry("f2-g5", "05", photos.f2_g5),
+  entry("f2-g6", "06", photos.f2_g6),
+  entry("f2-g7", "07", photos.f2_g7),
+  entry("f2-g8", "08", photos.f2_g8),
+  entry("f2-g9", "09", photos.f2_g9),
+  entry("f2-g10", "10", photos.f2_g10),
+];
+
 export const galleries = {
   "j-20": {
     years: "2016–2025",
@@ -537,6 +587,22 @@ export const galleries = {
     years: "2021–2026",
     images: f15exImages,
   },
+  "kf-21": {
+    years: "2022–2023",
+    images: kf21Images,
+  },
+  "su-35": {
+    years: "2009–2024",
+    images: su35Images,
+  },
+  "fa-18": {
+    years: "2004–2023",
+    images: fa18Images,
+  },
+  "f-2": {
+    years: "2010–2024",
+    images: f2Images,
+  },
 };
 
 // Every photograph of every aircraft, in hangar order, as one continuous reel.
@@ -549,7 +615,7 @@ const allImages = Object.entries(galleries).flatMap(([slug, gallery]) =>
 );
 
 galleries.archive = {
-  years: "2005–2026",
+  years: "2004–2026",
   images: allImages.map((image, index) => ({
     ...image,
     id: `archive-${index}`,

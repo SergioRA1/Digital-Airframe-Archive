@@ -26,8 +26,8 @@ const f15ex = {
     exhaust: "M560 456 Q580 470 600 456 M616 456 Q636 470 656 456",
   },
   next: {
-    href: "#/j-20",
-    label: "Chengdu J-20",
+    href: "#/kf-21",
+    label: "KAI KF-21 Boramae",
   },
 
   designHeading: "An old airframe, rebuilt.",

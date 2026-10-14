@@ -108,4 +108,36 @@ export const usage = {
       "No es un avión furtivo, por lo que es menos adecuado para espacios aéreos muy defendidos. Su valor depende de operar junto con otros aviones y de las armas de largo alcance.",
     ],
   ),
+  "kf-21": panel(
+    "El primer caza desarrollado por Corea del Sur, hecho para sustituir sus veteranas flotas de F-4 y F-5 y para dar al país un avión que pueda modernizar y exportar según sus propios criterios.",
+    [
+      "El Block I es un caza de superioridad aérea con un radar AESA coreano, búsqueda y seguimiento por infrarrojos y misiles Meteor de largo alcance e IRIS-T de corto alcance. Su forma reduce su firma radar, y sus misiles van en parte encastrados bajo el fuselaje. Está previsto que el Block II añada armamento aire-superficie y antibuque.",
+      "El primer avión de serie se incorporó al 156.º Escuadrón de Caza de la Fuerza Aérea de la República de Corea en septiembre de 2026, y se espera la plena capacidad operativa en 2027. Hay 40 aviones Block I encargados. Indonesia es socio de desarrollo, y otros países han mostrado interés por la exportación.",
+      "El Block I no tiene bodega interna de armamento, así que no es un avión plenamente furtivo, y su capacidad aire-superficie llegará más tarde. Muchas cifras de prestaciones no se han publicado, y el avión aún no tiene historial operativo.",
+    ],
+  ),
+  "su-35": panel(
+    "El Flanker más moderno de Rusia y su caza nuevo más numeroso, exportado también a China y Argelia y, según informes, encargado por Irán.",
+    [
+      "El Su-35S combina motores de empuje vectorial, un gran radar Irbis-E, un sensor de búsqueda y seguimiento por infrarrojos y doce estaciones de armamento. Lleva misiles aire-aire de largo alcance, además de bombas guiadas y misiles antibuque y antirradiación, y tiene gran alcance con combustible interno.",
+      "Ha realizado misiones de combate sobre Siria desde 2016 y en la guerra contra Ucrania desde 2022, donde se han perdido varios. Los Su-35 rusos interceptan con frecuencia aviones de patrulla extranjeros cerca de las fronteras de Rusia.",
+      "Es un avión grande con una firma radar considerable, y su radar es de barrido pasivo y no del tipo activo, más moderno. Las cifras de prestaciones proceden del fabricante, y según informes las sanciones han ralentizado la producción y las modernizaciones.",
+    ],
+  ),
+  "fa-18": panel(
+    "La columna vertebral de las alas aéreas embarcadas de la Armada de EE. UU. desde principios de la década de 2000, operado también por Australia y Kuwait, y base del EA-18G Growler.",
+    [
+      "El Super Hornet lleva misiles aire-aire, bombas guiadas y armas de largo alcance en once estaciones, y puede reabastecer a otros aviones con un contenedor. Los aviones más recientes tienen el radar AESA APG-79, y el Block III añade una gran pantalla táctil en cabina, mejores enlaces de datos y una célula de mayor vida útil.",
+      "Ha operado desde portaaviones sobre Irak, Afganistán, Siria y el mar Rojo. Equipa la mayoría de los escuadrones de caza de ataque de la Armada de EE. UU., junto al F-35C que se incorpora ahora a las alas aéreas embarcadas, y la versión Growler es el avión de ataque electrónico de la Armada.",
+      "No es un avión furtivo, y su alcance desde un portaaviones es limitado sin aviones cisterna. Está previsto que la fabricación de aviones nuevos termine en 2027, y el próximo caza de la Armada, el F/A-XX, sigue en desarrollo.",
+    ],
+  ),
+  "f-2": panel(
+    "Un caza japonés hecho para defender los accesos marítimos del país, desarrollado junto con Estados Unidos y que está previsto sustituir por el GCAP a partir de 2035 aproximadamente.",
+    [
+      "El F-2 lleva hasta cuatro misiles antibuque, entre ellos el supersónico ASM-3, además de misiles aire-aire como el AAM-4 y bombas guiadas. Su radar AESA fue el primero en un caza de serie, y su gran ala de materiales compuestos le da un buen alcance para su tamaño.",
+      "Equipa varios escuadrones de la Fuerza Aérea de Autodefensa de Japón y se adiestra con aliados en ejercicios como Cope North en Guam y Pitch Black en Australia. También participa en salidas de alerta para interceptar aviones que se acercan al espacio aéreo japonés.",
+      "Solo se construyeron 98 y la línea de producción cerró en 2011, así que las pérdidas no pueden reponerse y los repuestos son limitados. Es un diseño de cuarta generación sin furtividad, y muchas de sus cifras de prestaciones no se publican oficialmente.",
+    ],
+  ),
 };

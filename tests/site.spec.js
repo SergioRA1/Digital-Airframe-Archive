@@ -259,17 +259,30 @@ test.describe("accessibility", () => {
     await open(page, "f-35/");
     await page.getByRole("button", { name: "Open menu" }).click();
     await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
-    await page.waitForTimeout(600);
 
-    await expect.poll(() => violations(page), { timeout: 10000 }).toEqual([]);
+    await expect
+      .poll(() => violations(page), {
+        intervals: [1000, 2000, 3000],
+        timeout: 20000,
+      })
+      .toEqual([]);
   });
 
   test("the gallery viewer", async ({ page }) => {
+    await page.emulateMedia({
+      reducedMotion: "reduce",
+    });
     await open(page, "f-35/gallery/");
     await page.locator("main button[aria-label]").first().click();
-    await page.waitForTimeout(800);
+    await expect(page.getByRole("dialog")).toBeVisible();
 
-    await expect.poll(() => violations(page), { timeout: 10000 }).toEqual([]);
+    // The viewer fades in; check until it has settled, as for the pages.
+    await expect
+      .poll(() => violations(page), {
+        intervals: [1000, 2000, 3000],
+        timeout: 20000,
+      })
+      .toEqual([]);
   });
 });
 
@@ -755,7 +768,10 @@ test("README.md counts and lists every aircraft", () => {
     problems.push(`"The other ${others} are rendered" should say ${countWord(available.length - 2)}`);
   }
 
-  const list = readme.match(/\*\*\w+ aircraft files\*\*: ([^.]+)\./)?.[1] ?? "";
+  // Whole names, so "F-2" doesn't count as listed because "F-22" is.
+  const list = (readme.match(/\*\*\w+ aircraft files\*\*: ([^.]+)\./)?.[1] ?? "")
+    .split(/, | and /)
+    .map((name) => name.trim());
 
   for (const entry of available) {
     if (![entry.designation, pageName(entry.slug, "en")].some((name) => list.includes(name))) {

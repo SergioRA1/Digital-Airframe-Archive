@@ -320,7 +320,7 @@ export default {
   ],
 
   compareIntro:
-    `Dimensiones y fechas publicadas del F-35A junto a otros ${counts.es.others} aviones. Es el único diseño monomotor de quinta generación de la tabla; el F-16 y el Gripen son diseños monomotor de cuarta generación.`,
+    `Dimensiones y fechas publicadas del F-35A junto a otros ${counts.es.others} aviones. Es el único diseño monomotor de quinta generación de la tabla; el F-16, el F-2 y el Gripen son diseños monomotor de cuarta generación.`,
 
   glossary: [
     {

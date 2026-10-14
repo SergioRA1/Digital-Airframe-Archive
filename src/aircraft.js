@@ -179,4 +179,64 @@ export const aircraft = [
       "M608 44 L624 150 L650 200 L672 262 L842 352 L842 384 L696 396 L742 446 L742 462 L662 452 L650 470 L608 466 L608 466 L566 470 L554 452 L474 462 L474 446 L520 396 L374 384 L374 352 L544 262 L566 200 L592 150 Z",
     available: true,
   },
+  {
+    slug: "kf-21",
+    generation: "4.5",
+    designation: "KF-21",
+    name: "Boramae",
+    manufacturer: "Korea Aerospace Industries",
+    origin: "South Korea",
+    firstFlight: "2022",
+    service: "2026",
+    summary:
+      "South Korea's twin-engine fighter, shaped for a low radar signature and built in Block I form for air combat, with later versions planned.",
+    silhouette:
+      "M608 42 L626 140 L650 200 L672 246 L846 350 L846 372 L714 356 L790 420 L776 446 L678 424 L656 448 L608 440 L560 448 L538 424 L440 446 L426 420 L502 356 L370 372 L370 350 L544 246 L566 200 L590 140 Z",
+    available: true,
+  },
+  {
+    slug: "su-35",
+    generation: "4.5",
+    designation: "Su-35S",
+    name: "Flanker-E",
+    manufacturer: "Sukhoi",
+    origin: "Russia",
+    firstFlight: "2008",
+    service: "2014",
+    summary:
+      "The most developed Flanker: a large twin-engine fighter with thrust-vectoring engines and a long-range passive phased-array radar.",
+    silhouette:
+      "M608 36 L620 118 L640 188 L668 224 L702 262 L852 346 L852 374 L718 386 L746 444 L736 462 L690 450 L672 470 L628 468 L608 482 L588 468 L544 470 L526 450 L480 462 L470 444 L498 386 L364 374 L364 346 L514 262 L548 224 L576 188 L596 118 Z",
+    available: true,
+  },
+  {
+    slug: "fa-18",
+    generation: "4.5",
+    designation: "F/A-18E/F",
+    name: "Super Hornet",
+    manufacturer: "Boeing",
+    origin: "United States",
+    firstFlight: "1995",
+    service: "2001",
+    summary:
+      "The U.S. Navy's carrier-based multirole fighter, a larger redesign of the Hornet that also became the basis of the EA-18G Growler.",
+    silhouette:
+      "M608 40 L620 108 L632 168 L652 220 L680 262 L820 348 L820 372 L724 384 L690 394 L764 432 L764 454 L680 448 L654 466 L608 460 L562 466 L536 448 L452 454 L452 432 L526 394 L492 384 L396 372 L396 348 L536 262 L564 220 L584 168 L596 108 Z",
+    available: true,
+  },
+  {
+    slug: "f-2",
+    generation: "4",
+    designation: "F-2",
+    name: "Viper Zero",
+    manufacturer: "Mitsubishi Heavy Industries",
+    origin: "Japan",
+    firstFlight: "1995",
+    service: "2000",
+    summary:
+      "Japan's single-engine fighter, developed from the F-16 with a larger composite wing and the first AESA radar on a production fighter.",
+    silhouette:
+      "M608 46 L620 118 L628 188 L652 232 L668 258 L666 282 L822 394 L822 414 L692 410 L766 440 L756 458 L668 446 L640 458 L608 464 L576 458 L548 446 L460 458 L450 440 L524 410 L394 414 L394 394 L550 282 L548 258 L564 232 L588 188 L596 118 Z",
+    available: true,
+  },
 ];

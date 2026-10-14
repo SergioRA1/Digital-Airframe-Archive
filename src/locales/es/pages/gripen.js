@@ -300,7 +300,7 @@ export default {
   ],
 
   compareIntro:
-    `Dimensiones y fechas publicadas del Gripen C/D junto a otros ${counts.es.others} aviones. Es el avión más pequeño de la tabla y uno de los tres diseños monomotor.`,
+    `Dimensiones y fechas publicadas del Gripen C/D junto a otros ${counts.es.others} aviones. Es el avión más pequeño de la tabla y uno de sus pocos diseños monomotor.`,
 
   glossary: [
     {

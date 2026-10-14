@@ -2,7 +2,7 @@
 
 [![Deploy](https://github.com/SergioRA1/Digital-Airframe-Archive/actions/workflows/deploy.yml/badge.svg)](https://github.com/SergioRA1/Digital-Airframe-Archive/actions/workflows/deploy.yml)
 
-An interactive digital exhibition of twelve modern combat aircraft, built as a static single-page React site.
+An interactive digital exhibition of sixteen modern combat aircraft, built as a static single-page React site.
 
 **Live site:** https://sergiora1.github.io/Digital-Airframe-Archive/
 
@@ -10,18 +10,18 @@ An interactive digital exhibition of twelve modern combat aircraft, built as a s
 
 ## What's inside
 
-- **Twelve aircraft files**: J-20, F-22, F-35, Su-57, F-16, Typhoon, Rafale, Gripen, J-35A, J-16, J-15T and F-15EX. Each has design notes, specifications, a programme timeline, variants and a reference section.
+- **Sixteen aircraft files**: J-20, F-22, F-35, Su-57, F-16, Typhoon, Rafale, Gripen, J-35A, J-16, J-15T, F-15EX, KF-21, Su-35S, F/A-18E/F and F-2. Each has design notes, specifications, a programme timeline, variants and a reference section.
 - **Confidence labels**: every specification and milestone is marked as confirmed, reported or estimated, so official figures are kept apart from press reporting.
-- **Interactive comparison**: pick up to three aircraft and compare speed, weight, combat radius, ceiling and size on animated bar charts, with a sortable table of all twelve. The selection is kept in the address, so a comparison such as `compare/?aircraft=f-22,j-20,typhoon` can be shared as a link.
+- **Interactive comparison**: pick up to three aircraft and compare speed, weight, combat radius, ceiling and size on animated bar charts, with a sortable table of all sixteen. The selection is kept in the address, so a comparison such as `compare/?aircraft=f-22,j-20,typhoon` can be shared as a link.
 - **Combined timeline**: every milestone from every aircraft on one chart and in one list, filterable by origin and by confidence.
 - **Photo galleries**: a gallery for each aircraft and a combined archive. Every photo is freely licensed and credited with its photographer, licence and source.
 - **English and Spanish**: every page is available in Spanish under `es/`, with a switch in the header, and visitors whose browser prefers the other language are offered it. Spanish text is laid over the English data, so figures and links are never duplicated, and a test fails if any English text has no translation.
 - **Hangar index**: a home page that lists every aircraft, with search by designation, name, manufacturer or origin.
-- **Two hand-built pages**: the J-20 and F-22 pages have custom visuals, such as a radar display and aircraft drawings. The other ten are rendered from data by one shared template.
+- **Two hand-built pages**: the J-20 and F-22 pages have custom visuals, such as a radar display and aircraft drawings. The other fourteen are rendered from data by one shared template.
 
 | Interactive comparison | Combined timeline |
 | --- | --- |
-| ![Bar charts comparing the F-22, J-20 and Typhoon](docs/screenshots/compare.png) | ![Milestones of twelve programmes on one time axis](docs/screenshots/timeline.png) |
+| ![Bar charts comparing the F-22, J-20 and Typhoon](docs/screenshots/compare.png) | ![Milestones of sixteen programmes on one time axis](docs/screenshots/timeline.png) |
 
 ## Built with
 

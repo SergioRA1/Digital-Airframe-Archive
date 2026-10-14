@@ -41,6 +41,18 @@ export const peers = [
     layout: "Ala trapezoidal, estabilizadores horizontales, dos derivas",
   },
   {
+    name: "Sukhoi Su-35S",
+    length: "21,9 m",
+    wingspan: "15,3 m",
+    layout: "Fuselaje integrado, ala en flecha, dos derivas",
+  },
+  {
+    name: "KAI KF-21",
+    length: "16,9 m",
+    wingspan: "11,2 m",
+    layout: trapezoidalTwinCanted,
+  },
+  {
     name: "Eurofighter Typhoon",
     length: "16,0 m",
     wingspan: "11,0 m",
@@ -59,10 +71,22 @@ export const peers = [
     layout: "Fuselaje integrado, ala en flecha, dos derivas",
   },
   {
+    name: "Boeing F/A-18E",
+    length: "18,3 m",
+    wingspan: "13,6 m",
+    layout: "Ala trapezoidal, extensiones del borde de ataque, dos derivas inclinadas",
+  },
+  {
     name: "Shenyang J-15T",
     length: "≈ 21,9 m",
     wingspan: "≈ 14,7 m",
     layout: "Plano canard, ala en flecha, dos derivas",
+  },
+  {
+    name: "Mitsubishi F-2A",
+    length: "15,5 m",
+    wingspan: "11,1 m",
+    layout: "Fuselaje integrado, ala en delta recortada, una deriva",
   },
   {
     name: "Lockheed Martin F-16C",

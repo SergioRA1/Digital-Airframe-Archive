@@ -696,6 +696,234 @@ export const captions = {
     description:
       "Crews prepare for takeoff in the F-15EX's two-seat cockpit at the unveiling ceremony.",
   },
+  "kf21-g1": {
+    title: "Display flight",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "A Republic of Korea Air Force KF-21 performs a flying display at the Seoul International Aerospace and Defense Exhibition.",
+  },
+  "kf21-g2": {
+    title: "Steep climb",
+    subtitle: "Seoul Air Base · 2023",
+    description:
+      "A KF-21 pulls into a steep climb during an aerial demonstration at Seoul ADEX.",
+  },
+  "kf21-g3": {
+    title: "Side view in flight",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "A KF-21 in flight, showing its chined nose and canted twin tails.",
+  },
+  "kf21-g4": {
+    title: "Third prototype",
+    subtitle: "Sacheon Airshow · 2022",
+    description:
+      "The third KF-21 prototype on public display at the Sacheon Airshow in October 2022.",
+  },
+  "kf21-g5": {
+    title: "Side profile",
+    subtitle: "Sacheon Airshow · 2022",
+    description:
+      "The side profile of a KF-21 prototype on display at Sacheon, showing the shape of its nose and canopy.",
+  },
+  "kf21-g6": {
+    title: "On the ramp",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "A KF-21 prototype on static display at Seoul ADEX 2023, with its canopy open.",
+  },
+  "kf21-g7": {
+    title: "Head-on",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "A KF-21 seen head-on at Seoul ADEX, guided by a member of the ground crew.",
+  },
+  "kf21-g8": {
+    title: "Two-seat prototype",
+    subtitle: "Seoul ADEX · 2023",
+    description:
+      "The sixth prototype, one of the two two-seaters built for testing.",
+  },
+  "su35-g1": {
+    title: "Intercepted near Japan",
+    subtitle: "Sea of Japan · 2024",
+    description:
+      "A Russian Su-35S photographed by the Japan Air Self-Defense Force as it flies from the East China Sea towards the Sea of Japan.",
+  },
+  "su35-g2": {
+    title: "Close intercept",
+    subtitle: "Mediterranean Sea · 2020",
+    description:
+      "A Russian Su-35 flies close to a U.S. Navy P-8A Poseidon over the Mediterranean, in an intercept the Navy called unsafe.",
+  },
+  "su35-g3": {
+    title: "Takeoff at MAKS",
+    subtitle: "Zhukovsky · 2013",
+    description:
+      "A Su-35S takes off in front of the crowd at the MAKS air show near Moscow.",
+  },
+  "su35-g4": {
+    title: "On the runway",
+    subtitle: "MAKS · 2015",
+    description:
+      "A Su-35S rolls along the runway at the MAKS air show.",
+  },
+  "su35-g5": {
+    title: "Vertical climb",
+    subtitle: "MAKS · 2015",
+    description:
+      "A Su-35S climbs steeply during its flying display at MAKS 2015.",
+  },
+  "su35-g6": {
+    title: "Prototype display",
+    subtitle: "MAKS · 2009",
+    description:
+      "One of the first modernised Su-35 prototypes, in camouflage, flies at MAKS 2009.",
+  },
+  "su35-g7": {
+    title: "Against the sun",
+    subtitle: "Russia · 2016",
+    description:
+      "A Su-35S silhouetted against the sun with its landing gear down.",
+  },
+  "su35-g8": {
+    title: "With a Tu-95MS",
+    subtitle: "Russian Knights · 2022",
+    description:
+      "Su-35S fighters of the Russian Knights display team fly in formation with a Tu-95MS bomber.",
+  },
+  "su35-g9": {
+    title: "Static display",
+    subtitle: "Zhukovsky · 2012",
+    description:
+      "A Russian Air Force Su-35S on static display at Zhukovsky.",
+  },
+  "su35-g10": {
+    title: "Flying display",
+    subtitle: "MAKS · 2013",
+    description:
+      "A Su-35S during its flying display at MAKS 2013.",
+  },
+  "fa18-g1": {
+    title: "Arrested landing",
+    subtitle: "USS Nimitz · 2023",
+    description:
+      "An F/A-18E of the Blue Diamonds of VFA-146 catches the wire on the deck of USS Nimitz in the Philippine Sea.",
+  },
+  "fa18-g2": {
+    title: "Refuelling",
+    subtitle: "Philippine Sea · 2014",
+    description:
+      "An F/A-18E of VFA-195 refuels from a U.S. Air Force KC-135 Stratotanker.",
+  },
+  "fa18-g3": {
+    title: "High-speed pass",
+    subtitle: "USS Carl Vinson · 2011",
+    description:
+      "An F/A-18E of VFA-81 makes a high-speed pass over USS Carl Vinson during an air power demonstration.",
+  },
+  "fa18-g4": {
+    title: "Vapour cone",
+    subtitle: "USS Kitty Hawk · 2007",
+    description:
+      "An F/A-18F punches through a cloud of condensation at transonic speed during an air power demonstration.",
+  },
+  "fa18-g5": {
+    title: "Manoeuvres",
+    subtitle: "Arabian Sea · 2012",
+    description:
+      "An F/A-18F of VFA-103 manoeuvres during an air power demonstration from USS Dwight D. Eisenhower.",
+  },
+  "fa18-g6": {
+    title: "Catapult launch",
+    subtitle: "USS Ronald Reagan · 2013",
+    description:
+      "An F/A-18E of VFA-137 launches from the flight deck of USS Ronald Reagan in the Pacific.",
+  },
+  "fa18-g7": {
+    title: "Royal Australian Air Force",
+    subtitle: "Brisbane · 2019",
+    description:
+      "A Royal Australian Air Force F/A-18F performs aerobatics over Brisbane while practising for the Riverfire festival.",
+  },
+  "fa18-g8": {
+    title: "Over HMS Queen Elizabeth",
+    subtitle: "Atlantic Ocean · 2017",
+    description:
+      "An F/A-18E of VFA-31 and an F/A-18F of VFA-213 fly over the British carrier HMS Queen Elizabeth.",
+  },
+  "fa18-g9": {
+    title: "Condensation over the wings",
+    subtitle: "NAS Oceana · 2004",
+    description:
+      "An F/A-18F of VFA-122 pulls a high-g turn at an air show, drawing condensation over its wings.",
+  },
+  "fa18-g10": {
+    title: "Growler over Poland",
+    subtitle: "Northern Poland · 2022",
+    description:
+      "A U.S. Navy EA-18G Growler of VAQ-134 patrols over Poland while deployed to Germany for NATO.",
+  },
+  "f2-g1": {
+    title: "Formation over Guam",
+    subtitle: "Cope North · 2023",
+    description:
+      "A Japan Air Self-Defense Force F-2 flies in formation with U.S. Air Force aircraft near Guam.",
+  },
+  "f2-g2": {
+    title: "Landing at Andersen",
+    subtitle: "Guam · 2024",
+    description:
+      "An F-2 lands at Andersen Air Force Base during Exercise Cope North 24.",
+  },
+  "f2-g3": {
+    title: "On the flight line",
+    subtitle: "Guam · 2023",
+    description:
+      "F-2s parked on the flight line at Andersen Air Force Base during Cope North 2023.",
+  },
+  "f2-g4": {
+    title: "Afterburner takeoff",
+    subtitle: "Guam · 2010",
+    description:
+      "F-2A 523 of 6 Squadron takes off from Andersen Air Force Base with its afterburner lit.",
+  },
+  "f2-g5": {
+    title: "After the tsunami",
+    subtitle: "Matsushima · 2011",
+    description:
+      "Damaged F-2s at Matsushima Air Base a week after the tsunami of March 2011.",
+  },
+  "f2-g6": {
+    title: "Refuelling display",
+    subtitle: "Komaki · 2018",
+    description:
+      "An F-2A follows a KC-767 tanker in a simulated aerial refuelling display at Komaki Air Base.",
+  },
+  "f2-g7": {
+    title: "Flying display",
+    subtitle: "Komatsu · 2018",
+    description:
+      "F-2A 13-8514 in a flying display at Komatsu Air Base.",
+  },
+  "f2-g8": {
+    title: "Two-seater banking",
+    subtitle: "Gifu · 2019",
+    description:
+      "F-2B 03-8105 banks during a flying display at Gifu Air Base.",
+  },
+  "f2-g9": {
+    title: "Elephant walk",
+    subtitle: "8 Squadron · 2021",
+    description:
+      "F-2s of 8 Squadron line up on the runway for an elephant walk marking the squadron's 60th anniversary.",
+  },
+  "f2-g10": {
+    title: "Pair over the sea",
+    subtitle: "Japan Air Self-Defense Force",
+    description:
+      "Two F-2s fly low over the sea, where the aircraft was designed to fight.",
+  },
 };
 
 // The text of each gallery page, keyed by aircraft slug.
@@ -783,6 +1011,34 @@ export const galleryText = {
     label: "Airframe / F-15EX",
     intro:
       "A collection of public-domain photographs of the F-15EX Eagle II, from the first arrival at Eglin to its service with Air National Guard units and in the Pacific.",
+  },
+  "kf-21": {
+    name: "KF-21",
+    fullName: "KAI KF-21 Boramae",
+    label: "Airframe / KF-21",
+    intro:
+      "A collection of public-domain and freely licensed photographs of the KF-21, from the prototypes on display at Sacheon to flying displays at Seoul ADEX.",
+  },
+  "su-35": {
+    name: "Su-35",
+    fullName: "Sukhoi Su-35S",
+    label: "Airframe / Su-35",
+    intro:
+      "A collection of freely licensed photographs of the Su-35S, from air show displays near Moscow to intercepts photographed by Japanese and American aircrews.",
+  },
+  "fa-18": {
+    name: "Super Hornet",
+    fullName: "Boeing F/A-18E/F Super Hornet",
+    label: "Airframe / F/A-18E/F",
+    intro:
+      "A collection of mostly public-domain photographs of the Super Hornet, from carrier decks and air power demonstrations to the Royal Australian Air Force and the EA-18G Growler.",
+  },
+  "f-2": {
+    name: "F-2",
+    fullName: "Mitsubishi F-2",
+    label: "Airframe / F-2",
+    intro:
+      "A collection of public-domain and freely licensed photographs of the F-2, from exercises over Guam to flying displays at Japanese air bases.",
   },
   archive: {
     name: "Archive",

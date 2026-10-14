@@ -416,7 +416,7 @@ const f35 = {
   ],
 
   compareIntro:
-    `Published dimensions and dates for the F-35A alongside ${counts.en.others} other aircraft. It is the only single-engine fifth-generation design in the table; the F-16 and Gripen are single-engine fourth-generation designs.`,
+    `Published dimensions and dates for the F-35A alongside ${counts.en.others} other aircraft. It is the only single-engine fifth-generation design in the table; the F-16, F-2 and Gripen are single-engine fourth-generation designs.`,
 
   glossary: [
     {

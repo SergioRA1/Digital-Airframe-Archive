@@ -105,6 +105,10 @@ const pages = {
   "j-16": { component: dataPage("j16", () => import("./pages/j16.js")) },
   "j-15": { component: dataPage("j15", () => import("./pages/j15.js")) },
   "f-15ex": { component: dataPage("f15ex", () => import("./pages/f15ex.js")) },
+  "kf-21": { component: dataPage("kf21", () => import("./pages/kf21.js")) },
+  "su-35": { component: dataPage("su35", () => import("./pages/su35.js")) },
+  "fa-18": { component: dataPage("fa18", () => import("./pages/fa18.js")) },
+  "f-2": { component: dataPage("f2", () => import("./pages/f2.js")) },
 };
 
 // Titles live in src/routes.js, which the prerendered pages share. An old

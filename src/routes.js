@@ -147,6 +147,10 @@ const pageTitles = {
   "j-16": "J-16",
   "j-15": "J-15T",
   "f-15ex": "F-15EX",
+  "kf-21": "KF-21",
+  "su-35": "Su-35",
+  "fa-18": "F/A-18E/F",
+  "f-2": "F-2",
 };
 
 const titles = {

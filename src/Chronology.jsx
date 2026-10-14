@@ -16,12 +16,16 @@ import {
 } from "./Layout.jsx";
 import f15ex from "./pages/f15ex.js";
 import f16 from "./pages/f16.js";
+import f2 from "./pages/f2.js";
 import f35 from "./pages/f35.js";
+import fa18 from "./pages/fa18.js";
 import gripen from "./pages/gripen.js";
 import j15 from "./pages/j15.js";
 import j16 from "./pages/j16.js";
 import j35 from "./pages/j35.js";
+import kf21 from "./pages/kf21.js";
 import rafale from "./pages/rafale.js";
+import su35 from "./pages/su35.js";
 import su57 from "./pages/su57.js";
 import typhoon from "./pages/typhoon.js";
 import { counts } from "./counts.js";
@@ -103,7 +107,22 @@ const sources = {
   "j-20": j20Milestones,
   "f-22": f22Milestones,
   ...Object.fromEntries(
-    [f35, su57, f16, typhoon, rafale, gripen, j35, j16, j15, f15ex].map(
+    [
+      f35,
+      su57,
+      f16,
+      typhoon,
+      rafale,
+      gripen,
+      j35,
+      j16,
+      j15,
+      f15ex,
+      kf21,
+      su35,
+      fa18,
+      f2,
+    ].map(
       (page) => [page.slug, page.milestones],
     ),
   ),

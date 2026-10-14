@@ -140,6 +140,38 @@ export const figures = {
     length: figure(19.4, "19.4", "CONFIRMED"),
     wingspan: figure(13.1, "13.1", "CONFIRMED"),
   },
+  "kf-21": {
+    speed: figure(1.81, "MACH 1.81", "REPORTED"),
+    mtow: figure(25600, "≈ 25,600", "REPORTED"),
+    radius: null,
+    ceiling: null,
+    length: figure(16.9, "16.9", "CONFIRMED"),
+    wingspan: figure(11.2, "11.2", "CONFIRMED"),
+  },
+  "su-35": {
+    speed: figure(2.25, "MACH 2.25", "REPORTED"),
+    mtow: figure(34500, "≈ 34,500", "REPORTED"),
+    radius: null,
+    ceiling: figure(18000, "18,000", "REPORTED"),
+    length: figure(21.9, "21.9", "CONFIRMED"),
+    wingspan: figure(15.3, "15.3", "CONFIRMED"),
+  },
+  "fa-18": {
+    speed: figure(1.8, "MACH 1.8", "CONFIRMED"),
+    mtow: figure(29900, "≈ 29,900", "CONFIRMED"),
+    radius: figure(720, "≈ 720", "ESTIMATE"),
+    ceiling: figure(15000, "> 15,000", "CONFIRMED"),
+    length: figure(18.3, "18.3", "CONFIRMED"),
+    wingspan: figure(13.6, "13.6", "CONFIRMED"),
+  },
+  "f-2": {
+    speed: figure(2, "MACH 2 CLASS", "REPORTED"),
+    mtow: figure(22100, "≈ 22,100", "REPORTED"),
+    radius: figure(830, "≈ 830", "ESTIMATE"),
+    ceiling: figure(18000, "18,000", "REPORTED"),
+    length: figure(15.5, "15.5", "CONFIRMED"),
+    wingspan: figure(11.1, "11.1", "CONFIRMED"),
+  },
 };
 
 const spanishMetrics = [
@@ -272,6 +304,38 @@ const spanishFigures = {
     ceiling: figure(20000, "≈ 20.000", "REPORTED"),
     length: figure(19.4, "19,4", "CONFIRMED"),
     wingspan: figure(13.1, "13,1", "CONFIRMED"),
+  },
+  "kf-21": {
+    speed: figure(1.81, "MACH 1,81", "REPORTED"),
+    mtow: figure(25600, "≈ 25.600", "REPORTED"),
+    radius: null,
+    ceiling: null,
+    length: figure(16.9, "16,9", "CONFIRMED"),
+    wingspan: figure(11.2, "11,2", "CONFIRMED"),
+  },
+  "su-35": {
+    speed: figure(2.25, "MACH 2,25", "REPORTED"),
+    mtow: figure(34500, "≈ 34.500", "REPORTED"),
+    radius: null,
+    ceiling: figure(18000, "18.000", "REPORTED"),
+    length: figure(21.9, "21,9", "CONFIRMED"),
+    wingspan: figure(15.3, "15,3", "CONFIRMED"),
+  },
+  "fa-18": {
+    speed: figure(1.8, "MACH 1,8", "CONFIRMED"),
+    mtow: figure(29900, "≈ 29.900", "CONFIRMED"),
+    radius: figure(720, "≈ 720", "ESTIMATE"),
+    ceiling: figure(15000, "> 15.000", "CONFIRMED"),
+    length: figure(18.3, "18,3", "CONFIRMED"),
+    wingspan: figure(13.6, "13,6", "CONFIRMED"),
+  },
+  "f-2": {
+    speed: figure(2, "CLASE MACH 2", "REPORTED"),
+    mtow: figure(22100, "≈ 22.100", "REPORTED"),
+    radius: figure(830, "≈ 830", "ESTIMATE"),
+    ceiling: figure(18000, "18.000", "REPORTED"),
+    length: figure(15.5, "15,5", "CONFIRMED"),
+    wingspan: figure(11.1, "11,1", "CONFIRMED"),
   },
 };
 

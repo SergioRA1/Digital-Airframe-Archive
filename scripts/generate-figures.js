@@ -12,12 +12,16 @@ import { specifications as f22Specifications } from "../src/data/f22.js";
 import { specifications as j20Specifications } from "../src/data/j20.js";
 import f15ex from "../src/pages/f15ex.js";
 import f16 from "../src/pages/f16.js";
+import f2 from "../src/pages/f2.js";
 import f35 from "../src/pages/f35.js";
+import fa18 from "../src/pages/fa18.js";
 import gripen from "../src/pages/gripen.js";
 import j15 from "../src/pages/j15.js";
 import j16 from "../src/pages/j16.js";
 import j35 from "../src/pages/j35.js";
+import kf21 from "../src/pages/kf21.js";
 import rafale from "../src/pages/rafale.js";
+import su35 from "../src/pages/su35.js";
 import su57 from "../src/pages/su57.js";
 import typhoon from "../src/pages/typhoon.js";
 import { localise } from "../src/i18n.js";
@@ -70,7 +74,22 @@ export const metrics = [
   },
 ];
 
-const pages = { f35, su57, f16, typhoon, rafale, gripen, j35, j16, j15, f15ex };
+const pages = {
+  f35,
+  su57,
+  f16,
+  typhoon,
+  rafale,
+  gripen,
+  j35,
+  j16,
+  j15,
+  f15ex,
+  kf21,
+  su35,
+  fa18,
+  f2,
+};
 
 const specificationSources = {
   "j-20": j20Specifications,

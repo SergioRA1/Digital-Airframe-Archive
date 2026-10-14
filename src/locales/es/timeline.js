@@ -21,6 +21,10 @@ const slugs = {
   j16: "j-16",
   j15: "j-15",
   f15ex: "f-15ex",
+  kf21: "kf-21",
+  su35: "su-35",
+  fa18: "fa-18",
+  f2: "f-2",
 };
 
 export default {

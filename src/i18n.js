@@ -102,6 +102,8 @@ const terms = {
     Europe: "Europa",
     France: "Francia",
     Sweden: "Suecia",
+    "South Korea": "Corea del Sur",
+    Japan: "Japón",
     "Public domain": "Dominio público",
   },
 };
