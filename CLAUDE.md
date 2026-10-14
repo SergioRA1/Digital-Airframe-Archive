@@ -98,6 +98,7 @@ Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 7. Update the `next` chain. Pages link in a loop: J-20 → F-22 → F-35 → Su-57 → F-16 → Typhoon → Rafale → Gripen → J-35 → J-16 → J-15 → F-15EX → J-20. Re-point the previous page's `next` to the new aircraft and give the new one the old target.
 8. Add its Spanish module `src/locales/es/pages/<name>.js`, its slug to `slugs` in `src/locales/es/timeline.js`, its name to `pageNames` in `scripts/check-translations.js`, and Spanish rows to `src/locales/es/aircraft.js`, `peers.js` and `usage.js`. `npm run translations` must pass.
 9. Check the counts. Copy never types the number of aircraft: it uses `counts` from `src/counts.js` (`${counts.en.all}` → "twelve", `${counts.en.others}` → "eleven", and `counts.es` in Spanish modules), worked out from `src/aircraft.js`. A test fails if the comparison table misses an aircraft, or if a page's "the programme in N dates" doesn't match its number of milestones.
+10. Update `README.md` by hand: it is plain Markdown and can't use `counts`. It states the number of aircraft in several places ("twelve modern combat aircraft", "Twelve aircraft files" and its list of designations, "all twelve", "The other ten are rendered", the timeline screenshot's alt text). A test fails if any of these is out of step with `src/aircraft.js`.
 
 ## Standards
 

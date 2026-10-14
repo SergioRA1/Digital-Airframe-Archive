@@ -12,6 +12,7 @@ import {
   allRoutes,
   basePath,
   documentTitle,
+  pageName,
   routePath,
 } from "../src/routes.js";
 import { outputPath, renderFigures } from "../scripts/generate-figures.js";
@@ -603,4 +604,44 @@ test("every photo address is where the weekly check looks", () => {
 
   expect(readAddresses().length).toBeGreaterThan(100);
   expect(elsewhere).toEqual([]);
+});
+
+// README.md is plain Markdown, so it can't use src/counts.js. This keeps its
+// aircraft counts and list in step with the hangar.
+test("README.md counts and lists every aircraft", () => {
+  const readme = readFileSync("README.md", "utf8");
+  const available = aircraft.filter((entry) => entry.available);
+  const all = countWord(available.length);
+  const numberWord = new RegExp(
+    `\\b(${Array.from({ length: 21 }, (_, n) => countWord(n)).join("|")})\\b`,
+    "i",
+  );
+  const problems = [];
+
+  for (const match of readme.matchAll(
+    /\b(\w+) (?:modern combat aircraft|aircraft files|programmes)\b|\ball (\w+)\b/gi,
+  )) {
+    const word = match[1] ?? match[2];
+
+    if (numberWord.test(word) && word.toLowerCase() !== all) {
+      problems.push(`"${match[0]}" should say ${all}`);
+    }
+  }
+
+  // The J-20 and F-22 pages are hand-built; the rest share one template.
+  const others = readme.match(/The other (\w+) are rendered/)?.[1];
+
+  if (others !== countWord(available.length - 2)) {
+    problems.push(`"The other ${others} are rendered" should say ${countWord(available.length - 2)}`);
+  }
+
+  const list = readme.match(/\*\*\w+ aircraft files\*\*: ([^.]+)\./)?.[1] ?? "";
+
+  for (const entry of available) {
+    if (![entry.designation, pageName(entry.slug, "en")].some((name) => list.includes(name))) {
+      problems.push(`the aircraft files list is missing ${entry.designation}`);
+    }
+  }
+
+  expect(problems).toEqual([]);
 });
