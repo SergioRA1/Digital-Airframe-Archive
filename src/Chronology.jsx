@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, domMax, LazyMotion, m } from "framer-motion";
 import { ArrowDown, ArrowUp, ArrowUpRight, Minus, Plus } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
@@ -327,7 +327,7 @@ function Chronology({ introDelay = 0.1, translation }) {
           id="top"
           className="relative scroll-mt-20 px-5 pb-20 pt-40 md:px-10"
         >
-          <motion.div
+          <m.div
             initial={{
               opacity: 0,
               y: 30,
@@ -375,7 +375,7 @@ function Chronology({ introDelay = 0.1, translation }) {
               </span>
               {t.shown(filtered.length, events.length)}
             </div>
-          </motion.div>
+          </m.div>
         </section>
 
         <section
@@ -430,7 +430,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                   const dimmed = origin !== "All" && lane.origin !== origin;
 
                   return (
-                    <motion.g
+                    <m.g
                       key={lane.slug}
                       animate={{
                         opacity: dimmed ? 0.2 : 1,
@@ -457,7 +457,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                         stroke="rgba(255,255,255,.04)"
                       />
 
-                      <motion.line
+                      <m.line
                         x1={xFor(lane.start)}
                         x2={xFor(lane.end)}
                         y1={y}
@@ -479,7 +479,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                           ease: "easeInOut",
                         }}
                       />
-                    </motion.g>
+                    </m.g>
                   );
                 })}
 
@@ -499,7 +499,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                       {/* A larger invisible target makes small dots easy to hit. */}
                       <circle cx={x} cy={y} r={11} fill="transparent" />
 
-                      <motion.circle
+                      <m.circle
                         cx={x}
                         cy={y}
                         fill={confidenceFill[event.confidence]}
@@ -520,7 +520,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                       />
 
                       {isActive && (
-                        <motion.circle
+                        <m.circle
                           cx={x}
                           cy={y}
                           fill="none"
@@ -549,7 +549,7 @@ function Chronology({ introDelay = 0.1, translation }) {
             <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-start">
               <AnimatePresence mode="wait">
                 {active && (
-                  <motion.div
+                  <m.div
                     key={active.id}
                     initial={{
                       opacity: 0,
@@ -595,7 +595,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                         className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                       />
                     </a>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
 
@@ -669,7 +669,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                 <tbody>
                   <AnimatePresence initial={false}>
                     {visible.map((event) => (
-                      <motion.tr
+                      <m.tr
                         key={event.id}
                         layout
                         initial={{
@@ -721,7 +721,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                         <td className="p-5">
                           <ConfidenceLabel confidence={event.confidence} />
                         </td>
-                      </motion.tr>
+                      </m.tr>
                     ))}
                   </AnimatePresence>
                 </tbody>
@@ -754,4 +754,15 @@ function Chronology({ introDelay = 0.1, translation }) {
   );
 }
 
-export default Chronology;
+// The bars and rows animate to their new places (`layout`), which needs
+// framer-motion's domMax features. Loading them here keeps them out of the
+// main bundle.
+function ChronologyPage(props) {
+  return (
+    <LazyMotion features={domMax}>
+      <Chronology {...props} />
+    </LazyMotion>
+  );
+}
+
+export default ChronologyPage;

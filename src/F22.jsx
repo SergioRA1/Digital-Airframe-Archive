@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   ArrowRight,
   Camera,
@@ -55,7 +55,7 @@ const sectionIds = [
 
 function Aircraft({ label }) {
   return (
-    <motion.div
+    <m.div
       initial={{
         opacity: 0,
         y: 30,
@@ -152,7 +152,7 @@ function Aircraft({ label }) {
           filter="url(#raptor-glow)"
         />
       </svg>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -194,7 +194,7 @@ function F22({ introDelay = 0.1, translation }) {
           className="relative flex min-h-screen scroll-mt-20 flex-col justify-center overflow-hidden px-5 pb-10 pt-28 md:px-10"
         >
           <div className="mx-auto grid w-full max-w-[1500px] items-center gap-8 lg:grid-cols-[.8fr_1.2fr]">
-            <motion.div
+            <m.div
               initial={{
                 opacity: 0,
                 x: -30,
@@ -241,7 +241,7 @@ function F22({ introDelay = 0.1, translation }) {
                   <Camera size={15} />
                 </a>
               </div>
-            </motion.div>
+            </m.div>
 
             <div className="relative">
               <Aircraft label={t.silhouetteLabel} />
@@ -276,7 +276,7 @@ function F22({ introDelay = 0.1, translation }) {
             >
               {t.scroll}
 
-              <motion.span
+              <m.span
                 animate={{
                   y: [0, 5, 0],
                 }}
@@ -286,7 +286,7 @@ function F22({ introDelay = 0.1, translation }) {
                 }}
               >
                 <ChevronDown size={15} />
-              </motion.span>
+              </m.span>
             </button>
           </div>
         </section>

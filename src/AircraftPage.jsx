@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowRight, Camera, ChevronDown, ChevronRight } from "lucide-react";
 
 import {
@@ -73,7 +73,7 @@ function HeroAircraft({ slug, silhouette, detail }) {
   const glowId = `${slug}-glow`;
 
   return (
-    <motion.div
+    <m.div
       initial={{
         opacity: 0,
         y: 30,
@@ -164,7 +164,7 @@ function HeroAircraft({ slug, silhouette, detail }) {
           filter={`url(#${glowId})`}
         />
       </svg>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -193,7 +193,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
           className="relative flex min-h-screen scroll-mt-20 flex-col justify-center overflow-hidden px-5 pb-10 pt-28 md:px-10"
         >
           <div className="mx-auto grid w-full max-w-[1500px] items-center gap-8 lg:grid-cols-[.8fr_1.2fr]">
-            <motion.div
+            <m.div
               initial={{
                 opacity: 0,
                 x: -30,
@@ -257,7 +257,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                   <Camera size={15} />
                 </a>
               </div>
-            </motion.div>
+            </m.div>
 
             <div className="relative">
               <HeroAircraft
@@ -296,7 +296,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
             >
               {t.scroll}
 
-              <motion.span
+              <m.span
                 animate={{
                   y: [0, 5, 0],
                 }}
@@ -306,7 +306,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                 }}
               >
                 <ChevronDown size={15} />
-              </motion.span>
+              </m.span>
             </button>
           </div>
         </section>

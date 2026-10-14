@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { ExternalLink, Minus, Plus } from "lucide-react";
 
 import {
@@ -12,6 +12,7 @@ import {
 import { SectionLabel } from "./Layout.jsx";
 import { usage as spanishUsage } from "./locales/es/usage.js";
 import { usage } from "./usage.js";
+import { srcSet } from "./imageSizes.js";
 
 const text = {
   en: {
@@ -97,7 +98,7 @@ function UsagePanel({ info }) {
 
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
+          <m.div
             id="usage-details"
             key="details"
             initial={{ height: 0, opacity: 0 }}
@@ -119,7 +120,7 @@ function UsagePanel({ info }) {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -177,7 +178,7 @@ export function Timeline({
 
           <ol className="relative border-l border-white/10">
             {items.map((milestone) => (
-              <motion.li
+              <m.li
                 key={milestone.date}
                 initial={{
                   opacity: 0,
@@ -213,7 +214,7 @@ export function Timeline({
                 <p className="mt-3 max-w-xl text-sm leading-6 text-white/60">
                   {milestone.detail}
                 </p>
-              </motion.li>
+              </m.li>
             ))}
           </ol>
         </div>
@@ -265,6 +266,8 @@ export function Variants({
                   <div className="aspect-[16/10] overflow-hidden bg-black/40">
                     <img
                       src={variant.photo.src}
+                      srcSet={srcSet(variant.photo.src)}
+                      sizes="(min-width: 1024px) 33vw, 100vw"
                       alt={`${variant.code} ${variant.name}`}
                       loading="lazy"
                       decoding="async"
@@ -411,7 +414,7 @@ export function Reference({
 
                   <AnimatePresence initial={false}>
                     {open && (
-                      <motion.div
+                      <m.div
                         initial={{
                           height: 0,
                           opacity: 0,
@@ -429,7 +432,7 @@ export function Reference({
                         <p className="max-w-2xl pb-6 text-sm leading-7 text-white/60">
                           {entry.definition}
                         </p>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -608,7 +611,7 @@ export function Specifications({
                 : specification;
 
             return (
-              <motion.article
+              <m.article
                 key={specification.label}
                 initial={{
                   opacity: 0,
@@ -683,7 +686,7 @@ export function Specifications({
                     isEstimate ? "bg-amber-300" : "bg-lime-300"
                   }`}
                 />
-              </motion.article>
+              </m.article>
             );
           })}
 

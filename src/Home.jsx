@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
 import { aircraft } from "./aircraft.js";
@@ -23,6 +23,7 @@ import {
 import { photos } from "./photos.js";
 import { Comparison } from "./Comparison.jsx";
 import { counts } from "./counts.js";
+import { srcSet } from "./imageSizes.js";
 
 // One representative frame per aircraft for the archive teaser.
 const teaser = [
@@ -186,7 +187,7 @@ function AircraftCard({ entry, index, fileNumber }) {
   const translate = useTerm();
 
   return (
-    <motion.a
+    <m.a
       href={href(`#/${entry.slug}`)}
       initial={{
         opacity: 0,
@@ -269,7 +270,7 @@ function AircraftCard({ entry, index, fileNumber }) {
       </div>
 
       <div className="absolute bottom-0 left-0 h-px w-0 bg-lime-300 transition-all duration-500 group-hover:w-full" />
-    </motion.a>
+    </m.a>
   );
 }
 
@@ -318,7 +319,7 @@ function Home({ introDelay = 0.1 }) {
           id="top"
           className="relative flex min-h-[78vh] scroll-mt-20 flex-col justify-end px-5 pb-16 pt-40 md:px-10"
         >
-          <motion.div
+          <m.div
             initial={{
               opacity: 0,
               y: 30,
@@ -379,7 +380,7 @@ function Home({ introDelay = 0.1 }) {
                 {t.photography}
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </section>
 
         <section
@@ -492,6 +493,8 @@ function Home({ introDelay = 0.1 }) {
                 >
                   <img
                     src={photos[key].src}
+                    srcSet={srcSet(photos[key].src)}
+                    sizes="(min-width: 640px) 25vw, 50vw"
                     alt={t.preview(label)}
                     loading="lazy"
                     decoding="async"
@@ -527,7 +530,7 @@ function Home({ introDelay = 0.1 }) {
 
             <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
               {t.tools.map((tool, index) => (
-                <motion.a
+                <m.a
                   key={toolLinks[index]}
                   href={href(toolLinks[index])}
                   initial={{
@@ -569,7 +572,7 @@ function Home({ introDelay = 0.1 }) {
                   </span>
 
                   <div className="absolute bottom-0 left-0 h-px w-0 bg-lime-300 transition-all duration-500 group-hover:w-full" />
-                </motion.a>
+                </m.a>
               ))}
             </div>
           </div>

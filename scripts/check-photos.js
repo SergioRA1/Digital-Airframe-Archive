@@ -3,7 +3,8 @@
 // Photos are hotlinked from Wikimedia Commons (and could come from the other
 // sources listed in CLAUDE.md), where files are sometimes renamed or deleted.
 // This reads every `src`, `full` and `source` address from src/photos.js and
-// src/Gallery.jsx and asks each server for it. Local files
+// src/Gallery.jsx, plus the smaller sizes phones load (src/imageSizes.js),
+// and asks each server for it. Local files
 // (/Digital-Airframe-Archive/photos/<file>) are checked on disk.
 //
 // Run `npm run photos`. It exits with 1 if anything is broken, and writes a
@@ -13,6 +14,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
+import { sizesOf } from "../src/imageSizes.js";
 import { basePath } from "../src/site.js";
 
 const root = new URL("../", import.meta.url);
@@ -34,10 +36,24 @@ export function readAddresses() {
     for (const match of text.matchAll(/\b(src|full|source):\s*"([^"]+)"/g)) {
       const [, field, address] = match;
 
-      if (!found.has(address)) {
-        const line = text.slice(0, match.index).split("\n").length;
+      const line = text.slice(0, match.index).split("\n").length;
+      const where = `${file}:${line}`;
 
-        found.set(address, { address, field, where: `${file}:${line}` });
+      // The smaller versions phones load through srcset (src/imageSizes.js).
+      const versions =
+        field === "source"
+          ? [{ url: address }]
+          : sizesOf(address).filter((size) => size.url !== address);
+
+      for (const [each, label] of [
+        [address, field],
+        ...versions
+          .filter((size) => size.width)
+          .map((size) => [size.url, `${field} ${size.width}w`]),
+      ]) {
+        if (!found.has(each)) {
+          found.set(each, { address: each, field: label, where });
+        }
       }
     }
   }

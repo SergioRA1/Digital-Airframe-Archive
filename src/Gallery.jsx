@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, m, useScroll, useTransform } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -18,6 +13,7 @@ import { captions, galleryText } from "./data/gallery.js";
 import { localise, useTerm, useText } from "./i18n.js";
 import { LanguageSwitch } from "./Layout.jsx";
 import { photos } from "./photos.js";
+import { srcSet } from "./imageSizes.js";
 
 const text = {
   en: {
@@ -651,7 +647,7 @@ function GalleryHero({ onExplore, gallery }) {
 
   return (
     <section className="relative flex min-h-screen items-end overflow-hidden px-5 pb-16 pt-32 md:px-10 md:pb-20">
-      <motion.div
+      <m.div
         style={{
           y: imageY,
         }}
@@ -659,6 +655,8 @@ function GalleryHero({ onExplore, gallery }) {
       >
         <img
           src={images[0].src}
+          srcSet={srcSet(images[0].src)}
+          sizes="100vw"
           alt=""
           className="h-full w-full object-cover"
           style={{
@@ -669,7 +667,7 @@ function GalleryHero({ onExplore, gallery }) {
         <div className="absolute inset-0 bg-gradient-to-r from-[#050708] via-[#050708]/55 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#050708] via-[#050708]/10 to-[#050708]/40" />
         <div className="absolute inset-0 bg-lime-950/10 mix-blend-color" />
-      </motion.div>
+      </m.div>
 
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.08]"
@@ -680,7 +678,7 @@ function GalleryHero({ onExplore, gallery }) {
         }}
       />
 
-      <motion.div
+      <m.div
         style={{
           y: contentY,
           opacity: contentOpacity,
@@ -734,7 +732,7 @@ function GalleryHero({ onExplore, gallery }) {
             {t.fullScreenViewer}
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }
@@ -745,7 +743,7 @@ function GalleryCard({ image, index, name, onOpen }) {
   const imageOnRight = index % 2 === 1;
 
   return (
-    <motion.article
+    <m.article
       initial={{
         opacity: 0,
         y: 70,
@@ -776,8 +774,10 @@ function GalleryCard({ image, index, name, onOpen }) {
         }`}
         aria-label={t.open(image.title)}
       >
-        <motion.img
+        <m.img
           src={image.src}
+          srcSet={srcSet(image.src)}
+          sizes="(min-width: 1024px) 60vw, 100vw"
           alt={t.cardAlt(image.aircraft ?? name, image.title)}
           loading="lazy"
           decoding="async"
@@ -869,7 +869,7 @@ function GalleryCard({ image, index, name, onOpen }) {
           </a>
         </div>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 
@@ -917,7 +917,7 @@ function Lightbox({
   return (
     <AnimatePresence>
       {selectedImage && (
-        <motion.div
+        <m.div
           initial={{
             opacity: 0,
           }}
@@ -964,7 +964,7 @@ function Lightbox({
             <ArrowRight size={18} />
           </button>
 
-          <motion.div
+          <m.div
             key={selectedImage.id}
             initial={{
               opacity: 0,
@@ -985,6 +985,8 @@ function Lightbox({
           >
             <img
               src={selectedImage.full}
+              srcSet={srcSet(selectedImage.full)}
+              sizes="(min-width: 1600px) 1600px, 100vw"
               alt={t.expandedAlt(selectedImage.aircraft ?? name, selectedImage.title)}
               className="min-h-0 max-h-[78vh] w-full object-contain"
             />
@@ -1005,8 +1007,8 @@ function Lightbox({
                 {selectedImage.photographer} · {translate(selectedImage.licence)}
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

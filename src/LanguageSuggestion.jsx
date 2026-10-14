@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { X } from "lucide-react";
 
 import { languages, switchLanguageHref, useLanguage } from "./i18n.js";
@@ -74,7 +74,7 @@ export function LanguageSuggestion({ show }) {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.aside
+        <m.aside
           key={suggested}
           lang={suggested}
           aria-label={t.label}
@@ -121,7 +121,7 @@ export function LanguageSuggestion({ show }) {
           >
             <X size={16} />
           </button>
-        </motion.aside>
+        </m.aside>
       )}
     </AnimatePresence>
   );

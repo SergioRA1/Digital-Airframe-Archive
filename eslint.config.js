@@ -35,6 +35,20 @@ export default [
       "react/prop-types": "off",
       // Apostrophes and quotes in JSX copy render correctly as typed.
       "react/no-unescaped-entities": "off",
+      // Use framer-motion's `m`, whose animation code loads lazily (see
+      // main.jsx); `motion` would pull all of it into the main bundle.
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "framer-motion",
+              importNames: ["motion"],
+              message: "Use `m` instead: animation code loads lazily through LazyMotion in main.jsx.",
+            },
+          ],
+        },
+      ],
     },
   },
   {

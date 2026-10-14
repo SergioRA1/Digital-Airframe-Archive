@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useScroll } from "framer-motion";
+import { AnimatePresence, m, useScroll } from "framer-motion";
 import {
   Camera,
   ChevronRight,
@@ -133,7 +133,7 @@ export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
 
   return (
-    <motion.div
+    <m.div
       className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-lime-300"
       style={{
         scaleX: scrollYProgress,
@@ -324,7 +324,7 @@ export function PageHeader({
 
       <AnimatePresence onExitComplete={scrollToPendingSection}>
         {menuOpen && (
-          <motion.div
+          <m.div
             initial={{
               height: 0,
               opacity: 0,
@@ -412,7 +412,7 @@ export function PageHeader({
                 </a>
               )}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

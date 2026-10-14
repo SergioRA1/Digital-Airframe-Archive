@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Activity,
   Camera,
@@ -85,7 +85,7 @@ function Aircraft({
   label,
 }) {
   return (
-    <motion.div
+    <m.div
       initial={{
         opacity: 0,
         y: 30,
@@ -213,7 +213,7 @@ function Aircraft({
               className="cursor-pointer"
             >
               {active && (
-                <motion.circle
+                <m.circle
                   cx={feature.x}
                   cy={feature.y}
                   fill="none"
@@ -262,7 +262,7 @@ function Aircraft({
       <div className="absolute left-[10%] top-[58%] h-px w-[18%] bg-gradient-to-r from-transparent to-lime-300/60" />
 
       <div className="absolute right-[10%] top-[58%] h-px w-[18%] bg-gradient-to-l from-transparent to-lime-300/60" />
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -294,7 +294,7 @@ function RadarDisplay() {
 
       <div className="absolute left-0 top-1/2 h-px w-full bg-lime-300/15" />
 
-      <motion.div
+      <m.div
         className="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,rgba(199,255,55,.5),rgba(199,255,55,.04)_18%,transparent_28%)]"
         animate={{
           rotate: 360,
@@ -307,7 +307,7 @@ function RadarDisplay() {
       />
 
       {radarDots.map(([x, y], index) => (
-        <motion.span
+        <m.span
           key={`${x}-${y}`}
           className="absolute h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_12px_#c7ff37]"
           style={{
@@ -388,7 +388,7 @@ function J20({ introDelay = 0.1, translation }) {
           className="relative flex min-h-screen scroll-mt-20 flex-col justify-center overflow-hidden px-5 pb-10 pt-28 md:px-10"
         >
           <div className="mx-auto grid w-full max-w-[1500px] items-center gap-8 lg:grid-cols-[.7fr_1.3fr]">
-            <motion.div
+            <m.div
               initial={{
                 opacity: 0,
                 x: -30,
@@ -436,7 +436,7 @@ function J20({ introDelay = 0.1, translation }) {
                   <Camera size={15} />
                 </button>
               </div>
-            </motion.div>
+            </m.div>
 
             <div className="relative lg:-ml-20">
               <Aircraft label={page.silhouetteLabel} />
@@ -470,7 +470,7 @@ function J20({ introDelay = 0.1, translation }) {
             >
               {page.scroll}
 
-              <motion.span
+              <m.span
                 animate={{
                   y: [0, 5, 0],
                 }}
@@ -480,7 +480,7 @@ function J20({ introDelay = 0.1, translation }) {
                 }}
               >
                 <ChevronDown size={15} />
-              </motion.span>
+              </m.span>
             </button>
           </div>
         </section>
@@ -615,7 +615,7 @@ function J20({ introDelay = 0.1, translation }) {
                           </span>
 
                           {active && (
-                            <motion.span
+                            <m.span
                               initial={{
                                 opacity: 0,
                                 y: -4,
@@ -627,7 +627,7 @@ function J20({ introDelay = 0.1, translation }) {
                               className="mt-3 block max-w-md text-sm leading-6 text-white/60"
                             >
                               {feature.detail}
-                            </motion.span>
+                            </m.span>
                           )}
                         </span>
                       </button>

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, domMax, LazyMotion, m } from "framer-motion";
 import {
   ArrowDown,
   ArrowUp,
@@ -246,7 +246,7 @@ function MetricChart({ metric, selected, shownFigures, notPublished }) {
             const { rank, total } = rankOf(slug, metric.key);
 
             return (
-              <motion.div
+              <m.div
                 key={slug}
                 layout
                 initial={{
@@ -295,7 +295,7 @@ function MetricChart({ metric, selected, shownFigures, notPublished }) {
                   })}
 
                   {entry ? (
-                    <motion.div
+                    <m.div
                       className="absolute left-0 top-[9px] h-2.5"
                       style={{
                         backgroundColor: colour,
@@ -331,7 +331,7 @@ function MetricChart({ metric, selected, shownFigures, notPublished }) {
                     <span className="text-white/50">{notPublished}</span>
                   )}
                 </div>
-              </motion.div>
+              </m.div>
             );
           })}
         </AnimatePresence>
@@ -471,7 +471,7 @@ function Compare({ introDelay = 0.1 }) {
           id="top"
           className="relative scroll-mt-20 px-5 pb-20 pt-40 md:px-10"
         >
-          <motion.div
+          <m.div
             initial={{
               opacity: 0,
               y: 30,
@@ -542,7 +542,7 @@ function Compare({ introDelay = 0.1 }) {
                 {copied ? t.linkCopied : t.copyLink}
               </span>
             </button>
-          </motion.div>
+          </m.div>
         </section>
 
         <section
@@ -668,7 +668,7 @@ function Compare({ introDelay = 0.1 }) {
                     const isSelected = slot !== -1;
 
                     return (
-                      <motion.tr
+                      <m.tr
                         key={peer.slug}
                         layout
                         transition={{
@@ -744,7 +744,7 @@ function Compare({ introDelay = 0.1 }) {
                             </td>
                           );
                         })}
-                      </motion.tr>
+                      </m.tr>
                     );
                   })}
                 </tbody>
@@ -767,4 +767,15 @@ function Compare({ introDelay = 0.1 }) {
   );
 }
 
-export default Compare;
+// The bars and rows animate to their new places (`layout`), which needs
+// framer-motion's domMax features. Loading them here keeps them out of the
+// main bundle.
+function ComparePage(props) {
+  return (
+    <LazyMotion features={domMax}>
+      <Compare {...props} />
+    </LazyMotion>
+  );
+}
+
+export default ComparePage;

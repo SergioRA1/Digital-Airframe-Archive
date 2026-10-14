@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 
 import Home from "./Home.jsx";
 import { LanguageSuggestion } from "./LanguageSuggestion.jsx";
@@ -238,7 +238,7 @@ function App() {
     <LanguageContext.Provider value={language}>
       <AnimatePresence>
         {booting && (
-          <motion.div
+          <m.div
             initial={{
               opacity: 1,
             }}
@@ -262,7 +262,7 @@ function App() {
               </div>
 
               <div className="h-px w-full bg-white/15">
-                <motion.div
+                <m.div
                   className="h-px bg-lime-300"
                   animate={{
                     width: `${progress}%`,
@@ -276,7 +276,7 @@ function App() {
                   : "Initializing visual systems"}
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
