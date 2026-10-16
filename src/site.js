@@ -5,3 +5,9 @@
 // where `basePath` becomes "/").
 export const basePath = "/Digital-Airframe-Archive/";
 export const siteUrl = `https://sergiora1.github.io${basePath}`;
+
+// Visitor statistics with GoatCounter (https://www.goatcounter.com): page
+// counts with no cookies and no personal data, so no consent banner is
+// needed. Off while this is empty. To turn it on, create a free GoatCounter
+// account and put its code here: "airframe" for airframe.goatcounter.com.
+export const goatcounterCode = "";

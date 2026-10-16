@@ -25,6 +25,10 @@ An interactive digital exhibition of sixteen modern combat aircraft, built as a 
 | --- | --- |
 | ![Bar charts comparing the F-22, J-20 and Typhoon](docs/screenshots/compare.png) | ![Milestones of sixteen programmes on one time axis](docs/screenshots/timeline.png) |
 
+## Privacy
+
+The site sets no cookies and loads nothing from other sites except the photographs, which come from Wikimedia Commons; fonts are served by the site itself. Visitor statistics are off by default. When a [GoatCounter](https://www.goatcounter.com) code is set in `src/site.js`, each page view is counted with one request to GoatCounter, which sets no cookies and stores no IP addresses; browsers that ask not to be tracked are not counted.
+
 ## Built with
 
 - [React 18](https://react.dev/) and [Vite 6](https://vite.dev/)

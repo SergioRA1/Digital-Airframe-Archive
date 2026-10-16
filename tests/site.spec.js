@@ -296,6 +296,8 @@ test.describe("accessibility", () => {
 
 // Visitors' browsers contact only this site and Wikimedia (for photos):
 // fonts are self-hosted, so no visitor data goes to Google or anyone else.
+// (Visitor statistics, when switched on in src/site.js, never run on
+// localhost, so they don't show up here.)
 test("pages load nothing from other sites except Wikimedia photos", async ({
   page,
 }) => {

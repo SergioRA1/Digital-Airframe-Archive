@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
 
+import { countPageView } from "./analytics.js";
 import Home from "./Home.jsx";
 import { LanguageSuggestion } from "./LanguageSuggestion.jsx";
 import { LanguageContext, localHref, localise } from "./i18n.js";
@@ -229,6 +230,7 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = route.language;
     document.title = documentTitle(route);
+    countPageView();
   }, [route]);
 
   const { language } = route;
