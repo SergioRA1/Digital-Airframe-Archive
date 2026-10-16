@@ -286,6 +286,29 @@ test.describe("accessibility", () => {
   });
 });
 
+// Visitors' browsers contact only this site and Wikimedia (for photos):
+// fonts are self-hosted, so no visitor data goes to Google or anyone else.
+test("pages load nothing from other sites except Wikimedia photos", async ({
+  page,
+}) => {
+  const others = new Set();
+
+  page.on("request", (request) => {
+    const { hostname } = new URL(request.url());
+
+    if (hostname !== "localhost" && !hostname.endsWith(".wikimedia.org")) {
+      others.add(hostname);
+    }
+  });
+
+  for (const path of ["./", "f-35/", "es/compare/", "kf-21/gallery/"]) {
+    await open(page, path);
+    await page.waitForLoadState("networkidle");
+  }
+
+  expect([...others]).toEqual([]);
+});
+
 test.describe("addresses", () => {
   const redirects = [
     ["#/f-35", "f-35/"],
