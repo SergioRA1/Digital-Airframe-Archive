@@ -15,9 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # A failing check stops the run, so a broken build never reaches the site.
+  checks:
+    uses: ./.github/workflows/test.yml
+
   build:
-    # Pinned rather than ubuntu-latest, which moves to a new Ubuntu release on
-    # GitHub's schedule. Change it on purpose, after a test run on the new image.
+    needs: checks
+    # Same image as test.yml.
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
@@ -26,12 +30,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      # The tests use Google Chrome. The runner image includes it; install it
-      # only if an image ever comes without it.
-      - run: command -v google-chrome || npx playwright install --with-deps chrome
-      - run: npm run lint
-      # A failing test stops the job, so a broken build never reaches the site.
-      - run: npm test
       - run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:

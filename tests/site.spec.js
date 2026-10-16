@@ -230,14 +230,21 @@ test.describe("accessibility", () => {
       .toEqual([]);
   };
 
-  // Each language's pages run one at a time, side by side: these pages load
-  // every photo, and running them all at once can exhaust memory and crash
-  // the browser.
-  for (const language of ["en", "es"]) {
-    test.describe(language, () => {
+  // Pages run one at a time within each group of twelve, with groups side
+  // by side: these pages load every photo, and running them all at once can
+  // exhaust memory and crash the browser. Small groups also let CI spread
+  // them evenly across its parallel machines.
+  const groupSize = 12;
+  const groups = Array.from(
+    { length: Math.ceil(allRoutes.length / groupSize) },
+    (_, index) => allRoutes.slice(index * groupSize, (index + 1) * groupSize),
+  );
+
+  for (const [index, group] of groups.entries()) {
+    test.describe(`group ${index + 1}`, () => {
       test.describe.configure({ mode: "default" });
 
-      for (const route of allRoutes.filter((each) => each.language === language)) {
+      for (const route of group) {
         const path = address(route);
 
         test(path, async ({ page }) => {
