@@ -231,6 +231,10 @@ const j15 = {
       detail:
         "China acquires an unfinished Su-33 prototype (T-10K-3) from Ukraine, which becomes the basis for the J-15.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Shenyang_J-15",
+      },
     },
     {
       date: "31 AUG 2009",
@@ -238,6 +242,10 @@ const j15 = {
       detail:
         "The first J-15 prototype is reported to fly with Russian AL-31 engines.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Shenyang_J-15",
+      },
     },
     {
       date: "25 NOV 2012",
@@ -261,11 +269,15 @@ const j15 = {
       confidence: "CONFIRMED",
     },
     {
-      date: "2021–2023",
+      date: "2020–2023",
       title: "J-15T seen",
       detail:
         "A version with a catapult launch bar on the nose gear is photographed in flight and on land, widely read as the J-15T.",
       confidence: "REPORTED",
+      source: {
+        name: "The War Zone",
+        href: "https://www.twz.com/37709/new-images-of-chinas-elusive-catapult-capable-j-15t-carrier-fighter-emerge",
+      },
     },
     {
       date: "NOV 2024",
@@ -275,11 +287,15 @@ const j15 = {
       confidence: "CONFIRMED",
     },
     {
-      date: "NOV 2025",
+      date: "SEP 2025",
       title: "Fujian catapult",
       detail:
         "Video shows a J-15T launching from the carrier Fujian by electromagnetic catapult.",
       confidence: "REPORTED",
+      source: {
+        name: "The War Zone",
+        href: "https://www.twz.com/air/chinas-aircraft-carrier-capability-just-made-a-stunning-leap-forward",
+      },
     },
     {
       date: "6 DEC 2025",
@@ -294,6 +310,10 @@ const j15 = {
       detail:
         "Images show a J-15T launching from the Fujian with four YJ-83K anti-ship missiles.",
       confidence: "REPORTED",
+      source: {
+        name: "The War Zone",
+        href: "https://twz.com/sea/chinese-j-15-fighter-seen-launching-from-a-carrier-with-four-anti-ship-missiles-for-first-time",
+      },
     },
   ],
 

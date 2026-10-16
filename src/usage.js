@@ -174,7 +174,7 @@ export const usage = {
       },
       {
         title: "Use and operations",
-        text: "It entered PLA service around 2013 and is built in large numbers. It appears regularly in exercises near Taiwan and in encounters reported by Japan. The electronic-warfare J-16D version is intended to jam radars and support other strike aircraft.",
+        text: "It entered PLA service around 2015 and is built in large numbers. It appears regularly in exercises near Taiwan and in encounters reported by Japan. The electronic-warfare J-16D version is intended to jam radars and support other strike aircraft.",
       },
       {
         title: "Limits and caveats",

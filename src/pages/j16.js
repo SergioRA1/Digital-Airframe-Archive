@@ -214,7 +214,7 @@ const j16 = {
     {
       group: "PROGRAMME",
       label: "SERVICE ENTRY",
-      value: "2013",
+      value: "2015",
       unit: "PLA AIR FORCE",
       detail: "Reported to have entered service with the PLA Air Force.",
       confidence: "REPORTED",
@@ -247,27 +247,43 @@ const j16 = {
       detail:
         "The first J-16 prototype is reported to fly at Shenyang, based on the two-seat J-11BS and Su-30MKK lineage.",
       confidence: "REPORTED",
-    },
-    {
-      date: "2013",
-      title: "Enters service",
-      detail:
-        "Deliveries to the PLA Air Force begin, initially in small numbers.",
-      confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Shenyang_J-16",
+      },
     },
     {
       date: "2015",
-      title: "J-16D seen",
+      title: "Enters service",
       detail:
-        "A two-seat electronic-warfare version with wingtip pods and no cannon is photographed in flight testing.",
+        "The J-16 is reported to enter service with the PLA Air Force.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Shenyang_J-16",
+      },
     },
     {
-      date: "2019",
-      title: "Public appearance",
+      date: "DEC 2015",
+      title: "J-16D flies",
       detail:
-        "J-16 fighters appear in Chinese state media and in Air Force exercises in increasing numbers.",
+        "The two-seat electronic-warfare J-16D, with wingtip pods and no cannon, is reported to make its first flight. It is first shown in public in 2021.",
       confidence: "REPORTED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/china/j-16d.htm",
+      },
+    },
+    {
+      date: "JUL 2017",
+      title: "Officially shown",
+      detail:
+        "The J-16 is shown in public for the first time, in the parade for the PLA's 90th anniversary.",
+      confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Shenyang_J-16",
+      },
     },
     {
       date: "2023",

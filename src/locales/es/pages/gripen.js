@@ -221,9 +221,9 @@ export default {
         "El Gripen A entra en servicio en la Fuerza Aérea Sueca.",
     },
     {
-      title: "Primera selección para exportación",
+      title: "Primer pedido de exportación",
       detail:
-        "Sudáfrica selecciona el Gripen, a lo que siguen acuerdos de alquiler y compra con otros países.",
+        "Sudáfrica firma por el Gripen, un año después de elegirlo, a lo que siguen acuerdos de alquiler y compra con otros países.",
     },
     {
       title: "Vuela el demostrador",

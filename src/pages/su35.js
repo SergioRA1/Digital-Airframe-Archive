@@ -255,6 +255,10 @@ const su35 = {
       detail:
         "The first Su-27M, an improved Su-27 with canards, makes its first flight. It is later renamed Su-35.",
       confidence: "CONFIRMED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/russia/su-35.htm",
+      },
     },
     {
       date: "1992",
@@ -262,6 +266,10 @@ const su35 = {
       detail:
         "The improved fighter is shown abroad as the Su-35. Only about a dozen are built, and it never enters series production.",
       confidence: "REPORTED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/russia/su-35.htm",
+      },
     },
     {
       date: "19 FEB 2008",
@@ -269,6 +277,10 @@ const su35 = {
       detail:
         "A redesigned aircraft without canards, the T-10BM, makes its first flight at Zhukovsky. It becomes the Su-35S.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Sukhoi_Su-35",
+      },
     },
     {
       date: "26 APR 2009",
@@ -276,6 +288,10 @@ const su35 = {
       detail:
         "A prototype is destroyed by fire after an accident during a high-speed taxi run. The pilot ejects.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Aviation Week",
+        href: "https://aviationweek.com/sukhoi-loses-new-prototype-su-35-fighter",
+      },
     },
     {
       date: "AUG 2009",
@@ -283,6 +299,10 @@ const su35 = {
       detail:
         "Russia's defence ministry orders 48 Su-35S aircraft at the MAKS air show.",
       confidence: "CONFIRMED",
+      source: {
+        name: "AIN",
+        href: "https://www.ainonline.com/aviation-news/defense/2009-08-20/25-billion-order-launches-su-35-production",
+      },
     },
     {
       date: "FEB 2014",
@@ -290,6 +310,10 @@ const su35 = {
       detail:
         "The first operational regiment, the 23rd Fighter Aviation Regiment at Dzyomgi, receives its aircraft.",
       confidence: "REPORTED",
+      source: {
+        name: "Interfax",
+        href: "https://interfax.com/newsroom/top-stories/45179/",
+      },
     },
     {
       date: "NOV 2015",
@@ -297,12 +321,20 @@ const su35 = {
       detail:
         "China signs for 24 aircraft, worth about 2 billion US dollars, making it the first export customer.",
       confidence: "REPORTED",
+      source: {
+        name: "Air Recognition",
+        href: "https://www.airrecognition.com/index.php/news/defense-aviation-news/global-news-2015/november/2140-russia-and-china-sign-major-deal-for-delivery-of-24-su-35s-multirole-fighter-aircraft.html",
+      },
     },
     {
       date: "JAN 2016",
       title: "First combat deployment",
       detail: "Russia sends Su-35S fighters to Syria.",
       confidence: "REPORTED",
+      source: {
+        name: "Interfax",
+        href: "https://interfax.com/newsroom/top-stories/33414/",
+      },
     },
     {
       date: "DEC 2016",
@@ -310,6 +342,10 @@ const su35 = {
       detail:
         "The first four aircraft arrive in China. All 24 are delivered by 2018.",
       confidence: "REPORTED",
+      source: {
+        name: "AIN",
+        href: "https://www.ainonline.com/aviation-news/defense/2018-12-27/china-accepts-last-batch-su-35s-test-fires-s-400",
+      },
     },
     {
       date: "2022",
@@ -317,6 +353,10 @@ const su35 = {
       detail:
         "The Su-35S flies in Russia's war against Ukraine, and several are reported lost, the first on 3 April 2022.",
       confidence: "REPORTED",
+      source: {
+        name: "The Aviationist",
+        href: "https://theaviationist.com/2022/04/03/first-russian-su-35s-flanker-e-confirmed-destroyed-in-ukraine/",
+      },
     },
     {
       date: "MAR 2025",
@@ -324,6 +364,10 @@ const su35 = {
       detail:
         "Su-35s originally built for Egypt, which cancelled its order, are reported delivered to Algeria.",
       confidence: "REPORTED",
+      source: {
+        name: "The War Zone",
+        href: "https://www.twz.com/air/su-35s-once-expected-to-arm-iran-are-now-in-algeria",
+      },
     },
     {
       date: "2025",
@@ -331,6 +375,10 @@ const su35 = {
       detail:
         "Leaked documents describe Su-35s being built for Iran. Neither Russia nor Iran has confirmed any delivery.",
       confidence: "REPORTED",
+      source: {
+        name: "Middle East Eye",
+        href: "https://www.middleeasteye.net/news/iranian-press-review-russia-delivered-su-35-iran-or-did-it",
+      },
     },
   ],
 

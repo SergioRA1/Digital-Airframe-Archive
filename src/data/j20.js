@@ -183,6 +183,10 @@ export const milestones = [
     detail:
       "China begins studies for a next-generation fighter, referred to in Western reporting as the J-XX programme.",
     confidence: "REPORTED",
+    source: {
+      name: "Wikipedia",
+      href: "https://en.wikipedia.org/wiki/J-XX",
+    },
   },
   {
     date: "2008",
@@ -190,6 +194,10 @@ export const milestones = [
     detail:
       "Chengdu's canard-delta proposal is reported to have been chosen over a competing Shenyang design.",
     confidence: "REPORTED",
+    source: {
+      name: "Wikipedia",
+      href: "https://en.wikipedia.org/wiki/J-XX",
+    },
   },
   {
     date: "11 JAN 2011",
@@ -211,6 +219,10 @@ export const milestones = [
     detail:
       "Aircraft in yellow primer are photographed at Chengdu, widely read as the start of low-rate initial production.",
     confidence: "REPORTED",
+    source: {
+      name: "AIN",
+      href: "https://www.ainonline.com/aviation-news/defense/2016-02-14/chengdus-j-20-enters-production",
+    },
   },
   {
     date: "1 NOV 2016",
@@ -246,6 +258,10 @@ export const milestones = [
     detail:
       "A tandem two-seat airframe is photographed at Chengdu, the first twin-seat stealth fighter to be seen publicly.",
     confidence: "REPORTED",
+    source: {
+      name: "The Aviationist",
+      href: "https://theaviationist.com/2021/10/27/worlds-first-two-seat-stealth-fighter/",
+    },
   },
   {
     date: "2022–2023",
@@ -253,6 +269,10 @@ export const milestones = [
     detail:
       "A prototype with a raised spine behind the canopy is photographed, followed by reports of flights with the more powerful WS-15 engine.",
     confidence: "REPORTED",
+    source: {
+      name: "The War Zone",
+      href: "https://www.twz.com/this-could-be-our-first-glimpse-of-chinas-enhanced-j-20-stealth-fighter",
+    },
   },
   {
     date: "NOV 2024",
@@ -267,13 +287,21 @@ export const milestones = [
     detail:
       "J-20 variants fly together over Beijing during the Victory Day parade, and a J-20 is placed on static public display at Changchun later that month.",
     confidence: "REPORTED",
+    source: {
+      name: "China Daily",
+      href: "https://global.chinadaily.com.cn/a/202509/20/WS68cde2e4a3108622abca1dd1.html",
+    },
   },
   {
-    date: "2026",
-    title: "J-20A in production",
+    date: "JAN 2026",
+    title: "J-20A flight testing",
     detail:
-      "Production J-20A aircraft are reported flying with the more powerful Chinese WS-15 engine.",
+      "State media show J-20A aircraft in yellow primer flying in tests, reported to be powered by the more powerful Chinese WS-15 engine. Service with the WS-15 had not been confirmed.",
     confidence: "REPORTED",
+    source: {
+      name: "The EurAsian Times",
+      href: "https://www.eurasiantimes.com/chinas-j-20a-fat-neck-closes-gap-with-f-35-ws-15-engine-leap-puts-mighty-dragon-in-supercruise-league/",
+    },
   },
 ];
 

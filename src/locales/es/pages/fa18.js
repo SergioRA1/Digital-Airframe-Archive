@@ -188,7 +188,7 @@ export default {
       value: "2001",
       unit: "ARMADA DE EE. UU.",
       detail:
-        "El primer escuadrón, el VFA-115, alcanzó la capacidad operativa inicial en septiembre de 2001.",
+        "El primer escuadrón de la flota, el VFA-115, recibió la certificación para operar el avión en junio de 2001.",
     },
   ],
 
@@ -208,7 +208,7 @@ export default {
     {
       title: "Entrada en servicio",
       detail:
-        "El 115.º Escuadrón de Caza de Ataque alcanza la capacidad operativa inicial en la Estación Aeronaval de Lemoore.",
+        "El 115.º Escuadrón de Caza de Ataque, en la Estación Aeronaval de Lemoore, se convierte en el primer escuadrón de la flota autorizado a operar el Super Hornet por su cuenta.",
     },
     {
       title: "Primer combate",

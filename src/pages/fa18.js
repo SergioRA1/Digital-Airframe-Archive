@@ -241,7 +241,7 @@ const fa18 = {
       value: "2001",
       unit: "U.S. NAVY",
       detail:
-        "The first squadron, VFA-115, reached initial operational capability in September 2001.",
+        "The first fleet squadron, VFA-115, was certified to operate the aircraft in June 2001.",
       confidence: "CONFIRMED",
     },
   ],
@@ -256,19 +256,31 @@ const fa18 = {
       detail:
         "The U.S. Navy orders development of an enlarged Hornet after cancelling other new aircraft programmes.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Boeing",
+        href: "https://boeing.mediaroom.com/1999-05-05-Boeing-Super-Hornet-Successfully-Completes-EMD",
+      },
     },
     {
       date: "29 NOV 1995",
       title: "First flight",
       detail: "The first F/A-18E makes its maiden flight from St. Louis.",
       confidence: "CONFIRMED",
+      source: {
+        name: "European Airshows",
+        href: "https://www.europeanairshows.co.uk/aviation-anniversaries/november/boeing-f/a-18e/f-super-hornet-first-flight",
+      },
     },
     {
-      date: "SEP 2001",
+      date: "JUN 2001",
       title: "Enters service",
       detail:
-        "Strike Fighter Squadron 115 reaches initial operational capability at Naval Air Station Lemoore.",
+        "Strike Fighter Squadron 115 at Naval Air Station Lemoore becomes the first fleet squadron cleared to fly the Super Hornet on its own.",
       confidence: "CONFIRMED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/agency/navy/vfa-115.htm",
+      },
     },
     {
       date: "6 NOV 2002",
@@ -276,6 +288,10 @@ const fa18 = {
       detail:
         "Super Hornets from USS Abraham Lincoln strike targets in Iraq during Operation Southern Watch.",
       confidence: "CONFIRMED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/agency/navy/vfa-115.htm",
+      },
     },
     {
       date: "15 AUG 2006",
@@ -283,6 +299,10 @@ const fa18 = {
       detail:
         "The first EA-18G Growler, an electronic-attack version of the two-seat F/A-18F, makes its first flight.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Boeing",
+        href: "https://boeing.mediaroom.com/2006-08-16-Boeing-Flies-EA-18G-Growler-for-First-Time",
+      },
     },
     {
       date: "MAY 2007",
@@ -290,6 +310,10 @@ const fa18 = {
       detail:
         "Australia signs for 24 F/A-18Fs, becoming the first export customer.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Defence Talk",
+        href: "https://www.defencetalk.com/super-hornet-acquisition-contract-signed-11807/",
+      },
     },
     {
       date: "18 JUN 2017",
@@ -297,12 +321,20 @@ const fa18 = {
       detail:
         "An F/A-18E shoots down a Syrian Su-22 over Syria, the first air-to-air kill by a U.S. Navy fighter since 1991.",
       confidence: "CONFIRMED",
+      source: {
+        name: "USNI News",
+        href: "https://news.usni.org/2017/06/18/navy-super-hornet-shoots-syrian-fighter-near-raqqah",
+      },
     },
     {
       date: "JUN 2018",
       title: "Kuwait orders",
       detail: "Kuwait orders 22 F/A-18Es and 6 F/A-18Fs.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Seapower",
+        href: "https://seapowermagazine.org/boeing-to-build-28-super-hornets-for-kuwait/",
+      },
     },
     {
       date: "JUN 2020",
@@ -310,6 +342,10 @@ const fa18 = {
       detail:
         "Boeing delivers the first two Block III test aircraft to the U.S. Navy.",
       confidence: "REPORTED",
+      source: {
+        name: "Boeing",
+        href: "https://boeing.mediaroom.com/2020-06-17-Boeing-Delivers-First-F-A-18-Block-III-Super-Hornets-to-U-S-Navy-for-Flight-Test",
+      },
     },
     {
       date: "19 MAR 2024",
@@ -317,6 +353,10 @@ const fa18 = {
       detail:
         "The Navy orders its final 17 new Super Hornets, with deliveries planned to end in 2027, when Boeing will close the production line.",
       confidence: "CONFIRMED",
+      source: {
+        name: "USNI News",
+        href: "https://news.usni.org/2024/03/22/navy-makes-last-planned-super-hornet-buy-secures-technical-data-packages",
+      },
     },
   ],
 

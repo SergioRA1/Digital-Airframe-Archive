@@ -308,9 +308,11 @@ test("pages load nothing from other sites except Wikimedia photos", async ({
     }
   });
 
+  // Fonts, scripts and styles all load before the boot overlay goes; the
+  // short wait catches anything requested just after.
   for (const path of ["./", "f-35/", "es/compare/", "kf-21/gallery/"]) {
     await open(page, path);
-    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(1500);
   }
 
   expect([...others]).toEqual([]);
@@ -806,6 +808,43 @@ test("README.md counts and lists every aircraft", () => {
   for (const entry of available) {
     if (![entry.designation, pageName(entry.slug, "en")].some((name) => list.includes(name))) {
       problems.push(`the aircraft files list is missing ${entry.designation}`);
+    }
+  }
+
+  expect(problems).toEqual([]);
+});
+
+// A source for every milestone that rests on press reporting, and for every
+// milestone of the aircraft added with sources from the start. Older pages
+// are being sourced in stages, starting with what is least certain.
+test("milestones cite their sources", async () => {
+  const fullySourced = ["kf-21", "su-35", "fa-18", "f-2"];
+  const problems = [];
+
+  for (const pair of pairs.filter((each) => /^(pages|data)\/(?!gallery|peers)/.test(each.name))) {
+    const english = await pair.english();
+    const milestones = english?.milestones;
+
+    if (!milestones) {
+      continue;
+    }
+
+    const slug = english.slug ?? pair.name;
+
+    for (const milestone of milestones) {
+      const needed =
+        milestone.confidence === "REPORTED" || fullySourced.includes(slug);
+
+      if (needed && !milestone.source) {
+        problems.push(`${pair.name}: ${milestone.date} ${milestone.title} has no source`);
+      }
+
+      if (
+        milestone.source &&
+        (!milestone.source.name || !/^https:\/\//.test(milestone.source.href))
+      ) {
+        problems.push(`${pair.name}: ${milestone.date} source needs a name and an https address`);
+      }
     }
   }
 

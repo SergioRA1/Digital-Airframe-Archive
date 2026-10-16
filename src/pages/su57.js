@@ -266,6 +266,10 @@ const su57 = {
       detail:
         "The Soviet Union's MiG-led programme for a next-generation fighter loses momentum after the Soviet collapse, leaving the requirement to be restarted.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Mikoyan_Project_1.44",
+      },
     },
     {
       date: "APR 2002",
@@ -301,6 +305,10 @@ const su57 = {
       detail:
         "Two aircraft are reported to have been sent to Syria for evaluation. Details were never fully published.",
       confidence: "REPORTED",
+      source: {
+        name: "The War Zone",
+        href: "https://www.twz.com/18773/satellite-imagery-confirms-russia-deployed-stealthy-su-57-fighters-to-syria",
+      },
     },
     {
       date: "2018",
@@ -308,6 +316,10 @@ const su57 = {
       detail:
         "India is reported to have left the joint programme to develop a fighter from the Su-57 design, pursuing other options.",
       confidence: "REPORTED",
+      source: {
+        name: "Asian Military Review",
+        href: "https://www.asianmilitaryreview.com/2018/05/russo-indian-fighter-programme-collapses/",
+      },
     },
     {
       date: "24 DEC 2019",
@@ -322,6 +334,10 @@ const su57 = {
       detail:
         "The first production aircraft are reported delivered to the Russian Aerospace Forces.",
       confidence: "REPORTED",
+      source: {
+        name: "The Aviationist",
+        href: "https://theaviationist.com/2020/12/30/first-serial-production-su-57-felon-delivered-to-the-russian-aerospace-forces",
+      },
     },
     {
       date: "NOV 2024",
@@ -343,6 +359,10 @@ const su57 = {
       detail:
         "Video filmed in Algeria shows Su-57s in flight, the first public sign of the type in a foreign air force. Neither Russia nor Algeria has published details.",
       confidence: "REPORTED",
+      source: {
+        name: "Defense News",
+        href: "https://www.defensenews.com/global/europe/2026/02/10/russian-stealth-jets-have-arrived-in-north-africa-as-filmed-by-algerian-potato-farmer",
+      },
     },
   ],
 

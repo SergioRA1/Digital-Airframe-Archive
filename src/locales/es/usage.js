@@ -88,7 +88,7 @@ export const usage = {
     "Un gran caza de ataque chino biplaza derivado de la familia Flanker, utilizado como complemento de gran carga útil del J-20 furtivo.",
     [
       "El J-16 puede llevar una gran carga de armamento aire-aire y aire-superficie en una docena de puntos de anclaje. Según informes, tiene un radar AESA y lleva el misil de largo alcance PL-15 y armas antibuque y antirradiación. Su gran autonomía se ve favorecida por el reabastecimiento en vuelo.",
-      "Entró en servicio en el EPL hacia 2013 y se fabrica en gran número. Aparece con regularidad en ejercicios cerca de Taiwán y en encuentros que ha comunicado Japón. La versión de guerra electrónica J-16D está pensada para interferir radares y apoyar a otros aviones de ataque.",
+      "Entró en servicio en el EPL hacia 2015 y se fabrica en gran número. Aparece con regularidad en ejercicios cerca de Taiwán y en encuentros que ha comunicado Japón. La versión de guerra electrónica J-16D está pensada para interferir radares y apoyar a otros aviones de ataque.",
       "La célula no es furtiva, por lo que depende de armas de largo alcance y del apoyo de otros aviones. Sus especificaciones se heredan de la familia Su-30 o son estimaciones, no cifras publicadas oficialmente.",
     ],
   ),

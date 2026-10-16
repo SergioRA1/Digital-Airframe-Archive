@@ -285,17 +285,25 @@ const f15ex = {
       confidence: "CONFIRMED",
     },
     {
-      date: "2020",
+      date: "JUL 2020",
       title: "Air Force orders F-15EX",
       detail:
         "The U.S. Air Force awards a contract for the F-15EX to replace its ageing F-15C and F-15D fighters.",
       confidence: "REPORTED",
+      source: {
+        name: "Overt Defense",
+        href: "https://overtdefense.com/2020/07/14/us-air-force-awards-contract-for-first-batch-of-f-15ex-fighters",
+      },
     },
     {
       date: "2 FEB 2021",
       title: "First flight",
       detail: "The first F-15EX makes its maiden flight at St. Louis.",
       confidence: "REPORTED",
+      source: {
+        name: "U.S. Air Force",
+        href: "https://www.173fw.ang.af.mil/News/Article-Display/Article/2499900/usaf-f-15ex-completes-first-flight/",
+      },
     },
     {
       date: "11 MAR 2021",
@@ -324,6 +332,10 @@ const f15ex = {
       detail:
         "Boeing says Indonesia, once expected to be the first export customer, is no longer an active campaign.",
       confidence: "REPORTED",
+      source: {
+        name: "Defense News",
+        href: "https://www.defensenews.com/global/asia-pacific/2026/02/05/f-15-progresses-in-asia-but-without-indonesia/",
+      },
     },
   ],
 

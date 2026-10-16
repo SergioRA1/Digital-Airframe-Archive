@@ -241,20 +241,32 @@ const kf21 = {
       detail:
         "South Korea announces a plan to develop its own fighter to replace older F-4 and F-5 aircraft.",
       confidence: "REPORTED",
+      source: {
+        name: "The Korea Times",
+        href: "https://www.koreatimes.co.kr/southkorea/defense/20220719/kf-21-takes-off-for-first-time",
+      },
     },
     {
-      date: "JUL 2010",
+      date: "2010",
       title: "Indonesia joins",
       detail:
-        "Indonesia agrees to fund 20 per cent of development in exchange for a share of the work and a prototype.",
+        "Indonesia signs on as a partner, later agreeing to fund 20 per cent of development in exchange for a share of the work and a prototype.",
       confidence: "CONFIRMED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/indonesia/if-x.htm",
+      },
     },
     {
       date: "DEC 2015",
       title: "Development begins",
       detail:
-        "Korea Aerospace Industries signs the full-scale development contract. The United States declines to transfer four key technologies, including the AESA radar, which South Korea develops itself.",
+        "Korea Aerospace Industries signs the full-scale development contract. Earlier that year the United States had refused to transfer four key technologies, including the AESA radar, which South Korea decided to develop itself.",
       confidence: "REPORTED",
+      source: {
+        name: "Air Recognition",
+        href: "https://airrecognition.com/index.php/news/defense-aviation-news/global-news-2015/december/2241-south-korea-and-kai-sign-formal-agreement-on-kf-x-fighter-development-program.html",
+      },
     },
     {
       date: "9 APR 2021",
@@ -262,18 +274,30 @@ const kf21 = {
       detail:
         "The first prototype is rolled out at Sacheon and the aircraft is named Boramae.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Defense News",
+        href: "https://www.defensenews.com/industry/techwatch/2021/04/09/south-korea-unveils-prototype-of-homegrown-kf-x-fighter-jet/",
+      },
     },
     {
       date: "19 JUL 2022",
       title: "First flight",
       detail: "The first prototype makes its maiden flight from Sacheon.",
       confidence: "CONFIRMED",
+      source: {
+        name: "The Aviationist",
+        href: "https://theaviationist.com/2022/07/19/kf-21-boramae-first-flight",
+      },
     },
     {
       date: "17 JAN 2023",
       title: "Supersonic",
       detail: "A prototype flies faster than sound for the first time.",
       confidence: "CONFIRMED",
+      source: {
+        name: "The Korea Economic Daily",
+        href: "https://www.kedglobal.com/newsView/ked202301180008",
+      },
     },
     {
       date: "28 JUN 2023",
@@ -281,19 +305,31 @@ const kf21 = {
       detail:
         "The sixth and last prototype flies. Four are single-seat and two are two-seat aircraft.",
       confidence: "CONFIRMED",
+      source: {
+        name: "The Korea Times",
+        href: "https://www.koreatimes.co.kr/www/nation/2023/06/113_353874.html",
+      },
     },
     {
       date: "JUN 2024",
       title: "Production ordered",
       detail: "South Korea orders the first 20 Block I production aircraft.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Defense News",
+        href: "https://www.defensenews.com/global/asia-pacific/2024/06/27/south-korea-orders-first-batch-of-kf-21-fighters/",
+      },
     },
     {
       date: "AUG 2024",
       title: "Indonesia's share cut",
       detail:
-        "Indonesia's contribution to development is reduced, and its share of the programme falls to about 7.5 per cent.",
+        "South Korea agrees to cut Indonesia's contribution from 1.6 trillion won to 600 billion won, after Indonesia fell behind on its payments.",
       confidence: "REPORTED",
+      source: {
+        name: "Korea JoongAng Daily",
+        href: "https://www.koreajoongangdaily.com/korea/dapa-approves-plan-to-reduce-indonesias-financial-contribution-to-kf-21-fighter-project/12379940",
+      },
     },
     {
       date: "JAN 2026",
@@ -301,12 +337,20 @@ const kf21 = {
       detail:
         "The development flight-test programme ends after about 1,600 flights without an accident.",
       confidence: "REPORTED",
+      source: {
+        name: "Korea JoongAng Daily",
+        href: "https://www.koreajoongangdaily.com/korea/korea-completes-flight-tests-for-homegrown-kf-21-fighter-jet/12459930",
+      },
     },
     {
       date: "25 MAR 2026",
       title: "First production jet",
       detail: "The first production KF-21 is rolled out at Sacheon.",
       confidence: "REPORTED",
+      source: {
+        name: "Army Recognition",
+        href: "https://www.armyrecognition.com/news/aerospace-news/2026/south-korea-rolls-out-first-mass-produced-kf-21-boramae-for-operational-deployment",
+      },
     },
     {
       date: "SEP 2026",
@@ -314,6 +358,10 @@ const kf21 = {
       detail:
         "The first production aircraft, a two-seater, is delivered to the 156th Fighter Squadron at Yecheon Air Base.",
       confidence: "REPORTED",
+      source: {
+        name: "The Defense Post",
+        href: "https://thedefensepost.com/2026/09/24/korea-accepts-kf21-boramae/",
+      },
     },
   ],
 

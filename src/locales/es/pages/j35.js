@@ -189,17 +189,17 @@ export default {
     {
       title: "Vuela el segundo prototipo",
       detail:
-        "Vuela un segundo prototipo con una célula y un morro revisados, al que sigue otra presentación en una feria en 2016.",
+        "Vuela un segundo prototipo, con la célula, las derivas y la cúpula revisadas.",
     },
     {
-      title: "FC-31 2.0",
+      title: "Prototipo rediseñado",
       detail:
-        "Se fotografía en pruebas de vuelo una célula rediseñada con una cola, una cabina y un ala revisadas.",
+        "Según informes, un prototipo muy rediseñado, con imprimación, alas plegables y barra de lanzamiento para catapulta, realiza su primer vuelo. Se interpreta de forma generalizada como el J-35 naval.",
     },
     {
-      title: "Prueba de la versión embarcada",
+      title: "Prototipos navales en pruebas",
       detail:
-        "Se fotografía en pruebas una versión con alas plegables y un tren de aterrizaje reforzado, interpretada de forma generalizada como el J-35 naval.",
+        "Se fotografían en pruebas de vuelo otros prototipos de la versión naval.",
     },
     {
       title: "El J-35A, en Zhuhai",
@@ -214,7 +214,7 @@ export default {
     {
       title: "En el Fujian",
       detail:
-        "Imágenes y vídeos muestran el J-35 de la Armada operando desde el portaaviones Fujian, incluidos apontajes con cable.",
+        "La televisión estatal muestra el J-35 de la Armada haciendo lanzamientos con catapulta y apontajes con cable en el portaaviones Fujian durante las pruebas, dos meses antes de que el buque entre en servicio.",
     },
     {
       title: "Se informa de un acuerdo con Pakistán",

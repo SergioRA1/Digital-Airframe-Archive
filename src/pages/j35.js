@@ -232,6 +232,10 @@ const j35 = {
       detail:
         "The first FC-31 prototype, then widely called the J-31, makes its first flight at Shenyang.",
       confidence: "REPORTED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/china/j-31-background.htm",
+      },
     },
     {
       date: "NOV 2014",
@@ -244,22 +248,34 @@ const j35 = {
       date: "DEC 2016",
       title: "Second prototype flies",
       detail:
-        "A second prototype with a revised airframe and nose flies, followed by a further show appearance in 2016.",
+        "A second prototype flies, with a revised airframe, vertical tails and canopy.",
       confidence: "REPORTED",
+      source: {
+        name: "Quwa",
+        href: "https://quwa.org/2016/12/26/shenyang-fc-31-v2-takes-to-the-skies-for-the-first-time",
+      },
     },
     {
-      date: "2021",
-      title: "FC-31 2.0",
+      date: "29 OCT 2021",
+      title: "Redesigned prototype",
       detail:
-        "A redesigned airframe with a revised tail, canopy and wing is photographed in flight testing.",
+        "A heavily redesigned prototype in primer paint, with folding wings and a catapult launch bar, is reported to make its first flight. It is widely read as the naval J-35.",
       confidence: "REPORTED",
+      source: {
+        name: "Air Data News",
+        href: "https://www.airdatanews.com/new-chinese-naval-fighter-seen-flying/",
+      },
     },
     {
-      date: "2021–2023",
-      title: "Carrier version tested",
+      date: "2022–2023",
+      title: "Naval prototypes in testing",
       detail:
-        "A version with folding wings and a strengthened undercarriage is photographed in trials, widely read as the naval J-35.",
+        "Further prototypes of the naval version are photographed in flight testing.",
       confidence: "REPORTED",
+      source: {
+        name: "The War Zone",
+        href: "https://www.twz.com/air/new-images-of-chinas-j-35-naval-stealth-fighter-could-depict-third-example",
+      },
     },
     {
       date: "NOV 2024",
@@ -274,13 +290,21 @@ const j35 = {
       detail:
         "J-35A aircraft are reported in the flypast over Beijing.",
       confidence: "REPORTED",
+      source: {
+        name: "China Daily",
+        href: "https://www.chinadailyhk.com/article/619168",
+      },
     },
     {
-      date: "NOV 2025",
+      date: "SEP 2025",
       title: "On the Fujian",
       detail:
-        "Images and video show the navy's J-35 operating from the carrier Fujian, including arrested landings.",
+        "State television shows the navy's J-35 making catapult launches and arrested landings on the carrier Fujian during trials, two months before the carrier is commissioned.",
       confidence: "REPORTED",
+      source: {
+        name: "South China Morning Post",
+        href: "https://www.scmp.com/news/china/military/article/3326424/landmark-launch-chinas-j-35-stealth-jet-fujian-aircraft-carrier",
+      },
     },
     {
       date: "MAY 2026",
@@ -288,6 +312,10 @@ const j35 = {
       detail:
         "Pakistan is reported to have signed an initial agreement for the J-35, which would be the first export of a Chinese stealth fighter. Neither government has confirmed numbers or dates.",
       confidence: "REPORTED",
+      source: {
+        name: "The Defense Post",
+        href: "https://thedefensepost.com/2026/05/11/pakistan-chinese-stealth-jets/",
+      },
     },
   ],
 

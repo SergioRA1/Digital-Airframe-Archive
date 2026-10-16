@@ -142,7 +142,7 @@ export const aircraft = [
     manufacturer: "Shenyang",
     origin: "China",
     firstFlight: "2011",
-    service: "2013",
+    service: "2015",
     summary:
       "A large two-seat, twin-engine multirole fighter developed from the Su-27 family, flown in large numbers by the PLA Air Force.",
     silhouette:

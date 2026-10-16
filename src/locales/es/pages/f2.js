@@ -229,15 +229,16 @@ export default {
     {
       title: "Tsunami",
       detail:
-        "El tsunami que sigue al terremoto de Tōhoku inunda la base aérea de Matsushima y daña 18 F-2B. Trece se reparan más tarde.",
+        "El tsunami que sigue al terremoto de Tōhoku inunda la base aérea de Matsushima y daña 18 F-2B. Algunos se reparan más tarde y vuelven al servicio.",
     },
     {
       title: "Última entrega",
       detail: "Se entrega el último F-2 de serie y se cierra la línea.",
     },
     {
-      title: "Fin de las reparaciones",
-      detail: "El último de los F-2B reparados vuelve al servicio.",
+      title: "De vuelta en Matsushima",
+      detail:
+        "El escuadrón de instrucción de F-2B regresa a Matsushima, cinco años después de que el tsunami lo obligara a trasladarse.",
     },
     {
       title: "Pitch Black",

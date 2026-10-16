@@ -12,6 +12,7 @@ import {
   PageHeader,
   ScrollProgress,
   SectionLabel,
+  SourceLink,
   useActiveSection,
 } from "./Layout.jsx";
 import f15ex from "./pages/f15ex.js";
@@ -604,6 +605,8 @@ function Chronology({ introDelay = 0.1, translation }) {
                       {shown(active).detail}
                     </p>
 
+                    <SourceLink source={active.source} className="mt-4 mr-6" />
+
                     <a
                       href={href(`#/${active.slug}`)}
                       className="group mt-5 inline-flex items-center gap-2 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/60 transition hover:text-lime-300"
@@ -735,6 +738,8 @@ function Chronology({ introDelay = 0.1, translation }) {
                           <p className="mt-1 max-w-2xl text-xs leading-5 text-white/55">
                             {shown(event).detail}
                           </p>
+
+                          <SourceLink source={event.source} className="mt-2" />
                         </td>
 
                         <td className="p-5">

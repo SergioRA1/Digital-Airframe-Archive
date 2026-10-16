@@ -163,7 +163,7 @@ export default {
     },
     {
       label: "ENTRADA EN SERVICIO",
-      value: "2013",
+      value: "2015",
       unit: "FUERZA AÉREA DEL EPL",
       detail:
         "Según informes, entró en servicio en la Fuerza Aérea del EPL.",
@@ -194,17 +194,17 @@ export default {
     {
       title: "Entra en servicio",
       detail:
-        "Comienzan las entregas a la Fuerza Aérea del EPL, al principio en pequeñas cantidades.",
+        "Según informes, el J-16 entra en servicio en la Fuerza Aérea del EPL.",
     },
     {
-      title: "Se ve el J-16D",
+      title: "Vuela el J-16D",
       detail:
-        "Se fotografía en pruebas de vuelo una versión biplaza de guerra electrónica con contenedores en las puntas de las alas y sin cañón.",
+        "Según informes, el J-16D biplaza de guerra electrónica, con contenedores en las puntas de las alas y sin cañón, realiza su primer vuelo. Se muestra en público por primera vez en 2021.",
     },
     {
-      title: "Aparición pública",
+      title: "Presentación oficial",
       detail:
-        "Los cazas J-16 aparecen en los medios estatales chinos y en ejercicios de la Fuerza Aérea en un número cada vez mayor.",
+        "El J-16 se muestra en público por primera vez, en el desfile del 90.º aniversario del EPL.",
     },
     {
       title: "Sobrevuelos en exhibiciones aéreas",

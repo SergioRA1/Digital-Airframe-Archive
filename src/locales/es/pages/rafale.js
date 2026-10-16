@@ -218,7 +218,7 @@ export default {
     {
       title: "Servicio en la Armada",
       detail:
-        "Los primeros Rafale M entran en servicio en la Armada francesa.",
+        "La Flottille 12F se reconstituye como primer escuadrón de Rafale de la Armada francesa y recibe sus primeros Rafale M. Se declara operativa en 2004.",
     },
     {
       title: "Comienzan las entregas a la fuerza aérea",

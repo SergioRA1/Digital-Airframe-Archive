@@ -294,6 +294,10 @@ const f16 = {
       detail:
         "The 388th Tactical Fighter Wing at Hill Air Force Base, Utah, receives the first operational aircraft.",
       confidence: "REPORTED",
+      source: {
+        name: "Hill Air Force Base",
+        href: "https://www.hill.af.mil/News/Article-Display/Article/2208852/the-388th-tactical-fighter-wing-and-arrival-of-the-f-16-at-hill-afb/",
+      },
     },
     {
       date: "1981",
@@ -315,6 +319,10 @@ const f16 = {
       detail:
         "F-16s fly more combat missions than any other coalition aircraft during the Gulf War air campaign.",
       confidence: "REPORTED",
+      source: {
+        name: "The Aviationist",
+        href: "https://theaviationist.com/2016/01/18/usaf-desert-storm-infographic/",
+      },
     },
     {
       date: "1993",
@@ -350,6 +358,10 @@ const f16 = {
       detail:
         "Ukraine's president says Belgium will begin transferring its F-16s by the end of 2026, as Belgium moves to the F-35A.",
       confidence: "REPORTED",
+      source: {
+        name: "The Kyiv Independent",
+        href: "https://kyivindependent.com/belgium-to-transfer-3-f-16-fighter-jets-to-ukraine-by-end-of-2026-zelensky-says/",
+      },
     },
   ],
 

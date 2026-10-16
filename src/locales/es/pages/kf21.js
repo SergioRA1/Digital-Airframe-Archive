@@ -190,12 +190,12 @@ export default {
     {
       title: "Se suma Indonesia",
       detail:
-        "Indonesia acepta financiar el 20 % del desarrollo a cambio de una parte del trabajo y de un prototipo.",
+        "Indonesia se suma como socio y acepta después financiar el 20 % del desarrollo a cambio de una parte del trabajo y de un prototipo.",
     },
     {
       title: "Empieza el desarrollo",
       detail:
-        "Korea Aerospace Industries firma el contrato de desarrollo a gran escala. Estados Unidos se niega a transferir cuatro tecnologías clave, entre ellas el radar AESA, que Corea del Sur desarrolla por su cuenta.",
+        "Korea Aerospace Industries firma el contrato de desarrollo a gran escala. Ese mismo año, Estados Unidos se había negado a transferir cuatro tecnologías clave, entre ellas el radar AESA, que Corea del Sur decidió desarrollar por su cuenta.",
     },
     {
       title: "Presentación",
@@ -222,7 +222,7 @@ export default {
     {
       title: "Se reduce la parte de Indonesia",
       detail:
-        "Se reduce la aportación de Indonesia al desarrollo, y su participación en el programa baja a cerca del 7,5 %.",
+        "Corea del Sur acepta reducir la aportación de Indonesia de 1,6 billones de wones a 600.000 millones, después de que Indonesia se retrasara en sus pagos.",
     },
     {
       title: "Fin de los ensayos",

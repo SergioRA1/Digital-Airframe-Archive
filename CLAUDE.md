@@ -105,7 +105,7 @@ Every one of these is keyed by the same slug (e.g. `"f-15ex"`):
 ## Standards
 
 ### Content
-- Every factual entry (specifications, milestones) has a `confidence` of `"CONFIRMED"`, `"REPORTED"` or `"ESTIMATE"`. Claims based on press reporting rather than official statements are marked and worded as "reported".
+- Every factual entry (specifications, milestones) has a `confidence` of `"CONFIRMED"`, `"REPORTED"` or `"ESTIMATE"`. Claims based on press reporting rather than official statements are marked and worded as "reported". Milestones cite their source as `source: { name, href }` (the publisher's name and the page), shown as a link under the milestone. Every `REPORTED` milestone needs one, and so does every milestone of a new aircraft; a test fails otherwise. Only cite a page you have actually read that supports the claim, prefer the original report or an official statement, and reword the milestone if the source says something different. `source` is never translated, so Spanish modules leave it out.
 - Write in British spelling ("programme", "licence", "manoeuvre"), in short, plain, neutral sentences. Labels, metrics and kickers are UPPERCASE strings in the data.
 - Every photo shows its photographer, licence and source link, whichever site it comes from. Only use these sources:
 

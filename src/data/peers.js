@@ -131,7 +131,7 @@ export const peers = [
     wingspan: "≈ 14.7 m",
     engines: "2",
     firstFlight: "2011",
-    service: "2013",
+    service: "2015",
     layout: "Blended body, swept wing, twin tails",
   },
   {

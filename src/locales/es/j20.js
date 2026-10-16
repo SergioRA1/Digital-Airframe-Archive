@@ -379,9 +379,9 @@ export default {
         "Variantes del J-20 vuelan juntas sobre Pekín durante el desfile del Día de la Victoria, y a finales de ese mes un J-20 se expone en estático al público en Changchun.",
     },
     {
-      title: "J-20A en producción",
+      title: "Ensayos del J-20A",
       detail:
-        "Según informes, los J-20A de producción vuelan con el motor chino WS-15, más potente.",
+        "Los medios estatales muestran aviones J-20A con imprimación amarilla volando en ensayos, que según informes llevan el motor chino WS-15, más potente. No se había confirmado su entrada en servicio con el WS-15.",
     },
   ],
 

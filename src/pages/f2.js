@@ -265,6 +265,10 @@ const f2 = {
       detail:
         "Japan and the United States agree that Japan's next support fighter, the FS-X, will be developed from the F-16.",
       confidence: "CONFIRMED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/japan/f-2-decision.htm",
+      },
     },
     {
       date: "1989",
@@ -272,12 +276,20 @@ const f2 = {
       detail:
         "After a debate in the U.S. Congress over sharing technology, the two governments revise the terms of the joint development.",
       confidence: "CONFIRMED",
+      source: {
+        name: "The Christian Science Monitor",
+        href: "https://www.csmonitor.com/1989/0623/ofsx.html",
+      },
     },
     {
       date: "7 OCT 1995",
       title: "First flight",
       detail: "The first prototype, the XF-2A, makes its maiden flight at Nagoya.",
       confidence: "CONFIRMED",
+      source: {
+        name: "Federation of American Scientists",
+        href: "https://man.fas.org/dod-101/sys/ac/row/f-2.htm",
+      },
     },
     {
       date: "2000",
@@ -285,6 +297,10 @@ const f2 = {
       detail:
         "The F-2 enters service with the Japan Air Self-Defense Force, after a delay caused by wing problems.",
       confidence: "CONFIRMED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/japan/f-2.htm",
+      },
     },
     {
       date: "2004",
@@ -292,25 +308,42 @@ const f2 = {
       detail:
         "Japan cuts the total to 98 aircraft, including the four prototypes, because of the aircraft's high unit cost.",
       confidence: "REPORTED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/japan/f-2-program.htm",
+      },
     },
     {
       date: "11 MAR 2011",
       title: "Tsunami",
       detail:
-        "The tsunami that follows the Tōhoku earthquake floods Matsushima Air Base and damages 18 F-2Bs. Thirteen are later repaired.",
+        "The tsunami that follows the Tōhoku earthquake floods Matsushima Air Base and damages 18 F-2Bs. Some are later repaired and return to service.",
       confidence: "CONFIRMED",
+      source: {
+        name: "U.S. Indo-Pacific Command",
+        href: "https://www.pacom.mil/Media/News/News-Articles/Article/586516/restored-aircraft-signifies-recovery-from-disaster/",
+      },
     },
     {
       date: "27 SEP 2011",
       title: "Last delivery",
       detail: "The last production F-2 is delivered and the line closes.",
       confidence: "CONFIRMED",
+      source: {
+        name: "GlobalSecurity.org",
+        href: "https://www.globalsecurity.org/military/world/japan/f-2-program.htm",
+      },
     },
     {
-      date: "2016",
-      title: "Repairs complete",
-      detail: "The last of the repaired F-2Bs returns to service.",
+      date: "MAR 2016",
+      title: "Back at Matsushima",
+      detail:
+        "The F-2B training squadron returns to Matsushima, five years after the tsunami forced it to move.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/21st_Fighter_Training_Squadron_(JASDF)",
+      },
     },
     {
       date: "AUG 2022",
@@ -318,6 +351,10 @@ const f2 = {
       detail:
         "F-2s fly in Exercise Pitch Black in northern Australia, the first time Japanese fighters take part.",
       confidence: "REPORTED",
+      source: {
+        name: "Defense News",
+        href: "https://www.defensenews.com/global/asia-pacific/2022/08/25/japanese-south-korean-warplanes-make-a-showing-at-australian-drill/",
+      },
     },
     {
       date: "9 DEC 2022",
@@ -325,6 +362,10 @@ const f2 = {
       detail:
         "Japan, the United Kingdom and Italy announce GCAP, a joint fighter that will replace the F-2 from about 2035.",
       confidence: "CONFIRMED",
+      source: {
+        name: "UK Government",
+        href: "https://www.gov.uk/government/publications/joint-leaders-statement-uk-italy-japan-9-december-2022",
+      },
     },
     {
       date: "JAN 2023",
@@ -332,6 +373,10 @@ const f2 = {
       detail:
         "F-2s and F-15s train with Indian Air Force Su-30MKIs in Japan, the two countries' first fighter exercise.",
       confidence: "REPORTED",
+      source: {
+        name: "Embassy of India, Tokyo",
+        href: "https://www.indembassy-tokyo.gov.in/eoityo_listview/NjUy",
+      },
     },
   ],
 

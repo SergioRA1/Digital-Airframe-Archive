@@ -354,6 +354,10 @@ const f35 = {
       detail:
         "A U.S. Air Force F-35A makes an emergency landing after a combat mission over Iran. It is reported to have been hit by ground fire. The pilot is stable.",
       confidence: "REPORTED",
+      source: {
+        name: "Air & Space Forces Magazine",
+        href: "https://www.airandspaceforces.com/f-35a-lands-after-taking-fire-over-iran-pilot-stable/",
+      },
     },
     {
       date: "18 SEP 2026",

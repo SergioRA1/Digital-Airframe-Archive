@@ -214,7 +214,11 @@ const milestoneList = (milestones, language) =>
       (milestone) =>
         `<li><strong>${escape(formatDate(milestone.date, language))}: ${escape(
           milestone.title,
-        )}.</strong> ${escape(milestone.detail)}</li>`,
+        )}.</strong> ${escape(milestone.detail)}${
+          milestone.source
+            ? ` (<a href="${escape(milestone.source.href)}" rel="noreferrer noopener">${escape(milestone.source.name)}</a>)`
+            : ""
+        }</li>`,
     )
     .join("")}</ol>`;
 

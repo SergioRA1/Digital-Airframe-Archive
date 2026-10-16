@@ -268,6 +268,10 @@ export const milestones = [
     detail:
       "F-22s are reported to deploy to Israel and to fly in the U.S.-Israeli campaign against Iran, clearing the way for strike aircraft.",
     confidence: "REPORTED",
+    source: {
+      name: "The War Zone",
+      href: "https://www.twz.com/air/f-22-raptors-arrive-in-england-after-deployment-to-israel-for-iran-war",
+    },
   },
 ];
 

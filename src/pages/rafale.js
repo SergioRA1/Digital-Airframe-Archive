@@ -282,8 +282,12 @@ const rafale = {
       date: "2001",
       title: "Navy service",
       detail:
-        "The first Rafale M aircraft enter service with the French Navy.",
+        "Flottille 12F reforms as the French Navy's first Rafale squadron and receives its first Rafale M aircraft. It is declared operational in 2004.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Flottille_12F",
+      },
     },
     {
       date: "DEC 2004",
@@ -291,6 +295,10 @@ const rafale = {
       detail:
         "The first aircraft in the F2 standard are delivered to the French Air Force.",
       confidence: "REPORTED",
+      source: {
+        name: "Dassault Aviation",
+        href: "https://www.dassault-aviation.com/en/defense/rafale/rafale-deployment-history",
+      },
     },
     {
       date: "MAR 2011",
@@ -324,6 +332,10 @@ const rafale = {
       detail:
         "The United Arab Emirates announces an order for 80 aircraft, the largest single export order for the type.",
       confidence: "REPORTED",
+      source: {
+        name: "Al Jazeera",
+        href: "https://www.aljazeera.com/news/2021/12/3/uae-buys-record-80-french-fighter-jets-as-macron-starts-gulf-tour",
+      },
     },
     {
       date: "APR 2025",
@@ -331,6 +343,10 @@ const rafale = {
       detail:
         "India signs an agreement for Rafale M naval fighters for its aircraft carriers.",
       confidence: "REPORTED",
+      source: {
+        name: "Asian Military Review",
+        href: "https://www.asianmilitaryreview.com/2025/05/india-signs-for-naval-dassault-rafale-aircraft-foc/",
+      },
     },
     {
       date: "7 MAY 2025",
@@ -338,6 +354,10 @@ const rafale = {
       detail:
         "Indian Rafales take part in strikes on Pakistan. The loss of at least one Rafale is reported, the first combat loss of the type. India has not published its losses by type.",
       confidence: "REPORTED",
+      source: {
+        name: "European Security & Defence",
+        href: "https://euro-sd.com/2025/05/major-news/44254/first-rafale-lost-in-combat/",
+      },
     },
     {
       date: "23 JAN 2026",

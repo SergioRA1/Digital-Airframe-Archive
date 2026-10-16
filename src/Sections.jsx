@@ -9,7 +9,7 @@ import {
   useTerm,
   useText,
 } from "./i18n.js";
-import { SectionLabel } from "./Layout.jsx";
+import { SectionLabel, SourceLink } from "./Layout.jsx";
 import { usage as spanishUsage } from "./locales/es/usage.js";
 import { usage } from "./usage.js";
 import { srcSet } from "./imageSizes.js";
@@ -214,6 +214,8 @@ export function Timeline({
                 <p className="mt-3 max-w-xl text-sm leading-6 text-white/60">
                   {milestone.detail}
                 </p>
+
+                <SourceLink source={milestone.source} className="mt-3" />
               </m.li>
             ))}
           </ol>

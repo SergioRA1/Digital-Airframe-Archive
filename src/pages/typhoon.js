@@ -277,6 +277,10 @@ const typhoon = {
       detail:
         "The aircraft, formerly known as the European Fighter Aircraft, receives the name Typhoon.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Timeline_of_the_Eurofighter_Typhoon",
+      },
     },
     {
       date: "2003",
@@ -284,6 +288,10 @@ const typhoon = {
       detail:
         "The first production aircraft are accepted by the German and British air forces.",
       confidence: "REPORTED",
+      source: {
+        name: "Wikipedia",
+        href: "https://en.wikipedia.org/wiki/Timeline_of_the_Eurofighter_Typhoon",
+      },
     },
     {
       date: "2007",
@@ -291,6 +299,10 @@ const typhoon = {
       detail:
         "Saudi Arabia signs a contract for 72 aircraft, the first big order from outside the four partner nations and Austria.",
       confidence: "REPORTED",
+      source: {
+        name: "MILAVIA",
+        href: "https://www.milavia.net/news/2007/saudi-arabia-signs-contract-for-72-eurofighter-typhoons.html",
+      },
     },
     {
       date: "MAR 2011",
@@ -304,6 +316,10 @@ const typhoon = {
       title: "More Gulf customers",
       detail: "Kuwait and Qatar sign orders for the aircraft.",
       confidence: "REPORTED",
+      source: {
+        name: "Gulf Business",
+        href: "https://gulfbusiness.com/en/2016/industry/kuwait-signs-contract-28-eurofighter-typhoons",
+      },
     },
     {
       date: "JAN 2024",

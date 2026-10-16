@@ -264,6 +264,10 @@ const gripen = {
       detail:
         "Sweden commits to develop a new fighter to replace the Viggen, which becomes the JAS 39 Gripen.",
       confidence: "REPORTED",
+      source: {
+        name: "MILAVIA",
+        href: "https://milavia.net/aircraft/gripen/gripen_chronology.htm",
+      },
     },
     {
       date: "9 DEC 1988",
@@ -284,13 +288,21 @@ const gripen = {
       detail:
         "The Gripen A enters service with the Swedish Air Force.",
       confidence: "REPORTED",
+      source: {
+        name: "MILAVIA",
+        href: "https://milavia.net/aircraft/gripen/gripen_chronology.htm",
+      },
     },
     {
       date: "DEC 1999",
-      title: "First export selection",
+      title: "First export order",
       detail:
-        "South Africa selects the Gripen, followed by lease and purchase deals with other countries.",
+        "South Africa signs for the Gripen, a year after choosing it, followed by lease and purchase deals with other countries.",
       confidence: "REPORTED",
+      source: {
+        name: "Saab",
+        href: "https://saab.com/newsroom/press-releases/1999/south-africa-orders-british-aerospacesaab-gripen-and-hawk-jets",
+      },
     },
     {
       date: "APR 2008",
@@ -305,6 +317,10 @@ const gripen = {
       detail:
         "Brazil chooses the larger Gripen version for its air force.",
       confidence: "REPORTED",
+      source: {
+        name: "USNI News",
+        href: "https://news.usni.org/2013/12/18/saab-beats-boeing-in-brazillian",
+      },
     },
     {
       date: "15 JUN 2017",
@@ -325,6 +341,10 @@ const gripen = {
       detail:
         "Sweden and Ukraine sign a letter of intent about a possible sale of Gripen E aircraft. No contract had been reported at the time of writing.",
       confidence: "REPORTED",
+      source: {
+        name: "Euromaidan Press",
+        href: "https://euromaidanpress.com/2025/10/22/ukraine-signs-framework-to-acquire-100-150-gripen-fighter-jets-of-new-generation-type/",
+      },
     },
     {
       date: "15 NOV 2025",

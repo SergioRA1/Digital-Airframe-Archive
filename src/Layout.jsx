@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, m, useScroll } from "framer-motion";
 import {
+  ArrowUpRight,
   Camera,
   ChevronRight,
   LayoutGrid,
@@ -32,6 +33,8 @@ const text = {
     search: "Search aircraft by name",
     noMatch: (query) => `No aircraft match “${query}”.`,
     switchLanguage: "Ver en español",
+    source: "Source",
+    opensInNewTab: "opens in a new tab",
     disclaimer:
       "Independent educational and visual design concept. This is not an official manufacturer or military website.",
     madeBy: "Made by",
@@ -47,6 +50,8 @@ const text = {
     search: "Buscar aeronave por nombre",
     noMatch: (query) => `Ninguna aeronave coincide con «${query}».`,
     switchLanguage: "View in English",
+    source: "Fuente",
+    opensInNewTab: "se abre en una pestaña nueva",
     disclaimer:
       "Concepto independiente de diseño visual y divulgación. No es un sitio web oficial de ningún fabricante ni de ninguna fuerza armada.",
     madeBy: "Hecho por",
@@ -467,6 +472,31 @@ export function PageFooter({ label }) {
         </a>
       </div>
     </footer>
+  );
+}
+
+// The source of a milestone or figure: who published it, linked to the
+// page. Publisher names stay as written, in either language.
+export function SourceLink({ source, className = "" }) {
+  const t = useText(text);
+
+  if (!source) {
+    return null;
+  }
+
+  return (
+    <a
+      href={source.href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={`group inline-flex items-center gap-1.5 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50 transition hover:text-lime-300 ${className}`}
+    >
+      <span>
+        {t.source}: {source.name}
+      </span>
+      <span className="sr-only">({t.opensInNewTab})</span>
+      <ArrowUpRight size={12} aria-hidden="true" />
+    </a>
   );
 }
 
