@@ -106,6 +106,7 @@ test.describe("every route renders", () => {
     "./",
     "compare/",
     "timeline/",
+    "glossary/",
     "archive/",
     ...slugs.map((slug) => `${slug}/`),
     "f-15ex/gallery/",
@@ -643,6 +644,47 @@ test.describe("compare", () => {
     await header.getByRole("button").click();
     await expect(header).toHaveAttribute("aria-sort", "ascending");
     await expect(firstRow.getByRole("rowheader")).not.toHaveText(highest);
+  });
+});
+
+test.describe("glossary", () => {
+  test("a term on an aircraft page opens its glossary entry", async ({ page }) => {
+    await open(page, "f-35/");
+
+    await page.getByRole("button", { name: "STOVL" }).click();
+
+    // One term is open at a time; wait for the previous one to close.
+    const link = page.getByRole("link", { name: "See all terms in the glossary" });
+
+    await expect(link).toHaveCount(1);
+    await link.click();
+
+    await expect(page).toHaveURL(new RegExp(`${basePath}glossary/#stovl$`));
+    await expect(page.locator("#stovl dt")).toHaveText("STOVL");
+    // Below the fixed 80px header, not hidden under it.
+    await expect
+      .poll(() =>
+        page.locator("#stovl").evaluate((element) => element.getBoundingClientRect().top),
+      )
+      .toBeGreaterThanOrEqual(80);
+    await expect(page.locator("#stovl")).toBeInViewport();
+  });
+
+  test("search narrows the terms, in either language", async ({ page }) => {
+    await open(page, "es/glossary/");
+
+    const search = page.getByRole("searchbox", { name: "Buscar en el glosario" });
+    const terms = page.locator("#terms dt");
+    const total = await terms.count();
+
+    // Accents don't matter.
+    await search.fill("quinta generacion");
+    await expect(terms.first()).toBeVisible();
+    expect(await terms.count()).toBeLessThan(total);
+    await expect(page.getByText("Ningún término coincide")).toHaveCount(0);
+
+    await search.fill("zzzz");
+    await expect(page.getByText("Ningún término coincide")).toBeVisible();
   });
 });
 

@@ -14,6 +14,8 @@ An interactive digital exhibition of sixteen modern combat aircraft, built as a 
 - **Confidence labels**: every specification and milestone is marked as confirmed, reported or estimated, so official figures are kept apart from press reporting.
 - **Interactive comparison**: pick up to three aircraft and compare speed, weight, combat radius, ceiling and size on animated bar charts, with a sortable table of all sixteen. The selection is kept in the address, so a comparison such as `compare/?aircraft=f-22,j-20,typhoon` can be shared as a link.
 - **Combined timeline**: every milestone from every aircraft on one chart and in one list, filterable by origin and by confidence.
+- **Glossary**: every technical term from the aircraft files in one searchable A–Z list, linked from each aircraft's reference section.
+- **Sources**: milestones link to the report or statement they are based on.
 - **Photo galleries**: a gallery for each aircraft and a combined archive. Every photo is freely licensed and credited with its photographer, licence and source.
 - **English and Spanish**: every page is available in Spanish under `es/`, with a switch in the header, and visitors whose browser prefers the other language are offered it. Spanish text is laid over the English data, so figures and links are never duplicated, and a test fails if any English text has no translation.
 - **Hangar index**: a home page that lists every aircraft, with search by designation, name, manufacturer or origin.

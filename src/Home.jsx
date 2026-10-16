@@ -43,7 +43,7 @@ const teaser = [
 
 const sectionIds = ["top", "aircraft", "archive", "compare", "analysis"];
 
-const toolLinks = ["#/compare", "#/timeline"];
+const toolLinks = ["#/compare", "#/timeline", "#/glossary"];
 
 const text = {
   en: {
@@ -63,6 +63,11 @@ const text = {
         kicker: "Combined timeline",
         title: "Fifty years of fighters",
         text: "Every milestone from every file on one axis, filterable by origin and by how well each entry is sourced.",
+      },
+      {
+        kicker: "Glossary",
+        title: "Terms explained",
+        text: "Every technical term from the aircraft files in one searchable list, from AESA radars to catapult launches.",
       },
     ],
     groups: [
@@ -124,6 +129,11 @@ const text = {
         kicker: "Cronología combinada",
         title: "Cincuenta años de cazas",
         text: "Todos los hitos de todas las fichas en un único eje, con filtros por origen y por la calidad de las fuentes de cada entrada.",
+      },
+      {
+        kicker: "Glosario",
+        title: "Términos explicados",
+        text: "Todos los términos técnicos de las fichas en una lista con búsqueda, desde los radares AESA hasta el lanzamiento por catapulta.",
       },
     ],
     groups: [
@@ -528,7 +538,7 @@ function Home({ introDelay = 0.1 }) {
               </h2>
             </div>
 
-            <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
+            <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-3">
               {t.tools.map((tool, index) => (
                 <m.a
                   key={toolLinks[index]}

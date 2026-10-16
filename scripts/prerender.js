@@ -23,6 +23,7 @@ import {
   captions,
   galleryText as englishGalleryText,
 } from "../src/data/gallery.js";
+import { mergeGlossaries } from "../src/glossary.js";
 import { formatDate, localise, term } from "../src/i18n.js";
 import { aircraft as spanishAircraft } from "../src/locales/es/aircraft.js";
 import { peers as spanishPeers } from "../src/locales/es/peers.js";
@@ -58,6 +59,9 @@ const text = {
     timelineDescription:
       "Every milestone of every aircraft in the hangar on one timeline, filterable by origin and by how well each milestone is sourced.",
     archive: "Visual archive",
+    glossary: "Glossary",
+    glossaryDescription:
+      "Every technical term defined in the aircraft files, from AESA radars to catapult launches, with the aircraft each one applies to.",
     gallery: "Gallery",
     specifications: "Specifications",
     history: "History",
@@ -80,6 +84,9 @@ const text = {
     timelineDescription:
       "Todos los hitos de todos los aviones del hangar en una sola cronología, filtrable por origen y por la fiabilidad de la fuente de cada hito.",
     archive: "Archivo visual",
+    glossary: "Glosario",
+    glossaryDescription:
+      "Todos los términos técnicos definidos en las fichas de aeronaves, desde los radares AESA hasta el lanzamiento por catapulta, con los aviones a los que se aplica cada uno.",
     gallery: "Galería",
     specifications: "Especificaciones",
     history: "Historia",
@@ -151,6 +158,17 @@ const content = Object.fromEntries(
   ),
 );
 
+// The merged glossary in each language, as on the glossary page.
+const glossaryIn = (language) =>
+  mergeGlossaries(
+    aircraftSlugs.map((slug) => ({
+      slug,
+      english: content[slug].en.glossary,
+      shown: content[slug][language].glossary,
+    })),
+    language,
+  );
+
 const entryFor = (slug, language) =>
   aircraftIn[language].find((entry) => entry.slug === slug);
 
@@ -174,6 +192,7 @@ function navigation(route) {
     ["compare", t.compare],
     ["timeline", t.timeline],
     ["archive", t.archive],
+    ["glossary", t.glossary],
   ]
     .map(
       ([page, label]) =>
@@ -280,6 +299,20 @@ function page(route) {
     };
   }
 
+  if (slug === "glossary") {
+    const terms = glossaryIn(language);
+
+    return {
+      description: t.glossaryDescription,
+      body: `<h1>${escape(t.glossary)}</h1><p>${escape(t.glossaryDescription)}</p><dl>${terms
+        .map(
+          (entry) =>
+            `<dt id="${escape(entry.id)}">${escape(entry.term)}</dt><dd>${escape(entry.definition)}</dd>`,
+        )
+        .join("")}</dl>`,
+    };
+  }
+
   if (slug === "archive") {
     const archive = galleryTextIn[language].archive;
 
@@ -356,6 +389,12 @@ const previewLabels = {
       [milestones, "Milestones"],
       [aircraftCount, "Aircraft"],
     ],
+    glossary: ["THE", "GLOSSARY"],
+    glossaryEyebrow: "Reference",
+    glossaryStats: (terms, aircraftCount) => [
+      [terms, "Terms"],
+      [aircraftCount, "Aircraft"],
+    ],
     archive: ["VISUAL", "ARCHIVE"],
     archiveEyebrow: "Photo archive",
     archiveStats: (photos, aircraftCount) => [
@@ -385,6 +424,12 @@ const previewLabels = {
     timelineEyebrow: "Cronología",
     timelineStats: (milestones, aircraftCount) => [
       [milestones, "Hitos"],
+      [aircraftCount, "Aviones"],
+    ],
+    glossary: ["EL", "GLOSARIO"],
+    glossaryEyebrow: "Referencia",
+    glossaryStats: (terms, aircraftCount) => [
+      [terms, "Términos"],
       [aircraftCount, "Aviones"],
     ],
     archive: ["ARCHIVO", "VISUAL"],
@@ -439,12 +484,15 @@ function preview(route) {
       compare: () => labels.compareStats(aircraftSlugs.length),
       timeline: () => labels.timelineStats(milestoneCount, aircraftSlugs.length),
       archive: () => labels.archiveStats(photoCount, aircraftSlugs.length),
+      glossary: () =>
+        labels.glossaryStats(glossaryIn(language).length, aircraftSlugs.length),
     }[name]();
     const silhouettes = {
       home: ["j-20"],
       compare: ["f-22", "j-20", "su-57"],
       timeline: aircraftSlugs,
       archive: aircraftSlugs.slice(0, 4),
+      glossary: [],
     }[name].map(silhouetteOf);
 
     alt = `Airframe: ${top} ${bottom}`;

@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import { ExternalLink, Minus, Plus } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Minus, Plus } from "lucide-react";
 
 import {
   localise,
   useDate,
+  useHref,
   useLanguage,
   useTerm,
   useText,
 } from "./i18n.js";
+import { termId } from "./glossary.js";
 import { SectionLabel, SourceLink } from "./Layout.jsx";
 import { usage as spanishUsage } from "./locales/es/usage.js";
 import { usage } from "./usage.js";
@@ -27,6 +29,7 @@ const text = {
     reference: "Reference",
     termsHeading: "Terms, decoded.",
     furtherReading: "Further reading",
+    inGlossary: "See all terms in the glossary",
     specifications: "Specifications",
     watermark: "DATA",
     confirmedOrReported: "Confirmed or reported",
@@ -50,6 +53,7 @@ const text = {
     reference: "Referencia",
     termsHeading: "Términos, explicados.",
     furtherReading: "Para saber más",
+    inGlossary: "Ver todos los términos en el glosario",
     specifications: "Especificaciones",
     watermark: "DATOS",
     confirmedOrReported: "Confirmado o según informes",
@@ -370,6 +374,7 @@ export function Reference({
   note,
 }) {
   const t = useText(text);
+  const href = useHref();
   const [openTerm, setOpenTerm] = useState(entries[0].term);
 
   return (
@@ -431,9 +436,17 @@ export function Reference({
                         }}
                         className="overflow-hidden"
                       >
-                        <p className="max-w-2xl pb-6 text-sm leading-7 text-white/60">
+                        <p className="max-w-2xl pb-4 text-sm leading-7 text-white/60">
                           {entry.definition}
                         </p>
+
+                        <a
+                          href={`${href("#/glossary")}#${termId(entry.term)}`}
+                          className="mb-6 inline-flex items-center gap-1.5 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50 transition hover:text-lime-300"
+                        >
+                          {t.inGlossary}
+                          <ArrowUpRight size={12} aria-hidden="true" />
+                        </a>
                       </m.div>
                     )}
                   </AnimatePresence>

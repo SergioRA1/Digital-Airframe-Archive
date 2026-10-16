@@ -10,7 +10,7 @@ const pages = import.meta.glob("./pages/*.js", {
 });
 
 // File name → slug, as in src/App.jsx.
-const slugs = {
+export const slugs = {
   f35: "f-35",
   su57: "su-57",
   f16: "f-16",

@@ -83,6 +83,12 @@ const pages = {
       () => import("./locales/es/timeline.js"),
     ),
   },
+  glossary: {
+    component: localised(
+      () => import("./Glossary.jsx"),
+      () => import("./locales/es/glossary.js"),
+    ),
+  },
   "j-20": {
     component: localised(
       () => import("./J20.jsx"),
@@ -146,10 +152,20 @@ function internalAddress(event) {
 
   const url = new URL(link.href, window.location.href);
 
-  return url.origin === window.location.origin &&
-    url.pathname.startsWith(basePath)
-    ? url.pathname + url.search
-    : null;
+  if (url.origin !== window.location.origin || !url.pathname.startsWith(basePath)) {
+    return null;
+  }
+
+  // A jump within the current page (#term) is left to the browser.
+  if (
+    url.hash &&
+    url.pathname === window.location.pathname &&
+    url.search === window.location.search
+  ) {
+    return null;
+  }
+
+  return url.pathname + url.search + url.hash;
 }
 
 function App() {
@@ -178,10 +194,13 @@ function App() {
     const handleNavigation = () => {
       setRoute(readRoute());
 
-      window.scrollTo({
-        top: 0,
-        behavior: "auto",
-      });
+      // An anchor such as glossary/#aesa is scrolled to by its page.
+      if (!window.location.hash || window.location.hash.startsWith("#/")) {
+        window.scrollTo({
+          top: 0,
+          behavior: "auto",
+        });
+      }
     };
 
     const handleClick = (event) => {

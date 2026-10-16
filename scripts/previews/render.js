@@ -266,6 +266,9 @@ export function hangarPreview({ language, kind, top, bottom, eyebrow, stats, sil
         return `<line x1="${start}" y1="${y}" x2="${end}" y2="${y}" stroke="${colours.lime}" stroke-opacity=".35" stroke-width="2"/>${dots}`;
       })
       .join("");
+  } else if (kind === "glossary") {
+    // The alphabet's ends, drawn in outline.
+    artwork = `<text x="${art.x + art.width / 2}" y="${art.y + 215}" text-anchor="middle" font-family="Inter" font-weight="900" font-size="190" letter-spacing="-8" fill="none" stroke="${colours.lime}" stroke-width="3">A–Z</text>`;
   } else {
     // The archive: a two-by-two grid of outlines.
     artwork = silhouettes

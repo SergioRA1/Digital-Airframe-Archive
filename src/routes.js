@@ -17,7 +17,7 @@ export const aircraftSlugs = aircraft
   .filter((entry) => entry.available)
   .map((entry) => entry.slug);
 
-export const toolPages = ["archive", "compare", "timeline"];
+export const toolPages = ["archive", "compare", "timeline", "glossary"];
 
 const pageNames = [...toolPages, ...aircraftSlugs];
 
@@ -134,6 +134,10 @@ const pageTitles = {
   timeline: {
     en: "Timeline",
     es: "Cronología",
+  },
+  glossary: {
+    en: "Glossary",
+    es: "Glosario",
   },
   "j-20": "J-20",
   "f-22": "F-22",
