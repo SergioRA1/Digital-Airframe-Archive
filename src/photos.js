@@ -1,4 +1,7 @@
-// Photographs from Wikimedia Commons, keyed by short id. Credits and licences are shown wherever a photo appears.
+// Photographs from Wikimedia Commons, keyed by short id. Two KF-21 photos
+// that Commons only has as large PNG files are stored in public/photos/ as
+// JPG copies (CC BY allows this, with the same credit and source). Credits
+// and licences are shown wherever a photo appears.
 export const photos = {
   j20_base: {
     src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/J-20_at_Airshow_China_2016.jpg/1280px-J-20_at_Airshow_China_2016.jpg",
@@ -848,15 +851,15 @@ export const photos = {
     source: "https://commons.wikimedia.org/wiki/File:A_South_Korean_Air_Force_KF-21%2C_developed_by_Korea_Aerospace_Industries%2C_performs_an_aerial_demonstration_at_the_Aerospace_and_Defense_Exhibition_in_Seoul%2C_South_Korea%2C_October_21%2C_2023.jpg",
   },
   kf21_g4: {
-    src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/The_third_prototype_of_the_KF-21_Boramae_on_display_at_the_2022_Sacheon_Airshow.png/1280px-The_third_prototype_of_the_KF-21_Boramae_on_display_at_the_2022_Sacheon_Airshow.png",
-    full: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/The_third_prototype_of_the_KF-21_Boramae_on_display_at_the_2022_Sacheon_Airshow.png/1920px-The_third_prototype_of_the_KF-21_Boramae_on_display_at_the_2022_Sacheon_Airshow.png",
+    src: "/Digital-Airframe-Archive/photos/kf21-third-prototype-sacheon-2022-1280.jpg",
+    full: "/Digital-Airframe-Archive/photos/kf21-third-prototype-sacheon-2022-1920.jpg",
     photographer: "Dooyeol Choi",
     licence: "CC BY 3.0",
     source: "https://commons.wikimedia.org/wiki/File:The_third_prototype_of_the_KF-21_Boramae_on_display_at_the_2022_Sacheon_Airshow.png",
   },
   kf21_g5: {
-    src: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/The_side_view_of_the_KF-21_Boramae.png/1280px-The_side_view_of_the_KF-21_Boramae.png",
-    full: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/The_side_view_of_the_KF-21_Boramae.png/1920px-The_side_view_of_the_KF-21_Boramae.png",
+    src: "/Digital-Airframe-Archive/photos/kf21-side-view-sacheon-2022-1280.jpg",
+    full: "/Digital-Airframe-Archive/photos/kf21-side-view-sacheon-2022-1920.jpg",
     photographer: "Dooyeol Choi",
     licence: "CC BY 3.0",
     source: "https://commons.wikimedia.org/wiki/File:The_side_view_of_the_KF-21_Boramae.png",
