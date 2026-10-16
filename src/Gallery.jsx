@@ -730,8 +730,8 @@ function GalleryHero({ onExplore, gallery }) {
           }}
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050708] via-[#050708]/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050708] via-[#050708]/10 to-[#050708]/40" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#050708] via-[#050708]/55 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#050708] via-[#050708]/10 to-[#050708]/40" />
         <div className="absolute inset-0 bg-lime-950/10 mix-blend-color" />
       </m.div>
 
@@ -762,7 +762,7 @@ function GalleryHero({ onExplore, gallery }) {
         </h1>
 
         <div className="mt-10 grid max-w-4xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
-          <p className="max-w-xl text-sm leading-7 text-white/60 md:text-base">
+          <p className="max-w-xl text-sm leading-7 text-white/60 md:text-base md:leading-6">
             {gallery.intro}
           </p>
 
@@ -863,7 +863,7 @@ function GalleryCard({ image, index, name, onOpen }) {
           }}
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/10" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/10" />
 
         <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
           <div className="absolute inset-0 bg-lime-300/5 mix-blend-color" />
@@ -1001,7 +1001,7 @@ function Lightbox({
               onClose();
             }
           }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl md:p-10"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl md:p-10"
           role="dialog"
           aria-modal="true"
           aria-label={t.expanded(selectedImage.title)}
@@ -1144,7 +1144,7 @@ function Gallery({ onBack, aircraft = "j-20", translation }) {
                   {t.selectedPhotography}
                 </div>
 
-                <h2 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.04] tracking-[-.05em] md:text-7xl">
+                <h2 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.04] tracking-tighter md:text-7xl md:leading-none">
                   {t.publicAppearances}
                 </h2>
               </div>

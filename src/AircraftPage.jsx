@@ -228,7 +228,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
               </h1>
 
               <p
-                className={`max-w-md text-sm leading-7 text-white/55 md:text-base ${
+                className={`max-w-md text-sm leading-7 text-white/55 md:text-base md:leading-6 ${
                   page.title.length > 1 ? "mt-7" : "mt-10"
                 }`}
               >

@@ -190,11 +190,11 @@ function Glossary({ introDelay = 0.1, translation }) {
               <span className="block text-white/40">{t.heroBottom}</span>
             </h1>
 
-            <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base">
+            <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base md:leading-6">
               {t.intro}
             </p>
 
-            <label className="mt-10 flex max-w-xl items-center gap-3 border border-white/15 bg-white/[.03] px-4 py-3 focus-within:border-white/40">
+            <label className="mt-10 flex max-w-xl items-center gap-3 border border-white/15 bg-white/3 px-4 py-3 focus-within:border-white/40">
               <Search size={15} className="text-white/50" aria-hidden="true" />
               <input
                 type="search"
@@ -202,7 +202,7 @@ function Glossary({ introDelay = 0.1, translation }) {
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder={t.placeholder}
                 aria-label={t.search}
-                className="w-full bg-transparent text-sm text-white outline-none focus-visible:outline-none placeholder:text-white/40"
+                className="w-full bg-transparent text-sm text-white outline-hidden focus-visible:outline-hidden placeholder:text-white/40"
               />
             </label>
 

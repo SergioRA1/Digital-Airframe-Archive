@@ -274,7 +274,7 @@ function MetricChart({ metric, selected, shownFigures, notPublished }) {
                 </span>
 
                 <div className="relative h-7">
-                  <div className="absolute inset-y-[13px] left-0 right-0 bg-white/[.06]" />
+                  <div className="absolute inset-y-[13px] left-0 right-0 bg-white/6" />
 
                   {/* Every other aircraft as a faint tick, to show where the selection sits. */}
                   {peers.map((peer) => {
@@ -318,7 +318,7 @@ function MetricChart({ metric, selected, shownFigures, notPublished }) {
                   )}
                 </div>
 
-                <div className="col-span-2 flex items-center gap-3 pl-[5.5rem] font-mono text-xs sm:text-[11px] uppercase tracking-[.14em] md:col-span-1 md:justify-end md:pl-0">
+                <div className="col-span-2 flex items-center gap-3 pl-22 font-mono text-xs sm:text-[11px] uppercase tracking-[.14em] md:col-span-1 md:justify-end md:pl-0">
                   {entry ? (
                     <>
                       <ConfidenceDot confidence={entry.confidence} />
@@ -493,7 +493,7 @@ function Compare({ introDelay = 0.1 }) {
               <span className="block text-white/40">{t.heroBottom}</span>
             </h1>
 
-            <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base">
+            <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base md:leading-6">
               {t.intro}
             </p>
 
@@ -514,7 +514,7 @@ function Compare({ introDelay = 0.1 }) {
                     aria-pressed={isSelected}
                     className={`flex items-center gap-2 border px-4 py-2.5 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] transition ${
                       isSelected
-                        ? "border-white/40 bg-white/[.06] text-white"
+                        ? "border-white/40 bg-white/6 text-white"
                         : "border-white/15 text-white/55 hover:border-lime-300 hover:text-lime-300"
                     }`}
                   >
@@ -678,8 +678,8 @@ function Compare({ introDelay = 0.1 }) {
                         }}
                         className={`border-b border-white/10 transition-colors last:border-b-0 ${
                           isSelected
-                            ? "bg-white/[.04] text-white"
-                            : "text-white/65 hover:bg-white/[.03]"
+                            ? "bg-white/4 text-white"
+                            : "text-white/65 hover:bg-white/3"
                         }`}
                       >
                         <td className="p-4">

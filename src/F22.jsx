@@ -215,7 +215,7 @@ function F22({ introDelay = 0.1, translation }) {
                 F<span className="text-lime-300">-</span>22
               </h1>
 
-              <p className="mt-7 max-w-md text-sm leading-7 text-white/55 md:text-base">
+              <p className="mt-7 max-w-md text-sm leading-7 text-white/55 md:text-base md:leading-6">
                 {t.tagline}
               </p>
 

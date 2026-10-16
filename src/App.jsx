@@ -274,7 +274,7 @@ function App() {
               duration: 0.6,
             }}
             data-boot
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050708] text-[#edf0e9]"
+            className="fixed inset-0 z-100 flex items-center justify-center bg-[#050708] text-[#edf0e9]"
           >
             <div className="w-[min(86vw,520px)]">
               <div className="mb-4 flex items-end justify-between font-mono text-xs sm:text-[11px] uppercase tracking-[.28em] text-white/55">

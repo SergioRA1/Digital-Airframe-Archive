@@ -93,7 +93,7 @@ function UsagePanel({ info }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="mt-10 border border-white/10 bg-white/[.02] p-6">
+    <div className="mt-10 border border-white/10 bg-white/2 p-6">
       <div className="font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-lime-300">
         {t.capabilities}
       </div>
@@ -169,7 +169,7 @@ export function Timeline({
               {number} / {t.history}
             </SectionLabel>
 
-            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-6xl">
+            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-6xl md:leading-none">
               {heading}
             </h2>
 
@@ -201,7 +201,7 @@ export function Timeline({
                 }}
                 className="group relative pb-10 pl-8 last:pb-0 md:pl-12"
               >
-                <span className="absolute -left-[5px] top-1.5 h-[9px] w-[9px] rounded-full border border-lime-300/70 bg-[#050708] transition group-hover:bg-lime-300" />
+                <span className="absolute left-[-5px] top-1.5 h-[9px] w-[9px] rounded-full border border-lime-300/70 bg-[#050708] transition group-hover:bg-lime-300" />
 
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className="font-mono text-xs sm:text-[11px] uppercase tracking-[.24em] text-lime-300">
@@ -269,7 +269,7 @@ export function Variants({
             >
               <figure>
                 {variant.photo ? (
-                  <div className="aspect-[16/10] overflow-hidden bg-black/40">
+                  <div className="aspect-16/10 overflow-hidden bg-black/40">
                     <img
                       src={variant.photo.src}
                       srcSet={srcSet(variant.photo.src)}
@@ -281,7 +281,7 @@ export function Variants({
                     />
                   </div>
                 ) : (
-                  <div className="relative grid aspect-[16/10] place-items-center bg-[#080b0c]">
+                  <div className="relative grid aspect-16/10 place-items-center bg-[#080b0c]">
                     {silhouette && (
                       <svg
                         viewBox="300 20 620 460"
@@ -299,7 +299,7 @@ export function Variants({
                   </div>
                 )}
 
-                <figcaption className="min-h-[6.25rem] border-b border-white/10 px-7 py-3 font-mono text-xs sm:text-[10px] uppercase leading-5 tracking-[.14em] text-white/50 md:px-10">
+                <figcaption className="min-h-25 border-b border-white/10 px-7 py-3 font-mono text-xs sm:text-[10px] uppercase leading-5 tracking-[.14em] text-white/50 md:px-10">
                   {variant.photo ? (
                     <>
                       <span className="block text-white/65">
@@ -543,7 +543,7 @@ export function Specifications({
               {number} / {t.specifications}
             </SectionLabel>
 
-            <h2 className="max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-6xl">
+            <h2 className="max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-6xl md:leading-none">
               {heading}
             </h2>
           </div>
@@ -663,7 +663,7 @@ export function Specifications({
                 </div>
 
                 <div className="mt-12">
-                  <div className="break-words text-[clamp(1.65rem,2.8vw,2.8rem)] font-semibold leading-[.95] tracking-[-.055em] text-white transition-colors group-hover:text-lime-300">
+                  <div className="wrap-break-word text-[clamp(1.65rem,2.8vw,2.8rem)] font-semibold leading-[.95] tracking-[-.055em] text-white transition-colors group-hover:text-lime-300">
                     {measurement.value}
                   </div>
 

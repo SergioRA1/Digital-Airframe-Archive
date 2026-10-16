@@ -1,119 +1,157 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  font-family: Inter, Arial, Helvetica, sans-serif;
-  color: #edf0e9;
-  background: #050708;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Tailwind 3's fixed line heights. Tailwind 4 makes them proportional to
+     the font size, so "text-xs sm:text-[11px]" would get a shorter line
+     on wider screens than the design was built with. */
+  --text-xs--line-height: 1rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
 }
 
-html {
-  scroll-behavior: smooth;
-  background: #050708;
-}
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  overflow-x: hidden;
-  background: #050708;
-}
-
-button,
-a {
-  font: inherit;
-}
-
-button:not(:disabled),
-a {
-  cursor: pointer;
-}
-
-img,
-svg {
-  display: block;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #050708;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #394028;
-  border: 2px solid #050708;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #c7ff37;
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #394028 #050708;
-}
-
-::selection {
-  color: #050708;
-  background: #c7ff37;
-}
-
-:focus-visible {
-  outline: 1px solid #c7ff37;
-  outline-offset: 4px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
   *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
-/* Each page's text as written into its HTML file by scripts/prerender.js, for
-   search engines and link previews. Visitors see it only for the moment
-   before React replaces it, so it just needs to be readable on the dark
-   background. */
-.prerender {
-  max-width: 60rem;
-  margin: 0 auto;
-  padding: 6rem 1.25rem;
-  line-height: 1.6;
-  color: rgb(237 240 233 / 0.75);
-}
 
-.prerender a {
-  color: #c7ff37;
-}
+/* The site's own global styles. They sit in Tailwind's base layer: Tailwind 4
+   puts its utilities in a native cascade layer, and any style outside a
+   layer would override them (button and link font sizes, for example). */
+@layer base {
+  :root {
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    color: #edf0e9;
+    background: #050708;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-.prerender h1 {
-  font-size: 2.5rem;
-  font-weight: 900;
-  line-height: 1;
-  color: #edf0e9;
-}
+  html {
+    scroll-behavior: smooth;
+    background: #050708;
+  }
 
-.prerender ul,
-.prerender ol {
-  list-style: none;
-  padding: 0;
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #050708;
+  }
+
+  button,
+  a {
+    font: inherit;
+  }
+
+  button:not(:disabled),
+  a {
+    cursor: pointer;
+  }
+
+  img,
+  svg {
+    display: block;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #050708;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #394028;
+    border: 2px solid #050708;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c7ff37;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #394028 #050708;
+  }
+
+  ::selection {
+    color: #050708;
+    background: #c7ff37;
+  }
+
+  :focus-visible {
+    outline: 1px solid #c7ff37;
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  /* Each page's text as written into its HTML file by scripts/prerender.js, for
+     search engines and link previews. Visitors see it only for the moment
+     before React replaces it, so it just needs to be readable on the dark
+     background. */
+  .prerender {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 6rem 1.25rem;
+    line-height: 1.6;
+    color: rgb(237 240 233 / 0.75);
+  }
+
+  .prerender a {
+    color: #c7ff37;
+  }
+
+  .prerender h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #edf0e9;
+  }
+
+  .prerender ul,
+  .prerender ol {
+    list-style: none;
+    padding: 0;
+  }
 }

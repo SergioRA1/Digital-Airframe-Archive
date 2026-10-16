@@ -119,7 +119,7 @@ export function Comparison({
                     className={`border-b border-white/10 transition-colors last:border-b-0 ${
                       highlight
                         ? "bg-lime-300/[.07] text-white"
-                        : "text-white/65 hover:bg-white/[.03]"
+                        : "text-white/65 hover:bg-white/3"
                     }`}
                   >
                     <th

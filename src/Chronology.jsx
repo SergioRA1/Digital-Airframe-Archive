@@ -341,7 +341,7 @@ function Chronology({ introDelay = 0.1, translation }) {
               <span className="block text-white/40">{t.heroBottom}</span>
             </h1>
 
-            <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base">
+            <p className="mt-10 max-w-xl text-sm leading-7 text-white/60 md:text-base md:leading-6">
               {t.intro}
             </p>
 
@@ -435,7 +435,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                         <text
                           x={16}
                           y={y + 4}
-                          className="fill-white/70 font-mono text-[12px] uppercase tracking-[.1em] transition hover:fill-lime-300"
+                          className="fill-white/70 font-mono text-[12px] uppercase tracking-widest transition hover:fill-lime-300"
                         >
                           {lane.designation}
                         </text>
@@ -558,7 +558,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                     transition={{
                       duration: 0.25,
                     }}
-                    className="border border-white/10 bg-white/[.02] p-6"
+                    className="border border-white/10 bg-white/2 p-6"
                     aria-live="polite"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -682,7 +682,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                         className={`cursor-pointer border-b border-white/10 align-top transition-colors last:border-b-0 ${
                           event.id === activeId
                             ? "bg-lime-300/[.07] text-white"
-                            : "text-white/65 hover:bg-white/[.03]"
+                            : "text-white/65 hover:bg-white/3"
                         }`}
                       >
                         <td className="whitespace-nowrap p-5 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-lime-300">

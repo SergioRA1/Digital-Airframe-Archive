@@ -32,7 +32,7 @@ The site sets no cookies and loads nothing from other sites except the photograp
 ## Built with
 
 - [React 18](https://react.dev/) and [Vite 6](https://vite.dev/)
-- [Tailwind CSS 3](https://tailwindcss.com/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
 - [framer-motion](https://motion.dev/) for animation, which respects the system's reduced-motion setting
 - [lucide-react](https://lucide.dev/) icons
 - [ESLint](https://eslint.org/) and [Playwright](https://playwright.dev/) for linting and browser tests

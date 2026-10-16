@@ -139,7 +139,7 @@ export function ScrollProgress() {
 
   return (
     <m.div
-      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-lime-300"
+      className="fixed inset-x-0 top-0 z-60 h-0.5 origin-left bg-lime-300"
       style={{
         scaleX: scrollYProgress,
       }}
@@ -168,7 +168,7 @@ export function LanguageSwitch() {
       lang={otherLanguage}
       aria-label={t.switchLanguage}
       title={t.switchLanguage}
-      className="grid h-10 min-w-10 place-items-center border border-white/10 bg-white/[.03] px-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
+      className="grid h-10 min-w-10 place-items-center border border-white/10 bg-white/3 px-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
     >
       {otherLanguage}
     </a>
@@ -304,7 +304,7 @@ export function PageHeader({
             <a
               href={href("#/")}
               aria-label={t.allAircraft}
-              className="flex h-10 items-center gap-2 border border-white/10 bg-white/[.03] px-3 text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
+              className="flex h-10 items-center gap-2 border border-white/10 bg-white/3 px-3 text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
             >
               <LayoutGrid size={14} />
               {/* Long navigation leaves room for the label only on the widest
@@ -318,7 +318,7 @@ export function PageHeader({
           <button
             type="button"
             onClick={() => setMenuOpen((currentValue) => !currentValue)}
-            className={`grid h-10 w-10 place-items-center border border-white/10 bg-white/[.03] ${menuBreakpoint}`}
+            className={`grid h-10 w-10 place-items-center border border-white/10 bg-white/3 ${menuBreakpoint}`}
             aria-label={menuOpen ? t.closeMenu : t.openMenu}
             aria-expanded={menuOpen}
           >
@@ -347,7 +347,7 @@ export function PageHeader({
             <div className="grid max-h-[calc(100vh-5rem)] overflow-y-auto p-5">
               {search && (
                 <div className="mx-auto mb-2 w-full max-w-xl">
-                  <label className="flex items-center gap-3 border border-white/15 bg-white/[.03] px-4 py-3 focus-within:border-white/40">
+                  <label className="flex items-center gap-3 border border-white/15 bg-white/3 px-4 py-3 focus-within:border-white/40">
                     <Search size={15} className="text-white/50" />
                     <input
                       type="search"
@@ -356,7 +356,7 @@ export function PageHeader({
                       onChange={(event) => setQuery(event.target.value)}
                       placeholder={t.search}
                       aria-label={t.search}
-                      className="w-full bg-transparent text-sm text-white outline-none focus-visible:outline-none placeholder:text-white/40"
+                      className="w-full bg-transparent text-sm text-white outline-hidden focus-visible:outline-hidden placeholder:text-white/40"
                     />
                   </label>
 
@@ -372,7 +372,7 @@ export function PageHeader({
                         <li key={entry.slug}>
                           <a
                             href={href(`#/${entry.slug}`)}
-                            className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 text-sm transition last:border-b-0 hover:bg-white/[.04] hover:text-lime-300"
+                            className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 text-sm transition last:border-b-0 hover:bg-white/4 hover:text-lime-300"
                           >
                             <span className="font-semibold">
                               {entry.designation}

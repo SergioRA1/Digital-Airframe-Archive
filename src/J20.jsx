@@ -259,9 +259,9 @@ function Aircraft({
         })}
       </svg>
 
-      <div className="absolute left-[10%] top-[58%] h-px w-[18%] bg-gradient-to-r from-transparent to-lime-300/60" />
+      <div className="absolute left-[10%] top-[58%] h-px w-[18%] bg-linear-to-r from-transparent to-lime-300/60" />
 
-      <div className="absolute right-[10%] top-[58%] h-px w-[18%] bg-gradient-to-l from-transparent to-lime-300/60" />
+      <div className="absolute right-[10%] top-[58%] h-px w-[18%] bg-linear-to-l from-transparent to-lime-300/60" />
     </m.div>
   );
 }
@@ -409,7 +409,7 @@ function J20({ introDelay = 0.1, translation }) {
                 J<span className="text-lime-300">-</span>20
               </h1>
 
-              <p className="mt-7 max-w-md text-sm leading-7 text-white/55 md:text-base">
+              <p className="mt-7 max-w-md text-sm leading-7 text-white/55 md:text-base md:leading-6">
                 {page.intro}
               </p>
 
@@ -494,12 +494,12 @@ function J20({ introDelay = 0.1, translation }) {
               <div>
                 <SectionLabel>{page.overview.label}</SectionLabel>
 
-                <h2 className="max-w-4xl text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-7xl">
+                <h2 className="max-w-4xl text-4xl font-semibold leading-[1.05] tracking-[-.045em] md:text-7xl md:leading-none">
                   {page.overview.heading}
                 </h2>
               </div>
 
-              <p className="max-w-xl text-sm leading-7 text-white/50 md:text-base">
+              <p className="max-w-xl text-sm leading-7 text-white/50 md:text-base md:leading-6">
                 {page.overview.intro}
               </p>
             </div>

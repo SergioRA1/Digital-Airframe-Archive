@@ -352,7 +352,7 @@ function Home({ introDelay = 0.1 }) {
             </h1>
 
             <div className="mt-10 grid max-w-4xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
-              <p className="max-w-xl text-sm leading-7 text-white/60 md:text-base">
+              <p className="max-w-xl text-sm leading-7 text-white/60 md:text-base md:leading-6">
                 {t.intro}
               </p>
 
@@ -499,7 +499,7 @@ function Home({ introDelay = 0.1 }) {
                 <a
                   key={key}
                   href={href("#/archive")}
-                  className="group relative block aspect-[4/3] overflow-hidden bg-[#080b0c]"
+                  className="group relative block aspect-4/3 overflow-hidden bg-[#080b0c]"
                 >
                   <img
                     src={photos[key].src}
