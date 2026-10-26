@@ -93,6 +93,17 @@ export default {
         "Dos motores General Electric F110, cada uno de la clase de 29.000 libras de empuje con postcombustión.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 129",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "29.000",
+        unit: "LIBRAS",
+      },
+      detail:
+        "Cada F110-GE-129 pertenece a la clase de 29.000 libras de empuje con postcombustión.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 20 MM",
       unit: "12 ESTACIONES EXTERNAS",

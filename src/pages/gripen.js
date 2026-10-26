@@ -129,6 +129,19 @@ const gripen = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "80–98",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "18,100–22,000",
+        unit: "POUNDS",
+      },
+      detail:
+        "About 80 kN for the RM12 of the Gripen C/D and about 98 kN for the F414 of the Gripen E, with afterburner.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "27 MM CANNON",
       unit: "8–10 EXTERNAL STATIONS",

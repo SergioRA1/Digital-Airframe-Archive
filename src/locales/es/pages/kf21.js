@@ -96,6 +96,16 @@ export default {
         "Motores General Electric F414 fabricados bajo licencia por Hanwha Aerospace, de unos 98 kN cada uno con poscombustión.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 98",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 22.000",
+        unit: "LIBRAS",
+      },
+      detail: "Cada F414-GE-400K con postcombustión.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 20 MM",
       unit: "10 ESTACIONES EXTERNAS",

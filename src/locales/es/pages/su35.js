@@ -95,6 +95,16 @@ export default {
         "Dos motores Saturn AL-41F1S, también conocidos como 117S, de unos 142 kN cada uno en régimen de emergencia.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 142",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 31.900",
+        unit: "LIBRAS",
+      },
+      detail: "Cada AL-41F1S en régimen de emergencia.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 30 MM",
       unit: "12 ESTACIONES EXTERNAS",

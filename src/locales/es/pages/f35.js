@@ -88,6 +88,16 @@ export default {
         "El motor F135 del F-35A produce unas 43.000 libras de empuje con postcombustión.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 191",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 43.000",
+        unit: "LIBRAS",
+      },
+      detail: "El F135 con postcombustión, según lo publicado para el F-35A.",
+    },
+    {
       label: "BODEGAS DE ARMAMENTO",
       value: "2 BODEGAS",
       unit: "4 ESTACIONES INTERNAS",

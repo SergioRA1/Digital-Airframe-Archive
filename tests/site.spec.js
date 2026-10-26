@@ -17,6 +17,13 @@ import {
   routePath,
 } from "../src/routes.js";
 import { outputPath, renderFigures } from "../scripts/generate-figures.js";
+import { figures } from "../src/figures.js";
+import {
+  buildModel,
+  calibration,
+  curve,
+  topSpeedOf,
+} from "../src/performanceModel.js";
 
 const slugs = aircraft
   .filter((entry) => entry.available)
@@ -633,6 +640,64 @@ test.describe("compare", () => {
     await expect(chart.getByText("20.4–21.2")).toBeVisible();
   });
 
+  test("plots switch between charts and redraw for new axes", async ({
+    page,
+  }) => {
+    await open(page, "compare/?aircraft=f-22");
+
+    const plots = page.locator("#plots");
+    const notPlotted = plots.getByText(/^Not plotted/);
+
+    // The F-22 publishes no combat radius, so it drops out of that scatter.
+    await expect(notPlotted).toHaveCount(0);
+    await expect(plots.getByLabel("X axis")).toHaveValue("length");
+    await plots.getByLabel("Y axis").selectOption("radius");
+    await expect(notPlotted).toContainText("F-22");
+
+    await plots.getByRole("button", { name: "Programme" }).click();
+    await expect(
+      plots.getByRole("button", { name: "Programme" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(plots.getByLabel("Y axis")).toHaveCount(0);
+    // F-22: first flight 1997, in service 2005.
+    await expect(plots.locator("svg").getByText("8 yrs").first()).toBeVisible();
+  });
+
+  test("the performance model marks each aircraft's top speed", async ({
+    page,
+  }) => {
+    await open(page, "compare/?aircraft=f-35,j-35");
+
+    const plots = page.locator("#plots");
+    const svg = plots.locator("svg[role=img]");
+
+    await plots.getByRole("button", { name: "Performance model" }).click();
+    await expect(svg.getByText("F-35A · Top speed M 1.60")).toBeVisible();
+    await expect(svg.getByText("J-35A · Top speed M 1.80")).toBeVisible();
+
+    await plots.getByLabel("Curve").selectOption("acceleration");
+    await expect(svg.getByText(/^F-35A · Peak .* M\/S²$/)).toBeVisible();
+  });
+
+  test("the J-20 can be modelled with its reported WS-15 engine", async ({
+    page,
+  }) => {
+    await open(page, "compare/?aircraft=j-20");
+
+    const plots = page.locator("#plots");
+    const svg = plots.locator("svg[role=img]");
+
+    await plots.getByRole("button", { name: "Performance model" }).click();
+    await expect(svg.getByText(/^J-20 · Top speed M 2\.00$/)).toBeVisible();
+    await expect(plots.getByText(/^WS-15 thrust is reported/)).toHaveCount(0);
+
+    // More thrust against the same drag gives a higher modelled top speed.
+    await plots.getByLabel("J-20 engine").selectOption("both");
+    await expect(svg.getByText(/^J-20 WS-15 · Top speed M 2\.[1-9]\d$/)).toBeVisible();
+    await expect(svg.getByText(/^J-20 · Top speed M 2\.00$/)).toBeVisible();
+    await expect(plots.getByText(/^WS-15 thrust is reported/)).toBeVisible();
+  });
+
   test("table headers sort the rows", async ({ page }) => {
     await open(page, "compare/");
 
@@ -712,6 +777,22 @@ test.describe("timeline", () => {
     expect(shown).toBeGreaterThan(0);
     expect(shown).toBeLessThan(total);
   });
+});
+
+test("the performance model reaches each published top speed", () => {
+  for (const peer of peers.filter((entry) => figures[entry.slug].thrust)) {
+    const figure = figures[peer.slug];
+    const model = buildModel({
+      thrust: figure.thrust.value,
+      engines: Number(peer.engines),
+      mtow: figure.mtow.value,
+      wingspan: figure.wingspan.value,
+      topSpeed: figure.speed.value,
+    });
+    const points = curve(model, calibration.altitude, calibration.load);
+
+    expect(topSpeedOf(points), peer.slug).toBeCloseTo(figure.speed.value, 2);
+  }
 });
 
 test("src/figures.js matches the aircraft specifications", () => {

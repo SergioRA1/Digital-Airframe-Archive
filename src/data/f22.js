@@ -45,6 +45,18 @@ export const specifications = [
   },
   {
     group: "CONFIGURATION",
+    label: "ENGINE THRUST",
+    value: "≈ 156",
+    unit: "KILONEWTONS",
+    imperial: {
+      value: "35,000",
+      unit: "POUNDS",
+    },
+    detail: "Each F119 is in the 35,000-pound thrust class with afterburner.",
+    confidence: "CONFIRMED",
+  },
+  {
+    group: "CONFIGURATION",
     label: "WEAPON BAYS",
     value: "1 + 2",
     unit: "MAIN + SIDE BAYS",

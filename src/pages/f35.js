@@ -120,6 +120,18 @@ const f35 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 191",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 43,000",
+        unit: "POUNDS",
+      },
+      detail: "The F135 with afterburner, as published for the F-35A.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "WEAPON BAYS",
       value: "2 BAYS",
       unit: "4 INTERNAL STATIONS",

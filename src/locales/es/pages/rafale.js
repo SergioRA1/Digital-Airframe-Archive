@@ -89,6 +89,16 @@ export default {
         "Cada motor produce unas 17.000 libras de empuje con postcombustión.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 75",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 17.000",
+        unit: "LIBRAS",
+      },
+      detail: "Cada M88 con postcombustión.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 30 MM",
       unit: "14 ESTACIONES EXTERNAS",

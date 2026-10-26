@@ -121,6 +121,18 @@ const f16 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "102–129",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "23,000–29,000",
+        unit: "POUNDS",
+      },
+      detail: "With afterburner, depending on the F100 or F110 version fitted.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "20 MM CANNON",
       unit: "PLUS EXTERNAL STORES",

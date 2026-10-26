@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import { specifications as f22Specifications } from "../src/data/f22.js";
 import { specifications as j20Specifications } from "../src/data/j20.js";
 import { dataPages } from "../src/dataPages.js";
+import { peers } from "../src/data/peers.js";
 import { localise } from "../src/i18n.js";
 import spanishF22 from "../src/locales/es/f22.js";
 import spanishJ20 from "../src/locales/es/j20.js";
@@ -30,6 +31,22 @@ export const metrics = [
     spanishLabel: "Peso máximo al despegue",
     unit: "KG",
     specification: "MAX TAKEOFF WEIGHT",
+  },
+  {
+    key: "thrust",
+    label: "Thrust per engine",
+    spanishLabel: "Empuje por motor",
+    unit: "KN",
+    specification: "ENGINE THRUST",
+  },
+  {
+    // Not a specification: total afterburning thrust over max takeoff weight,
+    // worked out in deriveThrustToWeight() below.
+    key: "thrustToWeight",
+    label: "Thrust-to-weight",
+    spanishLabel: "Relación empuje-peso",
+    unit: "AT MAX WEIGHT",
+    spanishUnit: "AL PESO MÁXIMO",
   },
   {
     key: "radius",
@@ -124,9 +141,28 @@ function readFigure(rows, displayRows, metric) {
   };
 }
 
-export function buildFigures(language = "en") {
+// Engines reported for an aircraft besides the one its figures describe. The
+// compare page's performance model can plot them in place of the current
+// engine. Each is a specification row on the aircraft's page.
+const alternativeEngines = [
+  {
+    slug: "j-20",
+    engine: "WS-15",
+    specification: "WS-15 THRUST",
+  },
+];
+
+// The current engine's name from the powerplant row ("2 × WS-10C" → "WS-10C").
+function currentEngine(rows) {
+  return rows
+    .find((entry) => entry.label === "POWERPLANT")
+    .value.replace(/^\d+\s*×\s*/, "");
+}
+
+export function buildAlternatives(language = "en") {
   return Object.fromEntries(
-    Object.entries(specificationSources).map(([slug, rows]) => {
+    alternativeEngines.map(({ slug, engine, specification }) => {
+      const rows = specificationSources[slug];
       const displayRows =
         language === "es"
           ? localise(rows, spanishSpecifications[slug])
@@ -134,12 +170,62 @@ export function buildFigures(language = "en") {
 
       return [
         slug,
-        Object.fromEntries(
-          metrics.map((metric) => [
-            metric.key,
-            readFigure(rows, displayRows, metric),
-          ]),
-        ),
+        {
+          current: currentEngine(rows),
+          engine,
+          thrust: readFigure(rows, displayRows, { specification }),
+        },
+      ];
+    }),
+  );
+}
+
+// The least certain input sets the confidence of a derived figure.
+const confidenceOrder = ["CONFIRMED", "REPORTED", "ESTIMATE"];
+
+// Engines × thrust per engine, over max takeoff weight in newtons. The engine
+// count comes from the comparison table.
+function deriveThrustToWeight(slug, values, language) {
+  const engines = Number(peers.find((peer) => peer.slug === slug).engines);
+
+  if (!values.thrust || !values.mtow) {
+    return null;
+  }
+
+  const value =
+    Math.round(
+      ((engines * values.thrust.value * 1000) / (values.mtow.value * 9.80665)) *
+        100,
+    ) / 100;
+  const number = value.toFixed(2);
+
+  return {
+    value,
+    display: `≈ ${language === "es" ? number.replace(".", ",") : number}`,
+    confidence: [values.thrust.confidence, values.mtow.confidence].sort(
+      (a, b) => confidenceOrder.indexOf(b) - confidenceOrder.indexOf(a),
+    )[0],
+  };
+}
+
+export function buildFigures(language = "en") {
+  return Object.fromEntries(
+    Object.entries(specificationSources).map(([slug, rows]) => {
+      const displayRows =
+        language === "es"
+          ? localise(rows, spanishSpecifications[slug])
+          : rows;
+      const values = Object.fromEntries(
+        metrics
+          .filter((metric) => metric.specification)
+          .map((metric) => [metric.key, readFigure(rows, displayRows, metric)]),
+      );
+
+      values.thrustToWeight = deriveThrustToWeight(slug, values, language);
+
+      return [
+        slug,
+        Object.fromEntries(metrics.map((metric) => [metric.key, values[metric.key]])),
       ];
     }),
   );
@@ -150,12 +236,12 @@ export function renderFigures() {
   const text = (value) => JSON.stringify(value);
   const key = (name) => (/^[a-z]\w*$/i.test(name) ? name : text(name));
 
-  const metricLines = (label) =>
+  const metricLines = (label, unit) =>
     metrics.flatMap((metric) => [
       "  {",
       `    key: ${text(metric.key)},`,
       `    label: ${text(metric[label])},`,
-      `    unit: ${text(metric.unit)},`,
+      `    unit: ${text(metric[unit] ?? metric.unit)},`,
       "  },",
     ]);
 
@@ -184,7 +270,7 @@ export function renderFigures() {
     "});",
     "",
     "export const metrics = [",
-    ...metricLines("label"),
+    ...metricLines("label", "unit"),
     "];",
     "",
     "export const figures = {",
@@ -192,12 +278,27 @@ export function renderFigures() {
     "};",
     "",
     "const spanishMetrics = [",
-    ...metricLines("spanishLabel"),
+    ...metricLines("spanishLabel", "spanishUnit"),
     "];",
     "",
     "// Same values, with the Spanish specification wording where it exists.",
     "const spanishFigures = {",
     ...figureLines("es"),
+    "};",
+    "",
+    "// Engines the performance model can plot instead of the current one.",
+    "export const alternativesByLanguage = {",
+    ...["en", "es"].flatMap((language) => [
+      `  ${language}: {`,
+      ...Object.entries(buildAlternatives(language)).flatMap(([slug, entry]) => [
+        `    ${key(slug)}: {`,
+        `      current: ${text(entry.current)},`,
+        `      engine: ${text(entry.engine)},`,
+        `      thrust: figure(${entry.thrust.value}, ${text(entry.thrust.display)}, ${text(entry.thrust.confidence)}),`,
+        "    },",
+      ]),
+      "  },",
+    ]),
     "};",
     "",
     "export const metricsByLanguage = {",

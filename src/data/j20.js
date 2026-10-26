@@ -110,6 +110,32 @@ export const specifications = [
   },
   {
     group: "CONFIGURATION",
+    label: "ENGINE THRUST",
+    value: "≈ 142",
+    unit: "KILONEWTONS",
+    imperial: {
+      value: "≈ 31,900",
+      unit: "POUNDS",
+    },
+    detail:
+      "Reported for each WS-10C with afterburner. No official figure is published.",
+    confidence: "REPORTED",
+  },
+  {
+    group: "CONFIGURATION",
+    label: "WS-15 THRUST",
+    value: "160–180",
+    unit: "KILONEWTONS",
+    imperial: {
+      value: "36,000–40,500",
+      unit: "POUNDS",
+    },
+    detail:
+      "Reported for each WS-15 with afterburner. The engine has flown in J-20s since 2022 and is reported in serial production, but no official figure is published and its entry into service is not confirmed.",
+    confidence: "REPORTED",
+  },
+  {
+    group: "CONFIGURATION",
     label: "WEAPON BAYS",
     value: "1 + 2",
     unit: "MAIN + SIDE BAYS",

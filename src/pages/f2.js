@@ -130,6 +130,18 @@ const f2 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 131",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 29,500",
+        unit: "POUNDS",
+      },
+      detail: "The F110-IHI-129 with afterburner.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "20 MM CANNON",
       unit: "11 EXTERNAL STATIONS",

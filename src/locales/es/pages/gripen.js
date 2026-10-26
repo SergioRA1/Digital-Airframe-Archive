@@ -95,6 +95,17 @@ export default {
         "El Gripen C/D usa una versión del General Electric F404 construida en Suecia, conocida como RM12. El Gripen E, de mayor tamaño, usa el más potente GE F414.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "80–98",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "18.100–22.000",
+        unit: "LIBRAS",
+      },
+      detail:
+        "Unos 80 kN para el RM12 del Gripen C/D y unos 98 kN para el F414 del Gripen E, con postcombustión.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 27 MM",
       unit: "8–10 ESTACIONES EXTERNAS",

@@ -24,12 +24,14 @@ import {
 import { peers } from "./data/peers.js";
 import { peers as spanishPeers } from "./locales/es/peers.js";
 import { counts } from "./counts.js";
+import { Plots } from "./ComparePlots.jsx";
 
 const text = {
   en: {
     navigationItems: [
       ["top", "Select"],
       ["chart", "Chart"],
+      ["plots", "Plots"],
       ["table", "Table"],
     ],
     eyebrow: "Interactive comparison",
@@ -45,8 +47,12 @@ const text = {
     chartIntro:
       `Each bar runs from zero to the highest figure among all ${counts.en.all} aircraft. Faint ticks mark the other aircraft, and the rank counts only aircraft with a published figure.`,
     footnote:
-      "Figures from each aircraft's specifications · Ranges are plotted at their midpoint · \"Mach 2 class\" is plotted as Mach 2.0 · Published figures are not like-for-like, and combat radius depends heavily on the mission and load",
-    tableLabel: "02 / Table",
+      "Figures from each aircraft's specifications · Ranges are plotted at their midpoint · \"Mach 2 class\" is plotted as Mach 2.0 · Thrust-to-weight is total afterburning thrust over max takeoff weight · Published figures are not like-for-like, and combat radius depends heavily on the mission and load",
+    plotsLabel: "02 / Plots",
+    plotsHeading: "The field, plotted.",
+    plotsIntro:
+      `Four views of the hangar, with your selection picked out in colour: three of all ${counts.en.all} aircraft at once, and a performance model of the ones you chose. Hover over a chart for its figures.`,
+    tableLabel: "03 / Table",
     tableHeading: `All ${counts.en.all}, sorted your way.`,
     tableIntro:
       "Select a column heading to sort, and again to reverse the order. Use the dot at the start of a row to add that aircraft to the chart.",
@@ -68,6 +74,7 @@ const text = {
     navigationItems: [
       ["top", "Elegir"],
       ["chart", "Gráfico"],
+      ["plots", "Diagramas"],
       ["table", "Tabla"],
     ],
     eyebrow: "Comparación interactiva",
@@ -83,8 +90,12 @@ const text = {
     chartIntro:
       `Cada barra va de cero a la cifra más alta de los ${counts.es.all} aviones. Las marcas tenues señalan a los demás aviones, y la posición solo cuenta los aviones con cifra publicada.`,
     footnote:
-      "Cifras tomadas de las especificaciones de cada avión · Los intervalos se representan por su punto medio · «Clase Mach 2» se representa como Mach 2,0 · Las cifras publicadas no son del todo comparables, y el radio de combate depende mucho de la misión y de la carga",
-    tableLabel: "02 / Tabla",
+      "Cifras tomadas de las especificaciones de cada avión · Los intervalos se representan por su punto medio · «Clase Mach 2» se representa como Mach 2,0 · La relación empuje-peso es el empuje total con postcombustión dividido por el peso máximo al despegue · Las cifras publicadas no son del todo comparables, y el radio de combate depende mucho de la misión y de la carga",
+    plotsLabel: "02 / Diagramas",
+    plotsHeading: "Todo el conjunto, en gráficos.",
+    plotsIntro:
+      `Cuatro vistas del hangar, con la selección destacada en color: tres de los ${counts.es.all} aviones a la vez y un modelo de prestaciones de los elegidos. Pasa el puntero por un gráfico para ver sus cifras.`,
+    tableLabel: "03 / Tabla",
     tableHeading: `Los ${counts.es.all}, ordenados a tu gusto.`,
     tableIntro:
       "Pulsa el título de una columna para ordenar, y otra vez para invertir el orden. Usa el punto al inicio de una fila para añadir ese avión al gráfico.",
@@ -585,6 +596,29 @@ function Compare({ introDelay = 0.1 }) {
             <p className="mt-6 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white/50">
               {t.footnote}
             </p>
+          </div>
+        </section>
+
+        <section
+          id="plots"
+          className="relative scroll-mt-20 border-t border-white/10 px-5 py-28 md:px-10 md:py-40"
+        >
+          <div className="mx-auto max-w-[1500px]">
+            <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_.8fr] lg:items-end">
+              <div>
+                <SectionLabel>{t.plotsLabel}</SectionLabel>
+
+                <h2 className="text-4xl font-semibold tracking-[-.045em] md:text-6xl">
+                  {t.plotsHeading}
+                </h2>
+              </div>
+
+              <p className="max-w-xl text-sm leading-7 text-white/50">
+                {t.plotsIntro}
+              </p>
+            </div>
+
+            <Plots selected={selected} colours={seriesColours} />
           </div>
         </section>
 

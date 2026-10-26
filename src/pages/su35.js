@@ -129,6 +129,18 @@ const su35 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 142",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 31,900",
+        unit: "POUNDS",
+      },
+      detail: "Each AL-41F1S in emergency power.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "30 MM CANNON",
       unit: "12 EXTERNAL STATIONS",

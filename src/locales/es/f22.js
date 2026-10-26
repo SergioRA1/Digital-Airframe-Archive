@@ -204,6 +204,17 @@ export default {
         "Motores F119-PW-100 de la clase de 35.000 libras de empuje, cada uno con una tobera de empuje vectorial bidimensional.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 156",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "35.000",
+        unit: "LIBRAS",
+      },
+      detail:
+        "Cada F119 pertenece a la clase de 35.000 libras de empuje con postcombustión.",
+    },
+    {
       label: "BODEGAS DE ARMAMENTO",
       value: "1 + 2",
       unit: "BODEGA PRINCIPAL + LATERALES",

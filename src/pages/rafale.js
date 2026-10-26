@@ -121,6 +121,18 @@ const rafale = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 75",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 17,000",
+        unit: "POUNDS",
+      },
+      detail: "Each M88 with afterburner.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "30 MM CANNON",
       unit: "14 EXTERNAL STATIONS",

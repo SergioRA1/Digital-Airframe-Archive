@@ -128,6 +128,19 @@ const j35 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "86–116",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "19,300–26,100",
+        unit: "POUNDS",
+      },
+      detail:
+        "Not published, and which engine production aircraft use is not confirmed. With afterburner, the WS-13 family is put at about 86 to 100 kN and the WS-19 is reported at about 116 kN.",
+      confidence: "ESTIMATE",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "INTERNAL BAYS",
       unit: "PLUS WING PYLONS",

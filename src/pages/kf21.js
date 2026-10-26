@@ -130,6 +130,18 @@ const kf21 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 98",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 22,000",
+        unit: "POUNDS",
+      },
+      detail: "Each F414-GE-400K with afterburner.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "20 MM CANNON",
       unit: "10 EXTERNAL STATIONS",

@@ -96,6 +96,16 @@ export default {
         "Un General Electric F110 fabricado bajo licencia por IHI, de unos 131 kN con poscombustión.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 131",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 29.500",
+        unit: "LIBRAS",
+      },
+      detail: "El F110-IHI-129 con postcombustión.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 20 MM",
       unit: "11 ESTACIONES EXTERNAS",

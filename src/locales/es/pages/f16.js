@@ -89,6 +89,17 @@ export default {
         "Un Pratt & Whitney F100 o un General Electric F110, en la clase de empuje de unas 23.000 a 29.000 libras según la versión.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "102–129",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "23.000–29.000",
+        unit: "LIBRAS",
+      },
+      detail:
+        "Con postcombustión, según la versión del F100 o del F110 instalada.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 20 MM",
       unit: "MÁS CARGAS EXTERNAS",

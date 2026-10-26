@@ -95,6 +95,17 @@ export default {
         "Motores provisionales instalados en los aviones actuales. Se ha informado de que un motor más potente, el Izdeliye 30, está en pruebas.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "142–147",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "31.900–33.100",
+        unit: "LIBRAS",
+      },
+      detail:
+        "Según informes, entre 14.500 y 15.000 kilogramos-fuerza para cada AL-41F1 con postcombustión.",
+    },
+    {
       label: "BODEGAS DE ARMAMENTO",
       value: "2 + 2",
       unit: "BODEGAS PRINCIPALES + LATERALES",

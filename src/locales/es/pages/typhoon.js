@@ -89,6 +89,16 @@ export default {
         "Cada motor produce unas 20.000 libras de empuje con postcombustión.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 90",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 20.000",
+        unit: "LIBRAS",
+      },
+      detail: "Cada EJ200 con postcombustión.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 27 MM",
       unit: "13 ESTACIONES EXTERNAS",

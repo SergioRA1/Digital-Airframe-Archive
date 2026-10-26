@@ -93,6 +93,17 @@ export default {
         "El J-15 original voló con motores de la serie AL-31. Se informa de que los aviones posteriores usan la serie WS-10 china.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 123",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 27.600",
+        unit: "LIBRAS",
+      },
+      detail:
+        "La serie AL-31 da unos 123 kN con postcombustión. Se cree que el posterior WS-10 da más, pero no hay una cifra fiable publicada.",
+    },
+    {
       label: "ARMAMENTO",
       value: "CAÑÓN DE 30 MM",
       unit: "≈ 12 ESTACIONES EXTERNAS",

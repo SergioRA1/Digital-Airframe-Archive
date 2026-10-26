@@ -129,6 +129,19 @@ const su57 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "142–147",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "31,900–33,100",
+        unit: "POUNDS",
+      },
+      detail:
+        "Reported for each AL-41F1 with afterburner as 14,500 to 15,000 kilograms-force.",
+      confidence: "REPORTED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "WEAPON BAYS",
       value: "2 + 2",
       unit: "MAIN + SIDE BAYS",

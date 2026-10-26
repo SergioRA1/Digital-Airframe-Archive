@@ -121,6 +121,18 @@ const typhoon = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 90",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 20,000",
+        unit: "POUNDS",
+      },
+      detail: "Each EJ200 with afterburner.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "27 MM CANNON",
       unit: "13 EXTERNAL STATIONS",

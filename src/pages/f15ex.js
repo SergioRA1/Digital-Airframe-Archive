@@ -128,6 +128,19 @@ const f15ex = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 129",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "29,000",
+        unit: "POUNDS",
+      },
+      detail:
+        "Each F110-GE-129 is in the 29,000-pound thrust class with afterburner.",
+      confidence: "CONFIRMED",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "20 MM CANNON",
       unit: "12 EXTERNAL STATIONS",

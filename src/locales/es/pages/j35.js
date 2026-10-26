@@ -93,6 +93,17 @@ export default {
         "Los prototipos FC-31 volaron con motores RD-93. Se informa de que los aviones posteriores usan motores chinos WS-13 o WS-19.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "86–116",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "19.300–26.100",
+        unit: "LIBRAS",
+      },
+      detail:
+        "No se publica, y no está confirmado qué motor usan los aviones de serie. Con postcombustión, la familia WS-13 se sitúa en unos 86 a 100 kN y, según informes, el WS-19 en unos 116 kN.",
+    },
+    {
       label: "ARMAMENTO",
       value: "BODEGAS INTERNAS",
       unit: "MÁS SOPORTES BAJO LAS ALAS",

@@ -127,6 +127,19 @@ const j16 = {
     },
     {
       group: "CONFIGURATION",
+      label: "ENGINE THRUST",
+      value: "≈ 123",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 27,600",
+        unit: "POUNDS",
+      },
+      detail:
+        "The AL-31 series gives about 123 kN with afterburner. The later WS-10B is thought to give more, but no reliable figure is published.",
+      confidence: "ESTIMATE",
+    },
+    {
+      group: "CONFIGURATION",
       label: "ARMAMENT",
       value: "30 MM CANNON",
       unit: "≈ 12 EXTERNAL STATIONS",

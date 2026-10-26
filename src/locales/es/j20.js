@@ -257,6 +257,28 @@ export default {
         "Según informes, para los aviones de producción posteriores. Los primeros ejemplares usaban motores de la serie AL-31, de origen ruso; se informa de que el WS-15 está en pruebas.",
     },
     {
+      label: "EMPUJE POR MOTOR",
+      value: "≈ 142",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "≈ 31.900",
+        unit: "LIBRAS",
+      },
+      detail:
+        "Según informes, para cada WS-10C con postcombustión. No hay cifra oficial publicada.",
+    },
+    {
+      label: "EMPUJE DEL WS-15",
+      value: "160–180",
+      unit: "KILONEWTONS",
+      imperial: {
+        value: "36.000–40.500",
+        unit: "LIBRAS",
+      },
+      detail:
+        "Según informes, para cada WS-15 con postcombustión. El motor vuela en aviones J-20 desde 2022 y, según informes, se fabrica en serie, pero no hay cifra oficial publicada ni está confirmada su entrada en servicio.",
+    },
+    {
       label: "BODEGAS DE ARMAMENTO",
       value: "1 + 2",
       unit: "BODEGA PRINCIPAL + LATERALES",

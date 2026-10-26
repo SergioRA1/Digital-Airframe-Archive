@@ -22,6 +22,16 @@ export const metrics = [
     unit: "KG",
   },
   {
+    key: "thrust",
+    label: "Thrust per engine",
+    unit: "KN",
+  },
+  {
+    key: "thrustToWeight",
+    label: "Thrust-to-weight",
+    unit: "AT MAX WEIGHT",
+  },
+  {
     key: "radius",
     label: "Combat radius",
     unit: "KM",
@@ -47,6 +57,8 @@ export const figures = {
   "j-20": {
     speed: figure(2, "MACH 2.0", "ESTIMATE"),
     mtow: figure(37000, "≈ 37,000", "ESTIMATE"),
+    thrust: figure(142, "≈ 142", "REPORTED"),
+    thrustToWeight: figure(0.78, "≈ 0.78", "ESTIMATE"),
     radius: figure(2000, "≈ 2,000", "ESTIMATE"),
     ceiling: figure(20000, "≈ 20,000", "ESTIMATE"),
     length: figure(20.8, "20.4–21.2", "ESTIMATE"),
@@ -55,6 +67,8 @@ export const figures = {
   "f-22": {
     speed: figure(2, "MACH 2 CLASS", "CONFIRMED"),
     mtow: figure(38000, "38,000", "CONFIRMED"),
+    thrust: figure(156, "≈ 156", "CONFIRMED"),
+    thrustToWeight: figure(0.84, "≈ 0.84", "CONFIRMED"),
     radius: null,
     ceiling: figure(15000, "15,000+", "CONFIRMED"),
     length: figure(18.9, "18.9", "CONFIRMED"),
@@ -63,6 +77,8 @@ export const figures = {
   "f-35": {
     speed: figure(1.6, "MACH 1.6", "CONFIRMED"),
     mtow: figure(31800, "≈ 31,800", "CONFIRMED"),
+    thrust: figure(191, "≈ 191", "CONFIRMED"),
+    thrustToWeight: figure(0.61, "≈ 0.61", "CONFIRMED"),
     radius: figure(1090, "> 1,090", "CONFIRMED"),
     ceiling: figure(15000, "15,000", "CONFIRMED"),
     length: figure(15.7, "15.7", "CONFIRMED"),
@@ -71,6 +87,8 @@ export const figures = {
   "su-57": {
     speed: figure(2, "MACH 2 CLASS", "ESTIMATE"),
     mtow: figure(35000, "≈ 35,000", "ESTIMATE"),
+    thrust: figure(144.5, "142–147", "REPORTED"),
+    thrustToWeight: figure(0.84, "≈ 0.84", "ESTIMATE"),
     radius: null,
     ceiling: figure(20000, "≈ 20,000", "ESTIMATE"),
     length: figure(20.1, "20.1", "REPORTED"),
@@ -79,6 +97,8 @@ export const figures = {
   "f-16": {
     speed: figure(2, "MACH 2 CLASS", "CONFIRMED"),
     mtow: figure(19200, "≈ 19,200", "REPORTED"),
+    thrust: figure(115.5, "102–129", "CONFIRMED"),
+    thrustToWeight: figure(0.61, "≈ 0.61", "REPORTED"),
     radius: null,
     ceiling: figure(15000, "15,000+", "CONFIRMED"),
     length: figure(15.1, "15.1", "CONFIRMED"),
@@ -87,6 +107,8 @@ export const figures = {
   typhoon: {
     speed: figure(2, "MACH 2 CLASS", "REPORTED"),
     mtow: figure(23500, "≈ 23,500", "REPORTED"),
+    thrust: figure(90, "≈ 90", "CONFIRMED"),
+    thrustToWeight: figure(0.78, "≈ 0.78", "REPORTED"),
     radius: figure(1390, "≈ 1,390", "REPORTED"),
     ceiling: figure(19800, "≈ 19,800", "REPORTED"),
     length: figure(16, "16.0", "CONFIRMED"),
@@ -95,6 +117,8 @@ export const figures = {
   rafale: {
     speed: figure(1.8, "MACH 1.8", "REPORTED"),
     mtow: figure(24500, "≈ 24,500", "REPORTED"),
+    thrust: figure(75, "≈ 75", "CONFIRMED"),
+    thrustToWeight: figure(0.62, "≈ 0.62", "REPORTED"),
     radius: figure(1850, "> 1,850", "REPORTED"),
     ceiling: figure(15800, "≈ 15,800", "REPORTED"),
     length: figure(15.3, "15.3", "CONFIRMED"),
@@ -103,6 +127,8 @@ export const figures = {
   gripen: {
     speed: figure(2, "MACH 2 CLASS", "REPORTED"),
     mtow: figure(14000, "≈ 14,000", "REPORTED"),
+    thrust: figure(89, "80–98", "CONFIRMED"),
+    thrustToWeight: figure(0.65, "≈ 0.65", "REPORTED"),
     radius: figure(800, "≈ 800", "ESTIMATE"),
     ceiling: figure(15000, "> 15,000", "REPORTED"),
     length: figure(14.1, "14.1", "CONFIRMED"),
@@ -111,6 +137,8 @@ export const figures = {
   "j-35": {
     speed: figure(1.8, "≈ MACH 1.8", "ESTIMATE"),
     mtow: figure(25000, "≈ 25,000", "ESTIMATE"),
+    thrust: figure(101, "86–116", "ESTIMATE"),
+    thrustToWeight: figure(0.82, "≈ 0.82", "ESTIMATE"),
     radius: figure(1250, "≈ 1,250", "ESTIMATE"),
     ceiling: null,
     length: figure(17, "≈ 17", "ESTIMATE"),
@@ -119,6 +147,8 @@ export const figures = {
   "j-16": {
     speed: figure(2, "≈ MACH 2", "ESTIMATE"),
     mtow: figure(34000, "≈ 34,000", "ESTIMATE"),
+    thrust: figure(123, "≈ 123", "ESTIMATE"),
+    thrustToWeight: figure(0.74, "≈ 0.74", "ESTIMATE"),
     radius: figure(1500, "≈ 1,500", "ESTIMATE"),
     ceiling: figure(17000, "≈ 17,000", "ESTIMATE"),
     length: figure(21.9, "≈ 21.9", "ESTIMATE"),
@@ -127,6 +157,8 @@ export const figures = {
   "j-15": {
     speed: figure(2, "≈ MACH 2", "ESTIMATE"),
     mtow: figure(32500, "≈ 32,500", "ESTIMATE"),
+    thrust: figure(123, "≈ 123", "ESTIMATE"),
+    thrustToWeight: figure(0.77, "≈ 0.77", "ESTIMATE"),
     radius: figure(1000, "≈ 1,000", "ESTIMATE"),
     ceiling: null,
     length: figure(21.9, "≈ 21.9", "ESTIMATE"),
@@ -135,6 +167,8 @@ export const figures = {
   "f-15ex": {
     speed: figure(2.5, "MACH 2.5", "REPORTED"),
     mtow: figure(36700, "≈ 36,700", "REPORTED"),
+    thrust: figure(129, "≈ 129", "CONFIRMED"),
+    thrustToWeight: figure(0.72, "≈ 0.72", "REPORTED"),
     radius: figure(1270, "≈ 1,270", "ESTIMATE"),
     ceiling: figure(20000, "≈ 20,000", "REPORTED"),
     length: figure(19.4, "19.4", "CONFIRMED"),
@@ -143,6 +177,8 @@ export const figures = {
   "kf-21": {
     speed: figure(1.81, "MACH 1.81", "REPORTED"),
     mtow: figure(25600, "≈ 25,600", "REPORTED"),
+    thrust: figure(98, "≈ 98", "CONFIRMED"),
+    thrustToWeight: figure(0.78, "≈ 0.78", "REPORTED"),
     radius: null,
     ceiling: null,
     length: figure(16.9, "16.9", "CONFIRMED"),
@@ -151,6 +187,8 @@ export const figures = {
   "su-35": {
     speed: figure(2.25, "MACH 2.25", "REPORTED"),
     mtow: figure(34500, "≈ 34,500", "REPORTED"),
+    thrust: figure(142, "≈ 142", "CONFIRMED"),
+    thrustToWeight: figure(0.84, "≈ 0.84", "REPORTED"),
     radius: null,
     ceiling: figure(18000, "18,000", "REPORTED"),
     length: figure(21.9, "21.9", "CONFIRMED"),
@@ -159,6 +197,8 @@ export const figures = {
   "fa-18": {
     speed: figure(1.8, "MACH 1.8", "CONFIRMED"),
     mtow: figure(29900, "≈ 29,900", "CONFIRMED"),
+    thrust: figure(98, "≈ 98", "CONFIRMED"),
+    thrustToWeight: figure(0.67, "≈ 0.67", "CONFIRMED"),
     radius: figure(720, "≈ 720", "ESTIMATE"),
     ceiling: figure(15000, "> 15,000", "CONFIRMED"),
     length: figure(18.3, "18.3", "CONFIRMED"),
@@ -167,6 +207,8 @@ export const figures = {
   "f-2": {
     speed: figure(2, "MACH 2 CLASS", "REPORTED"),
     mtow: figure(22100, "≈ 22,100", "REPORTED"),
+    thrust: figure(131, "≈ 131", "CONFIRMED"),
+    thrustToWeight: figure(0.6, "≈ 0.60", "REPORTED"),
     radius: figure(830, "≈ 830", "ESTIMATE"),
     ceiling: figure(18000, "18,000", "REPORTED"),
     length: figure(15.5, "15.5", "CONFIRMED"),
@@ -184,6 +226,16 @@ const spanishMetrics = [
     key: "mtow",
     label: "Peso máximo al despegue",
     unit: "KG",
+  },
+  {
+    key: "thrust",
+    label: "Empuje por motor",
+    unit: "KN",
+  },
+  {
+    key: "thrustToWeight",
+    label: "Relación empuje-peso",
+    unit: "AL PESO MÁXIMO",
   },
   {
     key: "radius",
@@ -212,6 +264,8 @@ const spanishFigures = {
   "j-20": {
     speed: figure(2, "MACH 2,0", "ESTIMATE"),
     mtow: figure(37000, "≈ 37.000", "ESTIMATE"),
+    thrust: figure(142, "≈ 142", "REPORTED"),
+    thrustToWeight: figure(0.78, "≈ 0,78", "ESTIMATE"),
     radius: figure(2000, "≈ 2.000", "ESTIMATE"),
     ceiling: figure(20000, "≈ 20.000", "ESTIMATE"),
     length: figure(20.8, "20,4–21,2", "ESTIMATE"),
@@ -220,6 +274,8 @@ const spanishFigures = {
   "f-22": {
     speed: figure(2, "CLASE MACH 2", "CONFIRMED"),
     mtow: figure(38000, "38.000", "CONFIRMED"),
+    thrust: figure(156, "≈ 156", "CONFIRMED"),
+    thrustToWeight: figure(0.84, "≈ 0,84", "CONFIRMED"),
     radius: null,
     ceiling: figure(15000, "15.000+", "CONFIRMED"),
     length: figure(18.9, "18,9", "CONFIRMED"),
@@ -228,6 +284,8 @@ const spanishFigures = {
   "f-35": {
     speed: figure(1.6, "MACH 1,6", "CONFIRMED"),
     mtow: figure(31800, "≈ 31.800", "CONFIRMED"),
+    thrust: figure(191, "≈ 191", "CONFIRMED"),
+    thrustToWeight: figure(0.61, "≈ 0,61", "CONFIRMED"),
     radius: figure(1090, "> 1.090", "CONFIRMED"),
     ceiling: figure(15000, "15.000", "CONFIRMED"),
     length: figure(15.7, "15,7", "CONFIRMED"),
@@ -236,6 +294,8 @@ const spanishFigures = {
   "su-57": {
     speed: figure(2, "CLASE MACH 2", "ESTIMATE"),
     mtow: figure(35000, "≈ 35.000", "ESTIMATE"),
+    thrust: figure(144.5, "142–147", "REPORTED"),
+    thrustToWeight: figure(0.84, "≈ 0,84", "ESTIMATE"),
     radius: null,
     ceiling: figure(20000, "≈ 20.000", "ESTIMATE"),
     length: figure(20.1, "20,1", "REPORTED"),
@@ -244,6 +304,8 @@ const spanishFigures = {
   "f-16": {
     speed: figure(2, "CLASE MACH 2", "CONFIRMED"),
     mtow: figure(19200, "≈ 19.200", "REPORTED"),
+    thrust: figure(115.5, "102–129", "CONFIRMED"),
+    thrustToWeight: figure(0.61, "≈ 0,61", "REPORTED"),
     radius: null,
     ceiling: figure(15000, "15.000+", "CONFIRMED"),
     length: figure(15.1, "15,1", "CONFIRMED"),
@@ -252,6 +314,8 @@ const spanishFigures = {
   typhoon: {
     speed: figure(2, "CLASE MACH 2", "REPORTED"),
     mtow: figure(23500, "≈ 23.500", "REPORTED"),
+    thrust: figure(90, "≈ 90", "CONFIRMED"),
+    thrustToWeight: figure(0.78, "≈ 0,78", "REPORTED"),
     radius: figure(1390, "≈ 1.390", "REPORTED"),
     ceiling: figure(19800, "≈ 19.800", "REPORTED"),
     length: figure(16, "16,0", "CONFIRMED"),
@@ -260,6 +324,8 @@ const spanishFigures = {
   rafale: {
     speed: figure(1.8, "MACH 1,8", "REPORTED"),
     mtow: figure(24500, "≈ 24.500", "REPORTED"),
+    thrust: figure(75, "≈ 75", "CONFIRMED"),
+    thrustToWeight: figure(0.62, "≈ 0,62", "REPORTED"),
     radius: figure(1850, "> 1.850", "REPORTED"),
     ceiling: figure(15800, "≈ 15.800", "REPORTED"),
     length: figure(15.3, "15,3", "CONFIRMED"),
@@ -268,6 +334,8 @@ const spanishFigures = {
   gripen: {
     speed: figure(2, "CLASE MACH 2", "REPORTED"),
     mtow: figure(14000, "≈ 14.000", "REPORTED"),
+    thrust: figure(89, "80–98", "CONFIRMED"),
+    thrustToWeight: figure(0.65, "≈ 0,65", "REPORTED"),
     radius: figure(800, "≈ 800", "ESTIMATE"),
     ceiling: figure(15000, "> 15.000", "REPORTED"),
     length: figure(14.1, "14,1", "CONFIRMED"),
@@ -276,6 +344,8 @@ const spanishFigures = {
   "j-35": {
     speed: figure(1.8, "≈ MACH 1,8", "ESTIMATE"),
     mtow: figure(25000, "≈ 25.000", "ESTIMATE"),
+    thrust: figure(101, "86–116", "ESTIMATE"),
+    thrustToWeight: figure(0.82, "≈ 0,82", "ESTIMATE"),
     radius: figure(1250, "≈ 1.250", "ESTIMATE"),
     ceiling: null,
     length: figure(17, "≈ 17", "ESTIMATE"),
@@ -284,6 +354,8 @@ const spanishFigures = {
   "j-16": {
     speed: figure(2, "≈ MACH 2", "ESTIMATE"),
     mtow: figure(34000, "≈ 34.000", "ESTIMATE"),
+    thrust: figure(123, "≈ 123", "ESTIMATE"),
+    thrustToWeight: figure(0.74, "≈ 0,74", "ESTIMATE"),
     radius: figure(1500, "≈ 1.500", "ESTIMATE"),
     ceiling: figure(17000, "≈ 17.000", "ESTIMATE"),
     length: figure(21.9, "≈ 21,9", "ESTIMATE"),
@@ -292,6 +364,8 @@ const spanishFigures = {
   "j-15": {
     speed: figure(2, "≈ MACH 2", "ESTIMATE"),
     mtow: figure(32500, "≈ 32.500", "ESTIMATE"),
+    thrust: figure(123, "≈ 123", "ESTIMATE"),
+    thrustToWeight: figure(0.77, "≈ 0,77", "ESTIMATE"),
     radius: figure(1000, "≈ 1.000", "ESTIMATE"),
     ceiling: null,
     length: figure(21.9, "≈ 21,9", "ESTIMATE"),
@@ -300,6 +374,8 @@ const spanishFigures = {
   "f-15ex": {
     speed: figure(2.5, "MACH 2,5", "REPORTED"),
     mtow: figure(36700, "≈ 36.700", "REPORTED"),
+    thrust: figure(129, "≈ 129", "CONFIRMED"),
+    thrustToWeight: figure(0.72, "≈ 0,72", "REPORTED"),
     radius: figure(1270, "≈ 1.270", "ESTIMATE"),
     ceiling: figure(20000, "≈ 20.000", "REPORTED"),
     length: figure(19.4, "19,4", "CONFIRMED"),
@@ -308,6 +384,8 @@ const spanishFigures = {
   "kf-21": {
     speed: figure(1.81, "MACH 1,81", "REPORTED"),
     mtow: figure(25600, "≈ 25.600", "REPORTED"),
+    thrust: figure(98, "≈ 98", "CONFIRMED"),
+    thrustToWeight: figure(0.78, "≈ 0,78", "REPORTED"),
     radius: null,
     ceiling: null,
     length: figure(16.9, "16,9", "CONFIRMED"),
@@ -316,6 +394,8 @@ const spanishFigures = {
   "su-35": {
     speed: figure(2.25, "MACH 2,25", "REPORTED"),
     mtow: figure(34500, "≈ 34.500", "REPORTED"),
+    thrust: figure(142, "≈ 142", "CONFIRMED"),
+    thrustToWeight: figure(0.84, "≈ 0,84", "REPORTED"),
     radius: null,
     ceiling: figure(18000, "18.000", "REPORTED"),
     length: figure(21.9, "21,9", "CONFIRMED"),
@@ -324,6 +404,8 @@ const spanishFigures = {
   "fa-18": {
     speed: figure(1.8, "MACH 1,8", "CONFIRMED"),
     mtow: figure(29900, "≈ 29.900", "CONFIRMED"),
+    thrust: figure(98, "≈ 98", "CONFIRMED"),
+    thrustToWeight: figure(0.67, "≈ 0,67", "CONFIRMED"),
     radius: figure(720, "≈ 720", "ESTIMATE"),
     ceiling: figure(15000, "> 15.000", "CONFIRMED"),
     length: figure(18.3, "18,3", "CONFIRMED"),
@@ -332,10 +414,30 @@ const spanishFigures = {
   "f-2": {
     speed: figure(2, "CLASE MACH 2", "REPORTED"),
     mtow: figure(22100, "≈ 22.100", "REPORTED"),
+    thrust: figure(131, "≈ 131", "CONFIRMED"),
+    thrustToWeight: figure(0.6, "≈ 0,60", "REPORTED"),
     radius: figure(830, "≈ 830", "ESTIMATE"),
     ceiling: figure(18000, "18.000", "REPORTED"),
     length: figure(15.5, "15,5", "CONFIRMED"),
     wingspan: figure(11.1, "11,1", "CONFIRMED"),
+  },
+};
+
+// Engines the performance model can plot instead of the current one.
+export const alternativesByLanguage = {
+  en: {
+    "j-20": {
+      current: "WS-10C",
+      engine: "WS-15",
+      thrust: figure(170, "160–180", "REPORTED"),
+    },
+  },
+  es: {
+    "j-20": {
+      current: "WS-10C",
+      engine: "WS-15",
+      thrust: figure(170, "160–180", "REPORTED"),
+    },
   },
 };
 
