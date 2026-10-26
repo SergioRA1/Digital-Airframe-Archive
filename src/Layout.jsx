@@ -166,11 +166,13 @@ export function LanguageSwitch() {
         navigate(switchLanguageHref(window.location, otherLanguage));
       }}
       lang={otherLanguage}
-      aria-label={t.switchLanguage}
       title={t.switchLanguage}
       className="grid h-10 min-w-10 place-items-center border border-white/10 bg-white/3 px-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.18em] text-white/60 transition hover:border-lime-300/50 hover:text-lime-300"
     >
+      {/* The name keeps the visible "ES" and adds the description, so
+          voice control users can say what they see (WCAG 2.5.3). */}
       {otherLanguage}
+      <span className="sr-only"> {t.switchLanguage}</span>
     </a>
   );
 }
@@ -246,8 +248,11 @@ export function PageHeader({
               : selectSection("top")
           }
           className="group flex items-center gap-3 text-left"
-          aria-label={showHangarLink ? t.returnToAircraft : t.returnToTop}
         >
+          <span className="sr-only">
+            {showHangarLink ? t.returnToAircraft : t.returnToTop}:
+          </span>
+
           <div className="grid h-8 w-8 place-items-center border border-lime-300/60 text-xs sm:text-[11px] font-bold text-lime-300 transition group-hover:bg-lime-300 group-hover:text-black">
             {badge}
           </div>

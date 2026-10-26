@@ -288,7 +288,7 @@ test.describe("accessibility", () => {
       reducedMotion: "reduce",
     });
     await open(page, "f-35/gallery/");
-    await page.locator("main button[aria-label]").first().click();
+    await page.locator("main").getByRole("button", { name: /^Open / }).first().click();
     await expect(page.getByRole("dialog")).toBeVisible();
 
     // The viewer fades in; check until it has settled, as for the pages.

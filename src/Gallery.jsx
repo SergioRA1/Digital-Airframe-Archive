@@ -841,8 +841,11 @@ function GalleryCard({ image, index, name, onOpen }) {
         className={`relative min-h-[420px] overflow-hidden text-left md:min-h-[580px] ${
           imageOnRight ? "lg:order-2" : ""
         }`}
-        aria-label={t.open(image.title)}
       >
+        {/* Described in hidden text rather than aria-label, so the name also
+            contains the visible "Image / 01" text (WCAG 2.5.3). */}
+        <span className="sr-only">{t.open(image.title)}</span>
+
         <m.img
           src={image.src}
           srcSet={srcSet(image.src)}
