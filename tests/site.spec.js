@@ -1072,3 +1072,72 @@ test("milestones cite their sources", async () => {
 
   expect(problems).toEqual([]);
 });
+
+test.describe("predictive prefetching", () => {
+  test("preloads aircraft page when mouse moves towards its card", async ({
+    page,
+  }) => {
+    await open(page, "./");
+
+    // Wait for page to be idle
+    await page.waitForLoadState("networkidle");
+
+    // Find the F-35 card link
+    const f35Link = page.getByRole("link", { name: /F-35/i }).first();
+
+    // Scroll it into view
+    await f35Link.scrollIntoViewIfNeeded();
+
+    // Get the link's bounding box
+    const linkBox = await f35Link.boundingBox();
+
+    // Start listening to requests
+    const requests = [];
+    page.on("request", (request) => {
+      const url = request.url();
+      if (url.includes("f35-") && url.endsWith(".js")) {
+        requests.push(url);
+      }
+    });
+
+    // Clear any existing requests
+    requests.length = 0;
+
+    // Calculate start position: 400px away from the link center
+    const centerX = linkBox.x + linkBox.width / 2;
+    const centerY = linkBox.y + linkBox.height / 2;
+
+    // Direction vector from start to link center
+    const dx = centerX - (centerX - 400);
+    const dy = centerY - (centerY - 0); // Horizontal approach
+
+    const startX = centerX - 400;
+    const startY = centerY;
+
+    // Move towards the link in 15 steps, stopping 60px away
+    const steps = 15;
+    const stopDistance = 60;
+
+    for (let i = 1; i <= steps; i++) {
+      const ratio = (i / steps) * (1 - stopDistance / 400);
+      const x = startX + dx * ratio;
+      const y = startY + dy * ratio;
+
+      await page.mouse.move(x, y);
+      // Delay to ensure pointermove events are generated
+      await page.waitForTimeout(20);
+    }
+
+    // Wait for preload request within 3 seconds
+    await expect
+      .poll(
+        () => requests.some((url) => /f35-.*\.js/.test(url)),
+        { intervals: [500, 1000, 2000, 3000], timeout: 3500 },
+      )
+      .toBe(true);
+
+    // Verify URL hasn't changed (still on hangar)
+    expect(page.url()).toContain("Digital-Airframe-Archive/");
+    expect(page.url()).not.toContain("f-35");
+  });
+});

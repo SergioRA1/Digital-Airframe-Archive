@@ -5,6 +5,7 @@ import { countPageView } from "./analytics.js";
 import Home from "./Home.jsx";
 import { LanguageSuggestion } from "./LanguageSuggestion.jsx";
 import { LanguageContext, localHref, localise } from "./i18n.js";
+import { startPrefetch } from "./prefetch.js";
 import {
   clearPendingPosition,
   hasPendingPosition,
@@ -15,6 +16,7 @@ import {
   documentTitle,
   navigate,
   navigateEvent,
+  parsePath,
   readLocation,
 } from "./routes.js";
 
@@ -37,10 +39,18 @@ const bootSkipped = bootAlreadyPlayed();
 const localised = (load, loadSpanish) => {
   const en = lazy(load);
 
+  const preload = (language) => {
+    load().catch(() => {});
+    if (language === "es" && loadSpanish) {
+      loadSpanish().catch(() => {});
+    }
+  };
+
   if (!loadSpanish) {
     return {
       en,
       es: en,
+      preload,
     };
   }
 
@@ -54,6 +64,7 @@ const localised = (load, loadSpanish) => {
         default: (props) => <Component translation={translation} {...props} />,
       };
     }),
+    preload,
   };
 };
 
@@ -78,9 +89,18 @@ const dataPage = (name, loadData) => {
       };
     });
 
+  const preload = (language) => {
+    import("./AircraftPage.jsx").catch(() => {});
+    loadData().catch(() => {});
+    if (language === "es") {
+      spanishPages[`./locales/es/pages/${name}.js`]?.().catch(() => {});
+    }
+  };
+
   return {
     en: loadPage(),
     es: loadPage(spanishPages[`./locales/es/pages/${name}.js`]),
+    preload,
   };
 };
 
@@ -89,51 +109,116 @@ const Gallery = localised(
   () => import("./locales/es/gallery.js"),
 );
 
+// Helper to build page entries with both component and preload
+const pageEntry = (componentWithPreload) => ({
+  component: componentWithPreload,
+  preload: componentWithPreload.preload,
+});
+
 // The page component for each route in src/routes.js (galleries, including
 // the archive, are rendered by Gallery).
 const pages = {
-  compare: {
-    component: localised(() => import("./Compare.jsx")),
-  },
-  timeline: {
-    component: localised(
+  compare: pageEntry(localised(() => import("./Compare.jsx"))),
+  timeline: pageEntry(
+    localised(
       () => import("./Chronology.jsx"),
       () => import("./locales/es/timeline.js"),
     ),
-  },
-  glossary: {
-    component: localised(
+  ),
+  glossary: pageEntry(
+    localised(
       () => import("./Glossary.jsx"),
       () => import("./locales/es/glossary.js"),
     ),
-  },
-  "j-20": {
-    component: localised(
+  ),
+  "j-20": pageEntry(
+    localised(
       () => import("./J20.jsx"),
       () => import("./locales/es/j20.js"),
     ),
-  },
-  "f-22": {
-    component: localised(
+  ),
+  "f-22": pageEntry(
+    localised(
       () => import("./F22.jsx"),
       () => import("./locales/es/f22.js"),
     ),
-  },
-  "f-35": { component: dataPage("f35", () => import("./pages/f35.js")) },
-  "su-57": { component: dataPage("su57", () => import("./pages/su57.js")) },
-  "f-16": { component: dataPage("f16", () => import("./pages/f16.js")) },
-  typhoon: { component: dataPage("typhoon", () => import("./pages/typhoon.js")) },
-  rafale: { component: dataPage("rafale", () => import("./pages/rafale.js")) },
-  gripen: { component: dataPage("gripen", () => import("./pages/gripen.js")) },
-  "j-35": { component: dataPage("j35", () => import("./pages/j35.js")) },
-  "j-16": { component: dataPage("j16", () => import("./pages/j16.js")) },
-  "j-15": { component: dataPage("j15", () => import("./pages/j15.js")) },
-  "f-15ex": { component: dataPage("f15ex", () => import("./pages/f15ex.js")) },
-  "kf-21": { component: dataPage("kf21", () => import("./pages/kf21.js")) },
-  "su-35": { component: dataPage("su35", () => import("./pages/su35.js")) },
-  "fa-18": { component: dataPage("fa18", () => import("./pages/fa18.js")) },
-  "f-2": { component: dataPage("f2", () => import("./pages/f2.js")) },
+  ),
+  "f-35": pageEntry(dataPage("f35", () => import("./pages/f35.js"))),
+  "su-57": pageEntry(dataPage("su57", () => import("./pages/su57.js"))),
+  "f-16": pageEntry(dataPage("f16", () => import("./pages/f16.js"))),
+  typhoon: pageEntry(dataPage("typhoon", () => import("./pages/typhoon.js"))),
+  rafale: pageEntry(dataPage("rafale", () => import("./pages/rafale.js"))),
+  gripen: pageEntry(dataPage("gripen", () => import("./pages/gripen.js"))),
+  "j-35": pageEntry(dataPage("j35", () => import("./pages/j35.js"))),
+  "j-16": pageEntry(dataPage("j16", () => import("./pages/j16.js"))),
+  "j-15": pageEntry(dataPage("j15", () => import("./pages/j15.js"))),
+  "f-15ex": pageEntry(dataPage("f15ex", () => import("./pages/f15ex.js"))),
+  "kf-21": pageEntry(dataPage("kf21", () => import("./pages/kf21.js"))),
+  "su-35": pageEntry(dataPage("su35", () => import("./pages/su35.js"))),
+  "fa-18": pageEntry(dataPage("fa18", () => import("./pages/fa18.js"))),
+  "f-2": pageEntry(dataPage("f2", () => import("./pages/f2.js"))),
 };
+
+// Track preloaded addresses to avoid duplicates
+const preloaded = new Set();
+
+// Turn an address into a route and preload the appropriate page(s)
+// Home has no lazy code. Gallery routes preload Gallery (archive too).
+export function preloadAddress(href) {
+  // Normalize href to a string
+  const hrefStr = String(href || "");
+
+  // Skip if already preloaded
+  if (preloaded.has(hrefStr)) {
+    return;
+  }
+  preloaded.add(hrefStr);
+
+  try {
+    // Try to parse as URL first
+    const url = new URL(hrefStr, window.location.href);
+
+    // Ignore other origins
+    if (url.origin !== window.location.origin) {
+      return;
+    }
+
+    // Extract path from URL
+    const path = url.pathname.slice(basePath.length);
+    const route = parsePath(decodeURIComponent(path));
+
+    // Ignore unknown pages and current page
+    if (!route.aircraft && !route.gallery) {
+      return;
+    }
+
+    // Ignore current page
+    const currentRoute = readLocation(window.location);
+    if (
+      route.language === currentRoute.language &&
+      route.aircraft === currentRoute.aircraft &&
+      route.gallery === currentRoute.gallery
+    ) {
+      // It may be worth loading later, from another page.
+      preloaded.delete(hrefStr);
+      return;
+    }
+
+    // For gallery routes (including archive), preload Gallery
+    if (route.gallery) {
+      Gallery.preload(route.language);
+      return;
+    }
+
+    // For regular pages, find and preload the page
+    const pageEntry = pages[route.aircraft];
+    if (pageEntry) {
+      pageEntry.preload(route.language);
+    }
+  } catch {
+    // Invalid URL or parsing error, ignore
+  }
+}
 
 // Titles live in src/routes.js, which the prerendered pages share. An old
 // "#/..." link is replaced by the page's own address before anything renders.
@@ -218,6 +303,12 @@ function App() {
       window.clearTimeout(bootTimer);
     };
   }, [booting]);
+
+  // Start predictive prefetching once the app is ready
+  useEffect(() => {
+    const stopPrefetch = startPrefetch(preloadAddress);
+    return stopPrefetch;
+  }, []);
 
   useEffect(() => {
     const handleNavigation = () => {
