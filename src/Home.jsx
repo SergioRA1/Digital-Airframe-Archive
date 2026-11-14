@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { m } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
+import { usePhotoLoaded } from "./photoLoading.js";
 
 import { aircraft } from "./aircraft.js";
 import { aircraft as spanishAircraft } from "./locales/es/aircraft.js";
@@ -215,7 +216,7 @@ function AircraftCard({ entry, index, fileNumber }) {
         duration: 0.6,
         delay: (index % 4) * 0.1,
       }}
-      className="group relative flex flex-col overflow-hidden bg-[#080b0c] p-7 transition-colors hover:bg-[#0d1210] md:p-10"
+      className="group relative flex flex-col overflow-hidden bg-[#080b0c] p-7 transition-colors hover:bg-[#0d1210] focus-visible:outline-offset-[-3px] md:p-10"
     >
       <div className="flex items-center justify-between font-mono text-xs sm:text-[10px] uppercase tracking-[.22em]">
         <span className="text-white/50">
@@ -281,6 +282,35 @@ function AircraftCard({ entry, index, fileNumber }) {
 
       <div className="absolute bottom-0 left-0 h-px w-0 bg-lime-300 transition-all duration-500 group-hover:w-full" />
     </m.a>
+  );
+}
+
+function TeaserTile({ label, photo, href }) {
+  const t = useText(text);
+  const loaded = usePhotoLoaded();
+
+  return (
+    <a
+      href={href}
+      className="group relative block aspect-4/3 overflow-hidden bg-[#080b0c]"
+    >
+      <img
+        ref={loaded.ref}
+        src={photo.src}
+        srcSet={srcSet(photo.src)}
+        sizes="(min-width: 640px) 25vw, 50vw"
+        alt={t.preview(label)}
+        loading="lazy"
+        decoding="async"
+        className={`h-full w-full object-cover transition duration-500 group-hover:scale-105 ${
+          loaded.loaded ? "opacity-70 group-hover:opacity-100" : "opacity-0"
+        }`}
+      />
+
+      <span className="absolute bottom-3 left-3 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white">
+        {label}
+      </span>
+    </a>
   );
 }
 
@@ -359,7 +389,7 @@ function Home({ introDelay = 0.1 }) {
               <button
                 type="button"
                 onClick={() => goToSection("aircraft")}
-                className="group flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
+                className="group flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white active:translate-y-px active:bg-lime-200"
               >
                 {t.browse}
 
@@ -482,7 +512,7 @@ function Home({ introDelay = 0.1 }) {
 
                 <a
                   href={href("#/archive")}
-                  className="group mt-8 flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
+                  className="group mt-8 flex w-fit items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white active:translate-y-px active:bg-lime-200"
                 >
                   {t.playArchive}
 
@@ -496,25 +526,12 @@ function Home({ introDelay = 0.1 }) {
 
             <div className="grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-4">
               {teaser.map(([label, key]) => (
-                <a
+                <TeaserTile
                   key={key}
+                  label={label}
+                  photo={photos[key]}
                   href={href("#/archive")}
-                  className="group relative block aspect-4/3 overflow-hidden bg-[#080b0c]"
-                >
-                  <img
-                    src={photos[key].src}
-                    srcSet={srcSet(photos[key].src)}
-                    sizes="(min-width: 640px) 25vw, 50vw"
-                    alt={t.preview(label)}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-100"
-                  />
-
-                  <span className="absolute bottom-3 left-3 font-mono text-xs sm:text-[10px] uppercase tracking-[.2em] text-white">
-                    {label}
-                  </span>
-                </a>
+                />
               ))}
             </div>
           </div>
@@ -559,7 +576,7 @@ function Home({ introDelay = 0.1 }) {
                     duration: 0.6,
                     delay: index * 0.1,
                   }}
-                  className="group relative flex flex-col bg-[#080b0c] p-7 transition-colors hover:bg-[#0d1210] md:p-10"
+                  className="group relative flex flex-col bg-[#080b0c] p-7 transition-colors hover:bg-[#0d1210] focus-visible:outline-offset-[-3px] md:p-10"
                 >
                   <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.22em] text-lime-300">
                     {tool.kicker}

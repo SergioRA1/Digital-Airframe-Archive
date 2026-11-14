@@ -20,6 +20,7 @@ import {
 } from "./i18n.js";
 import { rememberLanguageChoice } from "./LanguageSuggestion.jsx";
 import { navigate } from "./routes.js";
+import { rememberPosition } from "./scrollAnchor.js";
 
 const text = {
   en: {
@@ -148,6 +149,53 @@ export function ScrollProgress() {
   );
 }
 
+// Appears once the first screen has scrolled away. Reuses the footer's
+// "Return to top" wording, so it needs no new translation.
+export function BackToTop() {
+  const t = useText(text);
+  const [shown, setShown] = useState(false);
+
+  useEffect(() => {
+    const update = () => setShown(window.scrollY > window.innerHeight);
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {shown && (
+        <m.button
+          type="button"
+          data-back-to-top
+          onClick={() => goToSection("top")}
+          aria-label={t.returnToTop}
+          initial={{
+            opacity: 0,
+            y: 12,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          exit={{
+            opacity: 0,
+            y: 12,
+          }}
+          transition={{
+            duration: 0.2,
+          }}
+          className="fixed bottom-6 right-5 z-40 grid h-12 w-12 place-items-center border border-white/15 bg-[#050708]/85 text-white/70 backdrop-blur-md transition hover:border-lime-300 hover:text-lime-300 md:right-10"
+        >
+          <ChevronRight size={16} className="-rotate-90" aria-hidden="true" />
+        </m.button>
+      )}
+    </AnimatePresence>
+  );
+}
+
 // Opens the same page in the other language. Shared by PageHeader and the
 // gallery header.
 export function LanguageSwitch() {
@@ -162,6 +210,7 @@ export function LanguageSwitch() {
       href={switchLanguageHref(window.location, otherLanguage)}
       onClick={(event) => {
         event.preventDefault();
+        rememberPosition();
         rememberLanguageChoice(otherLanguage);
         navigate(switchLanguageHref(window.location, otherLanguage));
       }}
@@ -283,7 +332,7 @@ export function PageHeader({
               aria-current={activeSection === sectionId ? "true" : undefined}
               className={`text-xs sm:text-[11px] uppercase tracking-[.18em] transition hover:text-lime-300 ${
                 activeSection === sectionId
-                  ? "text-lime-300"
+                  ? "text-lime-300 underline decoration-lime-300/60 underline-offset-[10px]"
                   : "text-white/55"
               }`}
             >
@@ -323,7 +372,7 @@ export function PageHeader({
           <button
             type="button"
             onClick={() => setMenuOpen((currentValue) => !currentValue)}
-            className={`grid h-10 w-10 place-items-center border border-white/10 bg-white/3 ${menuBreakpoint}`}
+            className={`grid h-10 w-10 place-items-center border border-white/10 bg-white/3 transition hover:border-lime-300/50 hover:text-lime-300 ${menuBreakpoint}`}
             aria-label={menuOpen ? t.closeMenu : t.openMenu}
             aria-expanded={menuOpen}
           >
@@ -352,7 +401,7 @@ export function PageHeader({
             <div className="grid max-h-[calc(100vh-5rem)] overflow-y-auto p-5">
               {search && (
                 <div className="mx-auto mb-2 w-full max-w-xl">
-                  <label className="flex items-center gap-3 border border-white/15 bg-white/3 px-4 py-3 focus-within:border-white/40">
+                  <label className="flex items-center gap-3 border border-white/15 bg-white/3 px-4 py-3 transition-colors focus-within:border-lime-300/60">
                     <Search size={15} className="text-white/50" />
                     <input
                       type="search"

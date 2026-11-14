@@ -301,6 +301,34 @@ test.describe("accessibility", () => {
   });
 });
 
+  test("the gallery viewer swipes between photographs", async ({ page }) => {
+    await open(page, "f-35/gallery/");
+    await page.locator("main").getByRole("button", { name: /^Open / }).first().click();
+
+    const viewer = page.getByRole("dialog");
+    await expect(viewer).toBeVisible();
+    await expect(viewer.getByText("Record 01", { exact: true })).toBeVisible();
+
+    await viewer.evaluate((element) => {
+      const touch = (type, clientX) => {
+        const point = new Touch({ identifier: 1, target: element, clientX, clientY: 300 });
+
+        element.dispatchEvent(
+          new TouchEvent(type, {
+            bubbles: true,
+            touches: type === "touchend" ? [] : [point],
+            changedTouches: [point],
+          }),
+        );
+      };
+
+      touch("touchstart", 300);
+      touch("touchend", 120);
+    });
+
+    await expect(viewer.getByText("Record 02", { exact: true })).toBeVisible();
+  });
+
 // Visitors' browsers contact only this site and Wikimedia (for photos):
 // fonts are self-hosted, so no visitor data goes to Google or anyone else.
 // (Visitor statistics, when switched on in src/site.js, never run on
@@ -402,6 +430,15 @@ test.describe("addresses", () => {
   });
 });
 
+test("the boot overlay plays once per session", async ({ page }) => {
+  await open(page, "./");
+
+  // A reload in the same tab goes straight to the page: no overlay at all.
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator("h1").first()).toBeVisible();
+  await expect(page.locator("[data-boot]")).toHaveCount(0);
+});
+
 test.describe("menu", () => {
   const cases = [
     {
@@ -478,6 +515,21 @@ test.describe("menu", () => {
   });
 });
 
+test("the back-to-top button appears after the first screen", async ({ page }) => {
+  await open(page, "f-35/");
+
+  const button = page.locator("[data-back-to-top]");
+
+  await expect(button).toHaveCount(0);
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect(button).toBeVisible();
+  await expect(button).toHaveAccessibleName("Return to top");
+
+  await button.click();
+  await expect.poll(() => sectionAtTop(page, "top")).toBe(true);
+});
+
 test.describe("language", () => {
   test("the switch opens the same page in the other language", async ({
     page,
@@ -518,6 +570,51 @@ test.describe("language", () => {
     await expect(page.getByText("15 DIC 2006").first()).toBeAttached();
     await expect(page.getByText("CONFIRMADO").first()).toBeAttached();
     await expect(page.getByRole("button", { name: "DIMENSIONES" })).toBeAttached();
+  });
+
+  test("switching language preserves scroll position", async ({ page }) => {
+    // Turn off animations for consistent timing
+    await page.emulateMedia({
+      reducedMotion: "reduce",
+    });
+
+    await open(page, "f-35/");
+
+    // Scroll part of the way into the specifications section
+    const specSection = page.locator("#specifications");
+    await specSection.evaluate((element) => {
+      window.scrollTo({
+        top: element.getBoundingClientRect().top + window.scrollY + 200,
+        behavior: "instant",
+      });
+    });
+    await expect
+      .poll(() => specSection.evaluate((el) => el.getBoundingClientRect().top))
+      .toBeLessThan(0);
+
+    // Click the language switch
+    await page.getByRole("link", { name: "Ver en español" }).click();
+
+    // Wait for the Spanish page to load
+    await expect(page).toHaveURL(/\/Digital-Airframe-Archive\/es\/f-35\/$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "es");
+
+    // Check that the specifications section is still at the top of the viewport
+    await expect
+      .poll(async () => {
+        const top = await specSection.evaluate((el) => {
+          const rect = el.getBoundingClientRect();
+          return rect.top;
+        });
+        return Math.abs(top + 200);
+      }, {
+        intervals: [500, 1000, 1500],
+        timeout: 5000,
+      })
+      .toBeLessThan(150);
+
+    // Also verify scrollY > 0 (not at the very top)
+    await expect.poll(async () => await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
   });
 });
 

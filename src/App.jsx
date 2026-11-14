@@ -6,12 +6,29 @@ import Home from "./Home.jsx";
 import { LanguageSuggestion } from "./LanguageSuggestion.jsx";
 import { LanguageContext, localHref, localise } from "./i18n.js";
 import {
+  clearPendingPosition,
+  hasPendingPosition,
+  restorePosition,
+} from "./scrollAnchor.js";
+import {
   basePath,
   documentTitle,
   navigate,
   navigateEvent,
   readLocation,
 } from "./routes.js";
+
+// The boot overlay plays once per tab. A visitor who reloads or moves between
+// pages goes straight to the page.
+const bootAlreadyPlayed = () => {
+  try {
+    return window.sessionStorage.getItem("airframe-booted") === "1";
+  } catch {
+    return false;
+  }
+};
+
+const bootSkipped = bootAlreadyPlayed();
 
 // Each page loads on demand, so the hangar page ships without the data for
 // every aircraft. A page with Spanish text in its own module gets a
@@ -170,11 +187,22 @@ function internalAddress(event) {
 }
 
 function App() {
-  const [booting, setBooting] = useState(true);
+  const [booting, setBooting] = useState(() => !bootSkipped);
   const [progress, setProgress] = useState(0);
   const [route, setRoute] = useState(readRoute);
 
   useEffect(() => {
+    if (!booting) {
+      return undefined;
+    }
+
+    try {
+      window.sessionStorage.setItem("airframe-booted", "1");
+    } catch {
+      // Storage can be refused (private mode, blocked cookies). The overlay
+      // then plays on every page, as it did before.
+    }
+
     const progressTimer = window.setInterval(() => {
       setProgress((currentProgress) =>
         Math.min(100, currentProgress + 4)
@@ -189,7 +217,7 @@ function App() {
       window.clearInterval(progressTimer);
       window.clearTimeout(bootTimer);
     };
-  }, []);
+  }, [booting]);
 
   useEffect(() => {
     const handleNavigation = () => {
@@ -197,11 +225,19 @@ function App() {
 
       // An anchor such as glossary/#aesa is scrolled to by its page.
       if (!window.location.hash || window.location.hash.startsWith("#/")) {
-        window.scrollTo({
-          top: 0,
-          behavior: "auto",
-        });
+        // Skip scroll-to-top if we have a pending position to restore
+        if (!hasPendingPosition()) {
+          window.scrollTo({
+            top: 0,
+            behavior: "auto",
+          });
+        }
       }
+    };
+
+    const handlePopState = () => {
+      clearPendingPosition();
+      handleNavigation();
     };
 
     const handleClick = (event) => {
@@ -209,19 +245,21 @@ function App() {
 
       if (address) {
         event.preventDefault();
+        // Clear pending position for regular navigation (not language switch)
+        clearPendingPosition();
         navigate(address);
       }
     };
 
     window.addEventListener(navigateEvent, handleNavigation);
     // Back and forward, and an old "#/..." link pasted into the address bar.
-    window.addEventListener("popstate", handleNavigation);
+    window.addEventListener("popstate", handlePopState);
     window.addEventListener("hashchange", handleNavigation);
     document.addEventListener("click", handleClick);
 
     return () => {
       window.removeEventListener(navigateEvent, handleNavigation);
-      window.removeEventListener("popstate", handleNavigation);
+      window.removeEventListener("popstate", handlePopState);
       window.removeEventListener("hashchange", handleNavigation);
       document.removeEventListener("click", handleClick);
     };
@@ -231,10 +269,19 @@ function App() {
     document.documentElement.lang = route.language;
     document.title = documentTitle(route);
     countPageView();
+
+    // After route changes, if there's a pending position, restore it once the page renders
+    if (hasPendingPosition()) {
+      // Use requestAnimationFrame to let the browser paint, then restore
+      // The restorePosition function will wait for stability
+      requestAnimationFrame(() => {
+        restorePosition();
+      });
+    }
   }, [route]);
 
   const { language } = route;
-  const introDelay = booting ? 1.5 : 0.1;
+  const introDelay = bootSkipped ? 0 : booting ? 1.5 : 0.1;
   const Page = pages[route.aircraft]?.component?.[language];
   const LocalGallery = Gallery[language];
 
@@ -305,9 +352,29 @@ function App() {
         )}
       </AnimatePresence>
 
-      <Suspense fallback={<div className="min-h-screen bg-[#050708]" />}>
-        {content}
-      </Suspense>
+      <AnimatePresence mode="wait" initial={false}>
+        <m.div
+          key={`${language}-${route.aircraft ?? "hangar"}-${
+            route.gallery ? "gallery" : "page"
+          }`}
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          transition={{
+            duration: 0.2,
+          }}
+        >
+          <Suspense fallback={<div className="min-h-screen bg-[#050708]" />}>
+            {content}
+          </Suspense>
+        </m.div>
+      </AnimatePresence>
 
       <LanguageSuggestion show={!booting} />
     </LanguageContext.Provider>

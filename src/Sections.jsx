@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { ArrowUpRight, ExternalLink, Minus, Plus } from "lucide-react";
+import { usePhotoLoaded } from "./photoLoading.js";
 
 import {
   localise,
@@ -229,6 +230,29 @@ export function Timeline({
   );
 }
 
+function VariantPhoto({ variant }) {
+  const photo = usePhotoLoaded();
+
+  if (!variant.photo) {
+    return null;
+  }
+
+  return (
+    <div className="aspect-16/10 overflow-hidden bg-black/40">
+      <img
+        ref={photo.ref}
+        src={variant.photo.src}
+        srcSet={srcSet(variant.photo.src)}
+        sizes="(min-width: 1024px) 33vw, 100vw"
+        alt={`${variant.code} ${variant.name}`}
+        loading="lazy"
+        decoding="async"
+        className={`h-full w-full object-cover group-hover:scale-105 ${photo.fade}`}
+      />
+    </div>
+  );
+}
+
 export function Variants({
   number = "06",
   heading,
@@ -269,17 +293,7 @@ export function Variants({
             >
               <figure>
                 {variant.photo ? (
-                  <div className="aspect-16/10 overflow-hidden bg-black/40">
-                    <img
-                      src={variant.photo.src}
-                      srcSet={srcSet(variant.photo.src)}
-                      sizes="(min-width: 1024px) 33vw, 100vw"
-                      alt={`${variant.code} ${variant.name}`}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
+                  <VariantPhoto variant={variant} />
                 ) : (
                   <div className="relative grid aspect-16/10 place-items-center bg-[#080b0c]">
                     {silhouette && (
@@ -663,7 +677,7 @@ export function Specifications({
                 </div>
 
                 <div className="mt-12">
-                  <div className="wrap-break-word text-[clamp(1.65rem,2.8vw,2.8rem)] font-semibold leading-[.95] tracking-[-.055em] text-white transition-colors group-hover:text-lime-300">
+                  <div className="wrap-break-word text-[clamp(1.65rem,2.8vw,2.8rem)] font-semibold leading-[.95] tracking-[-.055em] tabular-nums text-white transition-colors group-hover:text-lime-300">
                     {measurement.value}
                   </div>
 

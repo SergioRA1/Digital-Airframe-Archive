@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, m, useScroll, useTransform } from "framer-motion";
+import { usePhotoLoaded } from "./photoLoading.js";
 import {
   ArrowLeft,
   ArrowRight,
@@ -807,6 +808,7 @@ function GalleryCard({ image, index, name, onOpen }) {
   const t = useText(text);
   const translate = useTerm();
   const imageOnRight = index % 2 === 1;
+  const photo = usePhotoLoaded();
 
   return (
     <m.article
@@ -838,7 +840,7 @@ function GalleryCard({ image, index, name, onOpen }) {
       <button
         type="button"
         onClick={() => onOpen(index)}
-        className={`relative min-h-[420px] overflow-hidden text-left md:min-h-[580px] ${
+        className={`relative min-h-[420px] overflow-hidden bg-[#0b0f10] text-left md:min-h-[580px] ${
           imageOnRight ? "lg:order-2" : ""
         }`}
       >
@@ -847,13 +849,14 @@ function GalleryCard({ image, index, name, onOpen }) {
         <span className="sr-only">{t.open(image.title)}</span>
 
         <m.img
+          ref={photo.ref}
           src={image.src}
           srcSet={srcSet(image.src)}
           sizes="(min-width: 1024px) 60vw, 100vw"
           alt={t.cardAlt(image.aircraft ?? name, image.title)}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover ${photo.fade}`}
           style={{
             objectPosition: image.position,
           }}
@@ -955,6 +958,7 @@ function Lightbox({
 }) {
   const t = useText(text);
   const translate = useTerm();
+  const touchStart = useRef(null);
   const selectedImage =
     selectedIndex === null ? null : images[selectedIndex];
 
@@ -1002,6 +1006,29 @@ function Lightbox({
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               onClose();
+            }
+          }}
+          onTouchStart={(event) => {
+            touchStart.current = event.touches[0].clientX;
+          }}
+          onTouchEnd={(event) => {
+            if (touchStart.current === null) {
+              return;
+            }
+
+            const distance =
+              event.changedTouches[0].clientX - touchStart.current;
+
+            touchStart.current = null;
+
+            if (Math.abs(distance) < 50) {
+              return;
+            }
+
+            if (distance > 0) {
+              onPrevious();
+            } else {
+              onNext();
             }
           }}
           className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl md:p-10"

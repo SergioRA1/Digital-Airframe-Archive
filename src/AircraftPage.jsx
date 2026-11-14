@@ -2,6 +2,7 @@ import { m } from "framer-motion";
 import { ArrowRight, Camera, ChevronDown, ChevronRight } from "lucide-react";
 
 import {
+  BackToTop,
   GridBackdrop,
   PageFooter,
   PageHeader,
@@ -180,6 +181,8 @@ function AircraftPage({ page, introDelay = 0.1 }) {
 
       <ScrollProgress />
 
+      <BackToTop />
+
       <PageHeader
         badge={page.badge}
         items={t.navigation}
@@ -239,7 +242,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
                 <button
                   type="button"
                   onClick={() => goToSection("design")}
-                  className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white"
+                  className="group flex items-center gap-4 bg-lime-300 px-6 py-4 text-xs sm:text-[11px] font-bold uppercase tracking-[.2em] text-black transition hover:bg-white active:translate-y-px active:bg-lime-200"
                 >
                   {t.enterArchive}
 
@@ -416,7 +419,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
           <div className="mx-auto grid max-w-[1500px] gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
             <a
               href={galleryHref}
-              className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] md:p-12"
+              className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] focus-visible:outline-offset-[-3px] md:p-12"
             >
               <span>
                 <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">
@@ -436,7 +439,7 @@ function AircraftPage({ page, introDelay = 0.1 }) {
 
             <a
               href={href(page.next.href)}
-              className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] md:p-12"
+              className="group flex items-center justify-between gap-6 bg-[#090c0d] p-8 transition-colors hover:bg-[#0d1210] focus-visible:outline-offset-[-3px] md:p-12"
             >
               <span>
                 <span className="block font-mono text-xs sm:text-[10px] uppercase tracking-[.25em] text-lime-300">

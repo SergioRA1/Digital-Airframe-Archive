@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 
 import { languages, switchLanguageHref, useLanguage } from "./i18n.js";
 import { navigate } from "./routes.js";
+import { rememberPosition } from "./scrollAnchor.js";
 
 // Offers the other language when the browser prefers it: a visitor whose
 // browser is set to Spanish and opens an English page sees "Leer en
@@ -101,6 +102,7 @@ export function LanguageSuggestion({ show }) {
               href={switchLanguageHref(window.location, suggested)}
               onClick={(event) => {
                 event.preventDefault();
+                rememberPosition();
                 rememberLanguageChoice(suggested);
                 setClosed(true);
                 navigate(switchLanguageHref(window.location, suggested));
