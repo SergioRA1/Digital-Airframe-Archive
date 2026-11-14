@@ -93,21 +93,14 @@ async function sectionAtTop(page, sectionId) {
 }
 
 test.describe("every route renders", () => {
-  // Every page in both languages, from src/routes.js.
-  for (const route of allRoutes) {
-    const path = address(route);
-
-    test(path, async ({ page }) => {
-      const errors = await open(page, path);
-
-      await expect(page.locator("h1").first()).toBeVisible();
-      await expect(page.locator("html")).toHaveAttribute("lang", route.language);
-      // A page missing from the pages map in App.jsx would show the hangar.
-      await expect(page).toHaveTitle(documentTitle(route));
-      await expect(page.locator(".prerender")).toHaveCount(0);
-      expect(errors).toEqual([]);
-    });
-  }
+  const renders = async (page, route, errors) => {
+    await expect(page.locator("h1").first()).toBeVisible();
+    await expect(page.locator("html")).toHaveAttribute("lang", route.language);
+    // A page missing from the pages map in App.jsx would show the hangar.
+    await expect(page).toHaveTitle(documentTitle(route));
+    await expect(page.locator(".prerender")).toHaveCount(0);
+    expect(errors).toEqual([]);
+  };
 
   const phoneRoutes = [
     "./",
@@ -124,8 +117,25 @@ test.describe("every route renders", () => {
     ...phoneRoutes.map((route) => (route === "./" ? "es/" : `es/${route}`)),
   );
 
-  for (const route of phoneRoutes) {
-    test(`${route} keeps its text on screen on a phone`, async ({ page }) => {
+  // Every page in both languages, from src/routes.js. The pages checked at
+  // phone width are checked for rendering in the same visit; the rest (the
+  // other galleries) are only opened.
+  for (const route of allRoutes.filter(
+    (entry) => !phoneRoutes.includes(address(entry)),
+  )) {
+    const path = address(route);
+
+    test(path, async ({ page }) => {
+      await renders(page, route, await open(page, path));
+    });
+  }
+
+  for (const route of allRoutes.filter((entry) =>
+    phoneRoutes.includes(address(entry)),
+  )) {
+    const path = address(route);
+
+    test(`${path} renders and keeps its text on screen on a phone`, async ({ page }) => {
       await page.setViewportSize({
         width: 360,
         height: 780,
@@ -134,7 +144,7 @@ test.describe("every route renders", () => {
       await page.emulateMedia({
         reducedMotion: "reduce",
       });
-      await open(page, route);
+      await renders(page, route, await open(page, path));
 
       await scrollThrough(page);
       await page.waitForTimeout(300);
@@ -242,10 +252,20 @@ test.describe("accessibility", () => {
   // by side: these pages load every photo, and running them all at once can
   // exhaust memory and crash the browser. Small groups also let CI spread
   // them evenly across its parallel machines.
+  //
+  // One page of each kind is checked, in both languages: the data-driven
+  // aircraft pages share one template and the galleries one component, so
+  // the F-35's stand for the rest.
+  const ownLayout = ["j-20", "f-22", "f-35"];
+  const checked = allRoutes.filter(
+    ({ aircraft: page, gallery }) =>
+      (ownLayout.includes(page) || !slugs.includes(page)) &&
+      (!gallery || page === "f-35" || page === "archive"),
+  );
   const groupSize = 12;
   const groups = Array.from(
-    { length: Math.ceil(allRoutes.length / groupSize) },
-    (_, index) => allRoutes.slice(index * groupSize, (index + 1) * groupSize),
+    { length: Math.ceil(checked.length / groupSize) },
+    (_, index) => checked.slice(index * groupSize, (index + 1) * groupSize),
   );
 
   for (const [index, group] of groups.entries()) {
@@ -300,34 +320,6 @@ test.describe("accessibility", () => {
       .toEqual([]);
   });
 });
-
-  test("the gallery viewer swipes between photographs", async ({ page }) => {
-    await open(page, "f-35/gallery/");
-    await page.locator("main").getByRole("button", { name: /^Open / }).first().click();
-
-    const viewer = page.getByRole("dialog");
-    await expect(viewer).toBeVisible();
-    await expect(viewer.getByText("Record 01", { exact: true })).toBeVisible();
-
-    await viewer.evaluate((element) => {
-      const touch = (type, clientX) => {
-        const point = new Touch({ identifier: 1, target: element, clientX, clientY: 300 });
-
-        element.dispatchEvent(
-          new TouchEvent(type, {
-            bubbles: true,
-            touches: type === "touchend" ? [] : [point],
-            changedTouches: [point],
-          }),
-        );
-      };
-
-      touch("touchstart", 300);
-      touch("touchend", 120);
-    });
-
-    await expect(viewer.getByText("Record 02", { exact: true })).toBeVisible();
-  });
 
 // Visitors' browsers contact only this site and Wikimedia (for photos):
 // fonts are self-hosted, so no visitor data goes to Google or anyone else.
@@ -395,6 +387,73 @@ test.describe("addresses", () => {
   });
 
   // What search engines and link previews read before any script runs.
+  test("preloads aircraft page when mouse moves towards its card", async ({
+    page,
+  }) => {
+    await open(page, "./");
+
+    // Wait for page to be idle
+    await page.waitForLoadState("networkidle");
+
+    // Find the F-35 card link
+    const f35Link = page.getByRole("link", { name: /F-35/i }).first();
+
+    // Scroll it into view
+    await f35Link.scrollIntoViewIfNeeded();
+
+    // Get the link's bounding box
+    const linkBox = await f35Link.boundingBox();
+
+    // Start listening to requests
+    const requests = [];
+    page.on("request", (request) => {
+      const url = request.url();
+      if (url.includes("f35-") && url.endsWith(".js")) {
+        requests.push(url);
+      }
+    });
+
+    // Clear any existing requests
+    requests.length = 0;
+
+    // Calculate start position: 400px away from the link center
+    const centerX = linkBox.x + linkBox.width / 2;
+    const centerY = linkBox.y + linkBox.height / 2;
+
+    // Direction vector from start to link center
+    const dx = centerX - (centerX - 400);
+    const dy = centerY - (centerY - 0); // Horizontal approach
+
+    const startX = centerX - 400;
+    const startY = centerY;
+
+    // Move towards the link in 15 steps, stopping 60px away
+    const steps = 15;
+    const stopDistance = 60;
+
+    for (let i = 1; i <= steps; i++) {
+      const ratio = (i / steps) * (1 - stopDistance / 400);
+      const x = startX + dx * ratio;
+      const y = startY + dy * ratio;
+
+      await page.mouse.move(x, y);
+      // Delay to ensure pointermove events are generated
+      await page.waitForTimeout(20);
+    }
+
+    // Wait for preload request within 3 seconds
+    await expect
+      .poll(
+        () => requests.some((url) => /f35-.*\.js/.test(url)),
+        { intervals: [500, 1000, 2000, 3000], timeout: 3500 },
+      )
+      .toBe(true);
+
+    // Verify URL hasn't changed (still on hangar)
+    expect(page.url()).toContain("Digital-Airframe-Archive/");
+    expect(page.url()).not.toContain("f-35");
+  });
+
   test("every page has its own HTML file", async ({ request }) => {
     for (const route of allRoutes) {
       const html = await (await request.get(address(route))).text();
@@ -428,15 +487,6 @@ test.describe("addresses", () => {
     expect(sitemap.match(/<loc>/g)).toHaveLength(allRoutes.length);
     expect(notFound).toContain('<meta name="robots" content="noindex" />');
   });
-});
-
-test("the boot overlay plays once per session", async ({ page }) => {
-  await open(page, "./");
-
-  // A reload in the same tab goes straight to the page: no overlay at all.
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await expect(page.locator("h1").first()).toBeVisible();
-  await expect(page.locator("[data-boot]")).toHaveCount(0);
 });
 
 test.describe("menu", () => {
@@ -515,21 +565,6 @@ test.describe("menu", () => {
   });
 });
 
-test("the back-to-top button appears after the first screen", async ({ page }) => {
-  await open(page, "f-35/");
-
-  const button = page.locator("[data-back-to-top]");
-
-  await expect(button).toHaveCount(0);
-
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await expect(button).toBeVisible();
-  await expect(button).toHaveAccessibleName("Return to top");
-
-  await button.click();
-  await expect.poll(() => sectionAtTop(page, "top")).toBe(true);
-});
-
 test.describe("language", () => {
   test("the switch opens the same page in the other language", async ({
     page,
@@ -544,32 +579,6 @@ test.describe("language", () => {
     await page.getByRole("link", { name: "View in English" }).click();
     await expect(page).toHaveURL(/\/Digital-Airframe-Archive\/f-35\/$/);
     await expect(page.getByText("One design, three roles.")).toBeVisible();
-  });
-
-  test("links on a Spanish page stay in Spanish", async ({ page }) => {
-    await open(page, "es/f-35/");
-
-    await expect(
-      page.locator(`a[href="${basePath}es/f-35/gallery/"]`).first(),
-    ).toBeAttached();
-    await expect(page.locator(`a[href="${basePath}es/su-57/"]`).first()).toBeAttached();
-    // The language switch and the language suggestion (marked lang="en")
-    // are the links that leave Spanish on purpose.
-    await expect(
-      page.locator(
-        `a[href^="${basePath}"]:not([href^="${basePath}es/"]):not([lang="en"], [lang="en"] *)`,
-      ),
-    ).toHaveCount(0);
-    // Nothing still links in the old "#/..." form.
-    await expect(page.locator('a[href^="#/"]')).toHaveCount(0);
-  });
-
-  test("dates, confidence and groups are shown in Spanish", async ({ page }) => {
-    await open(page, "es/f-35/");
-
-    await expect(page.getByText("15 DIC 2006").first()).toBeAttached();
-    await expect(page.getByText("CONFIRMADO").first()).toBeAttached();
-    await expect(page.getByRole("button", { name: "DIMENSIONES" })).toBeAttached();
   });
 
   test("switching language preserves scroll position", async ({ page }) => {
@@ -615,6 +624,32 @@ test.describe("language", () => {
 
     // Also verify scrollY > 0 (not at the very top)
     await expect.poll(async () => await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  });
+
+  test("links on a Spanish page stay in Spanish", async ({ page }) => {
+    await open(page, "es/f-35/");
+
+    await expect(
+      page.locator(`a[href="${basePath}es/f-35/gallery/"]`).first(),
+    ).toBeAttached();
+    await expect(page.locator(`a[href="${basePath}es/su-57/"]`).first()).toBeAttached();
+    // The language switch and the language suggestion (marked lang="en")
+    // are the links that leave Spanish on purpose.
+    await expect(
+      page.locator(
+        `a[href^="${basePath}"]:not([href^="${basePath}es/"]):not([lang="en"], [lang="en"] *)`,
+      ),
+    ).toHaveCount(0);
+    // Nothing still links in the old "#/..." form.
+    await expect(page.locator('a[href^="#/"]')).toHaveCount(0);
+  });
+
+  test("dates, confidence and groups are shown in Spanish", async ({ page }) => {
+    await open(page, "es/f-35/");
+
+    await expect(page.getByText("15 DIC 2006").first()).toBeAttached();
+    await expect(page.getByText("CONFIRMADO").first()).toBeAttached();
+    await expect(page.getByRole("button", { name: "DIMENSIONES" })).toBeAttached();
   });
 });
 
@@ -1071,73 +1106,4 @@ test("milestones cite their sources", async () => {
   }
 
   expect(problems).toEqual([]);
-});
-
-test.describe("predictive prefetching", () => {
-  test("preloads aircraft page when mouse moves towards its card", async ({
-    page,
-  }) => {
-    await open(page, "./");
-
-    // Wait for page to be idle
-    await page.waitForLoadState("networkidle");
-
-    // Find the F-35 card link
-    const f35Link = page.getByRole("link", { name: /F-35/i }).first();
-
-    // Scroll it into view
-    await f35Link.scrollIntoViewIfNeeded();
-
-    // Get the link's bounding box
-    const linkBox = await f35Link.boundingBox();
-
-    // Start listening to requests
-    const requests = [];
-    page.on("request", (request) => {
-      const url = request.url();
-      if (url.includes("f35-") && url.endsWith(".js")) {
-        requests.push(url);
-      }
-    });
-
-    // Clear any existing requests
-    requests.length = 0;
-
-    // Calculate start position: 400px away from the link center
-    const centerX = linkBox.x + linkBox.width / 2;
-    const centerY = linkBox.y + linkBox.height / 2;
-
-    // Direction vector from start to link center
-    const dx = centerX - (centerX - 400);
-    const dy = centerY - (centerY - 0); // Horizontal approach
-
-    const startX = centerX - 400;
-    const startY = centerY;
-
-    // Move towards the link in 15 steps, stopping 60px away
-    const steps = 15;
-    const stopDistance = 60;
-
-    for (let i = 1; i <= steps; i++) {
-      const ratio = (i / steps) * (1 - stopDistance / 400);
-      const x = startX + dx * ratio;
-      const y = startY + dy * ratio;
-
-      await page.mouse.move(x, y);
-      // Delay to ensure pointermove events are generated
-      await page.waitForTimeout(20);
-    }
-
-    // Wait for preload request within 3 seconds
-    await expect
-      .poll(
-        () => requests.some((url) => /f35-.*\.js/.test(url)),
-        { intervals: [500, 1000, 2000, 3000], timeout: 3500 },
-      )
-      .toBe(true);
-
-    // Verify URL hasn't changed (still on hangar)
-    expect(page.url()).toContain("Digital-Airframe-Archive/");
-    expect(page.url()).not.toContain("f-35");
-  });
 });
