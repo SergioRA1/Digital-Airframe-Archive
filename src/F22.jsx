@@ -22,6 +22,7 @@ import {
 } from "./data/f22.js";
 import { localise, useHref } from "./i18n.js";
 import {
+  BackToTop,
   GridBackdrop,
   PageFooter,
   PageHeader,
@@ -433,6 +434,7 @@ function F22({ introDelay = 0.1, translation }) {
         </section>
       </main>
 
+      <BackToTop />
       <PageFooter label="AIRFRAME / 22" />
     </div>
   );

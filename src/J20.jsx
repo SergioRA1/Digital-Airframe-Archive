@@ -22,6 +22,7 @@ import {
   variants,
 } from "./data/j20.js";
 import {
+  BackToTop,
   GridBackdrop,
   PageFooter,
   PageHeader,
@@ -822,6 +823,7 @@ function J20({ introDelay = 0.1, translation }) {
         </section>
       </main>
 
+      <BackToTop />
       <PageFooter label="AIRFRAME / 20" />
     </div>
   );
