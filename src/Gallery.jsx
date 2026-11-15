@@ -958,6 +958,9 @@ function Lightbox({
 }) {
   const t = useText(text);
   const translate = useTerm();
+  const dialogRef = useRef(null);
+  const openerRef = useRef(null);
+  const wasOpen = useRef(false);
   const touchStart = useRef(null);
   const selectedImage =
     selectedIndex === null ? null : images[selectedIndex];
@@ -989,6 +992,25 @@ function Lightbox({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedImage, onClose, onPrevious, onNext]);
+
+  // The viewer takes focus when it opens and hands it back to the photograph
+  // that opened it. Only on the opening, so moving between records with the
+  // arrow buttons does not pull focus away from them.
+  useEffect(() => {
+    if (selectedImage && !wasOpen.current) {
+      wasOpen.current = true;
+      openerRef.current = document.activeElement;
+      dialogRef.current?.focus();
+
+      return;
+    }
+
+    if (!selectedImage && wasOpen.current) {
+      wasOpen.current = false;
+      openerRef.current?.focus();
+      openerRef.current = null;
+    }
+  }, [selectedImage]);
 
   return (
     <AnimatePresence>
@@ -1031,7 +1053,9 @@ function Lightbox({
               onNext();
             }
           }}
-          className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl md:p-10"
+          ref={dialogRef}
+          tabIndex={-1}
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl outline-hidden md:p-10"
           role="dialog"
           aria-modal="true"
           aria-label={t.expanded(selectedImage.title)}

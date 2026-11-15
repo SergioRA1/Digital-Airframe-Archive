@@ -541,14 +541,20 @@ export function Specifications({
   return (
     <section
       id="specifications"
-      className="relative scroll-mt-20 overflow-hidden border-t border-white/10 bg-[#080b0c] px-5 py-28 md:px-10 md:py-40"
+      className="relative scroll-mt-20 border-t border-white/10 bg-[#080b0c] px-5 py-28 md:px-10 md:py-40"
     >
-      {/* Drawn with ::before so audits don't read the watermark as text. */}
+      {/* Drawn with ::before so audits don't read the watermark as text. The
+          wrapper clips it, so the section itself stays unclipped and its
+          filter row can stick. */}
       <div
         aria-hidden="true"
-        data-watermark={t.watermark}
-        className="pointer-events-none absolute -right-8 top-0 text-[24vw] font-black leading-none tracking-[-.09em] text-white/[.018] before:content-[attr(data-watermark)]"
-      />
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <div
+          data-watermark={t.watermark}
+          className="absolute -right-8 top-0 text-[24vw] font-black leading-none tracking-[-.09em] text-white/[.018] before:content-[attr(data-watermark)]"
+        />
+      </div>
 
       <div className="relative mx-auto max-w-[1500px]">
         <div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end">
@@ -581,7 +587,7 @@ export function Specifications({
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
+        <div className="-mx-5 mt-16 flex flex-col justify-between gap-5 bg-[#080b0c] px-5 py-4 md:-mx-10 md:px-10 lg:sticky lg:top-20 lg:z-30 lg:flex-row lg:items-center">
           <div
             className="flex flex-wrap gap-2"
             role="group"

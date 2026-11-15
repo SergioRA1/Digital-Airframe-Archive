@@ -575,6 +575,20 @@ function Compare({ introDelay = 0.1 }) {
                   {t.chartIntro}
                 </p>
 
+                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs sm:text-[11px] uppercase tracking-[.16em]">
+                  {selected.map((slug, slot) => (
+                    <span key={slug} className="flex items-center gap-2">
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: seriesColours[slot] }}
+                      />
+                      <span style={{ color: seriesColours[slot] }}>
+                        {designations[slug]}
+                      </span>
+                    </span>
+                  ))}
+                </div>
+
                 <div className="mt-6">
                   <ConfidenceLegend />
                 </div>

@@ -251,7 +251,10 @@ function Glossary({ introDelay = 0.1, translation }) {
                 id={`letter-${group.letter}`}
                 className="grid scroll-mt-28 gap-6 border-t border-white/10 py-10 md:grid-cols-[120px_1fr]"
               >
-                <div className="font-mono text-3xl text-lime-300" aria-hidden="true">
+                <div
+                  className="font-mono text-3xl text-lime-300 md:sticky md:top-24 md:self-start"
+                  aria-hidden="true"
+                >
                   {group.letter}
                 </div>
 

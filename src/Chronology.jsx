@@ -48,7 +48,7 @@ const text = {
     oldest: "Oldest first",
     caption: "Milestones for all aircraft, filtered by origin and confidence",
     headings: ["Date", "Aircraft", "Milestone", "Confidence"],
-    empty: "{t.empty}",
+    empty: "No milestones match these filters.",
     showFewer: "Show fewer",
     showAll: (count) => `Show all ${count} milestones`,
     footerLabel: "AIRFRAME / TIMELINE",
@@ -300,7 +300,11 @@ function Chronology({ introDelay = 0.1, translation }) {
   const ordered = newestFirst ? [...filtered].reverse() : filtered;
   const visible = showAll ? ordered : ordered.slice(0, collapsedRows);
 
-  const active = events.find((event) => event.id === activeId);
+  // The panel follows the filters: an entry the filters exclude is not shown
+  // as the current one.
+  const active =
+    filtered.find((event) => event.id === activeId) ??
+    filtered[filtered.length - 1];
 
   return (
     <div className="min-h-screen bg-[#050708] text-[#edf0e9] selection:bg-lime-300 selection:text-black">
@@ -511,7 +515,7 @@ function Chronology({ introDelay = 0.1, translation }) {
                         }}
                       />
 
-                      {isActive && (
+                      {shown && isActive && (
                         <m.circle
                           cx={x}
                           cy={y}
@@ -724,9 +728,7 @@ function Chronology({ introDelay = 0.1, translation }) {
               </table>
 
               {visible.length === 0 && (
-                <p className="p-8 text-sm text-white/50">
-                  No milestones match these filters.
-                </p>
+                <p className="p-8 text-sm text-white/50">{t.empty}</p>
               )}
             </div>
 
