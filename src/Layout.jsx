@@ -21,6 +21,8 @@ import {
 import { rememberLanguageChoice } from "./LanguageSuggestion.jsx";
 import { navigate } from "./routes.js";
 import { rememberPosition } from "./scrollAnchor.js";
+import { SearchPalette } from "./SearchPalette.jsx";
+import { startsWord } from "./search.js";
 
 const text = {
   en: {
@@ -32,6 +34,8 @@ const text = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     search: "Search aircraft by name",
+    shortcutMac: "⌘K",
+    shortcutOther: "Ctrl K",
     noMatch: (query) => `No aircraft match “${query}”.`,
     switchLanguage: "Ver en español",
     source: "Source",
@@ -49,6 +53,8 @@ const text = {
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
     search: "Buscar aeronave por nombre",
+    shortcutMac: "⌘K",
+    shortcutOther: "Ctrl K",
     noMatch: (query) => `Ninguna aeronave coincide con «${query}».`,
     switchLanguage: "View in English",
     source: "Fuente",
@@ -58,6 +64,10 @@ const text = {
     madeBy: "Hecho por",
   },
 };
+
+// Search rows are a fixed height so the highlight bar and each row can be
+// placed by index without measuring the DOM.
+const resultRowHeight = 52;
 
 export function goToSection(sectionId) {
   const section = document.getElementById(sectionId);
@@ -239,14 +249,15 @@ export function PageHeader({
   const translate = useTerm();
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [shortcutHint, setShortcutHint] = useState(null);
+  const inputRef = useRef(null);
+  const toggleRef = useRef(null);
   const pendingSection = useRef(null);
   const wide = items.length > 5;
   const menuBreakpoint = search ? "" : wide ? "xl:hidden" : "md:hidden";
 
   const term = query.trim().toLowerCase();
-  // Match at the start of a word, and list designation matches first.
-  const startsWord = (text) =>
-    text.toLowerCase().split(/[\s-]+/).some((word) => word.startsWith(term));
   const results = term
     ? aircraft
         .filter(
@@ -258,7 +269,7 @@ export function PageHeader({
               entry.manufacturer,
               entry.origin,
               translate(entry.origin),
-            ].some(startsWord),
+            ].some((text) => startsWord(text, term)),
         )
         .sort(
           (a, b) =>
@@ -285,6 +296,39 @@ export function PageHeader({
       pendingSection.current = null;
     }
   };
+
+  // Set shortcut hint based on platform (review correction #1)
+  useEffect(() => {
+    if (/Mac|iPhone|iPad/.test(navigator.platform)) {
+      setShortcutHint(t.shortcutMac);
+    } else {
+      setShortcutHint(t.shortcutOther);
+    }
+  }, [t.shortcutMac, t.shortcutOther]);
+
+  // ⌘K on a Mac, Ctrl+K elsewhere, opens the menu with the field focused
+  // (only below xl width; at xl and above, SearchPalette handles it).
+  useEffect(() => {
+    if (!search) {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia("(min-width: 1280px)");
+
+    const handleShortcut = (event) => {
+      if (!mediaQuery.matches && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setMenuOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleShortcut);
+
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, [search]);
+
+  // Derive activeIndex (review correction #2)
+  const activeIndex = selectedIndex >= 0 && selectedIndex < results.length ? selectedIndex : -1;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#050708]/70 backdrop-blur-xl">
@@ -352,6 +396,7 @@ export function PageHeader({
         </nav>
 
         <div className="flex items-center gap-2">
+          <SearchPalette />
           <LanguageSwitch />
 
           {showHangarLink && (
@@ -370,6 +415,7 @@ export function PageHeader({
           )}
 
           <button
+            ref={toggleRef}
             type="button"
             onClick={() => setMenuOpen((currentValue) => !currentValue)}
             className={`grid h-10 w-10 place-items-center border border-white/10 bg-white/3 transition hover:border-lime-300/50 hover:text-lime-300 ${menuBreakpoint}`}
@@ -396,6 +442,11 @@ export function PageHeader({
               height: 0,
               opacity: 0,
             }}
+            transition={{
+              type: "spring",
+              stiffness: 240,
+              damping: 24,
+            }}
             className={`overflow-hidden border-t border-white/10 bg-[#080b0c] ${menuBreakpoint}`}
           >
             <div className="grid max-h-[calc(100vh-5rem)] overflow-y-auto p-5">
@@ -404,43 +455,170 @@ export function PageHeader({
                   <label className="flex items-center gap-3 border border-white/15 bg-white/3 px-4 py-3 transition-colors focus-within:border-lime-300/60">
                     <Search size={15} className="text-white/50" />
                     <input
+                      ref={inputRef}
                       type="search"
                       autoFocus
                       value={query}
-                      onChange={(event) => setQuery(event.target.value)}
+                      onChange={(event) => {
+                        setQuery(event.target.value);
+                        setSelectedIndex(event.target.value.trim() !== "" ? 0 : -1);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Escape") {
+                          event.preventDefault();
+                          setMenuOpen(false);
+                          setQuery("");
+                          setSelectedIndex(-1);
+                          toggleRef.current?.focus();
+                          return;
+                        }
+
+                        if (results.length === 0) {
+                          return;
+                        }
+
+                        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+                          event.preventDefault();
+
+                          const step = event.key === "ArrowDown" ? 1 : -1;
+
+                          setSelectedIndex((current) => {
+                            if (current < 0) {
+                              return step > 0 ? 0 : results.length - 1;
+                            }
+
+                            return (
+                              (current + step + results.length) %
+                              results.length
+                            );
+                          });
+
+                          return;
+                        }
+
+                        if (event.key === "Enter" && activeIndex >= 0) {
+                          event.preventDefault();
+                          navigate(href(`#/${results[activeIndex].slug}`));
+                          setMenuOpen(false);
+                          setQuery("");
+                          setSelectedIndex(-1);
+                        }
+                      }}
+                      aria-controls={results.length > 0 ? "menu-search-results" : undefined}
+                      aria-activedescendant={
+                        activeIndex >= 0 && results[activeIndex]
+                          ? `menu-search-${results[activeIndex].slug}`
+                          : undefined
+                      }
                       placeholder={t.search}
                       aria-label={t.search}
                       className="w-full bg-transparent text-sm text-white outline-hidden focus-visible:outline-hidden placeholder:text-white/40"
                     />
+
+                    {shortcutHint && (
+                      <kbd className="hidden shrink-0 border border-white/15 px-1.5 py-0.5 font-mono text-xs sm:text-[10px] uppercase tracking-[.14em] text-white/50 md:inline-block">
+                        {shortcutHint}
+                      </kbd>
+                    )}
                   </label>
 
-                  {term && (
-                    <ul className="mt-2 border border-white/10">
-                      {results.length === 0 && (
-                        <li className="px-4 py-3 text-xs text-white/50">
-                          {t.noMatch(query.trim())}
-                        </li>
-                      )}
+                  {term && results.length === 0 && (
+                    <div className="mt-2 border border-white/10 px-4 py-3 text-xs text-white/50">
+                      {t.noMatch(query.trim())}
+                    </div>
+                  )}
 
-                      {results.map((entry) => (
-                        <li key={entry.slug}>
-                          <a
-                            href={href(`#/${entry.slug}`)}
-                            className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 text-sm transition last:border-b-0 hover:bg-white/4 hover:text-lime-300"
-                          >
-                            <span className="font-semibold">
-                              {entry.designation}
-                              <span className="ml-3 font-normal text-white/50">
-                                {entry.name}
-                              </span>
-                            </span>
-                            <span className="font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50">
-                              {entry.manufacturer} · {translate(entry.origin)}
-                            </span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
+                  {term && results.length > 0 && (
+                    <m.div
+                      initial={false}
+                      animate={{
+                        height: results.length * resultRowHeight,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 240,
+                        damping: 24,
+                      }}
+                      className="relative mt-2 overflow-hidden border border-white/10"
+                    >
+                      <m.div
+                        aria-hidden="true"
+                        className="absolute inset-x-0 top-0 bg-lime-300/[.08]"
+                        style={{
+                          height: resultRowHeight,
+                        }}
+                        initial={false}
+                        animate={{
+                          y: Math.max(activeIndex, 0) * resultRowHeight,
+                          opacity: activeIndex >= 0 ? 1 : 0,
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 420,
+                          damping: 30,
+                        }}
+                      />
+
+                      <ul id="menu-search-results" className="relative">
+                        <AnimatePresence initial={false}>
+                          {results.map((entry, index) => (
+                            <m.li
+                              key={entry.slug}
+                              id={`menu-search-${entry.slug}`}
+                              initial={{
+                                opacity: 0,
+                                y: -10,
+                                scale: 0.96,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: index * resultRowHeight,
+                                scale: 1,
+                              }}
+                              exit={{
+                                opacity: 0,
+                                y: -10,
+                                scale: 0.96,
+                              }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 28,
+                              }}
+                              className="absolute inset-x-0 top-0"
+                            >
+                              <a
+                                href={href(`#/${entry.slug}`)}
+                                style={{
+                                  height: resultRowHeight,
+                                }}
+                                className={`flex items-center justify-between gap-4 border-b border-white/10 px-4 text-sm transition-colors last:border-b-0 ${
+                                  index === activeIndex
+                                    ? "text-lime-300"
+                                    : "hover:bg-white/4 hover:text-lime-300"
+                                }`}
+                              >
+                                <span className="font-semibold min-w-0 truncate">
+                                  {entry.designation}
+                                  <span
+                                    className={`ml-3 font-normal ${
+                                      index === activeIndex
+                                        ? "text-lime-300/70"
+                                        : "text-white/50"
+                                    }`}
+                                  >
+                                    {entry.name}
+                                  </span>
+                                </span>
+                                <span className="shrink-0 font-mono text-xs sm:text-[10px] uppercase tracking-[.18em] text-white/50 hidden sm:inline">
+                                  {entry.manufacturer} · {translate(entry.origin)}
+                                </span>
+                              </a>
+                            </m.li>
+                          ))}
+                        </AnimatePresence>
+                      </ul>
+                    </m.div>
                   )}
                 </div>
               )}
